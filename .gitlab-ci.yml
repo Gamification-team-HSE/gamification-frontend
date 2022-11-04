@@ -21,4 +21,4 @@ test-job:
  stage: test
  script:
   - npm ci
-  - test:unit:ci
+  - npm run test:unit:ci
