@@ -1,5 +1,6 @@
 stages:          # List of stages for jobs, and their order of execution
   - lint
+  - test
 
 # unit-test-job:   # This job runs in the test stage.
 #   stage: test    # It only starts when the job in the build stage completes successfully.
@@ -8,9 +9,16 @@ stages:          # List of stages for jobs, and their order of execution
 #     - sleep 10
 #     - echo "Code coverage is 90%"
 
-lint-test-job:
+lint-job:
  image: node:latest
  stage: lint
  script:
   - npm ci
   - npm run lint
+
+test-job:
+ image: node:latest
+ stage: test
+ script:
+  - npm ci
+  - test:unit:ci
