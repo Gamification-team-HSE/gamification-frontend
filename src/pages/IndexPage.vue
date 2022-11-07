@@ -6,6 +6,10 @@
       :todos="todos"
       :meta="meta"
     />
+
+    <q-btn @click="produceError">
+      Error sample
+    </q-btn>
   </q-page>
 </template>
 
@@ -39,4 +43,8 @@ const todos = ref<Todo[]>([
 const meta = ref<Meta>({
   totalCount: 1200,
 })
+
+const produceError = (): void => {
+  throw Error('test error')
+}
 </script>
