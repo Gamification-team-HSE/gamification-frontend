@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2
       - name: Read .nvmrc
-        uses: actions/checkout@v2
-        run: echo ::set-output name=NVMRC::$(cat .nvmrc)
-        id: nvm
+      - run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+      - id: nvm
 
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ steps.nvm.outputs.NVMRC }}
