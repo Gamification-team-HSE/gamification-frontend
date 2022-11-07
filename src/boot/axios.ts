@@ -1,5 +1,6 @@
 import { boot } from 'quasar/wrappers'
 import axios, { AxiosInstance } from 'axios'
+import { useUserStore } from 'src/stores/user-store'
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -13,7 +14,61 @@ declare module '@vue/runtime-core' {
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
+
+const userStore = useUserStore()
+
 const api = axios.create({ baseURL: process.env.API })
+
+api.interceptors.request.use(
+  async (config) => {
+    const { accessToken } = userStore
+
+    if (accessToken) {
+      config.headers = {
+        ...config.headers,
+        authorization: `Bearer ${accessToken}`,
+      }
+    }
+
+    return config
+  },
+  (error) => Promise.reject(error),
+)
+
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const config = error?.config
+
+    if (error?.response?.status === 401 && !config?.sent) {
+      config.sent = true
+
+      const result = await new Promise<{
+        accessToken: string,
+        refreshToken: string
+      }>((resolve) => {
+        resolve({
+          accessToken: 'access',
+          refreshToken: 'refresh',
+        })
+      })
+
+      if (result?.accessToken) {
+        userStore.setAuth(result.refreshToken, result.accessToken)
+
+        config.headers = {
+          ...config.headers,
+          authorization: `Bearer ${result?.accessToken}`,
+        }
+      } else {
+        userStore.unlogin()
+      }
+
+      return axios(config)
+    }
+    return Promise.reject(error)
+  },
+)
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
