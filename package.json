@@ -1,6 +1,6 @@
 {
   "name": "gamification-frontend",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Gamification app frontend",
   "productName": "Gamification app",
   "author": "Artem Shuvaev <shuvaevlol@gmail.com>",
@@ -17,7 +17,8 @@
     "test:unit:watch": "jest --watch",
     "test:unit:watchAll": "jest --watchAll",
     "serve:test:coverage": "quasar serve test/jest/coverage/lcov-report/ --port 8788",
-    "concurrently:dev:jest": "concurrently \"quasar dev\" \"jest --watch\""
+    "concurrently:dev:jest": "concurrently \"quasar dev\" \"jest --watch\"",
+    "pub": "npm version patch --force && npm publish"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
