@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/vue';
 import { BrowserTracing } from '@sentry/tracing';
 
 export default boot(({ app, router }) => {
-  if (!process.env.PROD) return
+  if (process.env.NODE_ENV !== 'production') return
 
   Sentry.init({
     app,
