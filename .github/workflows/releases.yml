@@ -1,3 +1,5 @@
+name: Releases CI
+
 on:
   push:
     branches:
