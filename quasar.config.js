@@ -58,7 +58,7 @@ module.exports = configure((ctx) => ({
       node: 'node16',
     },
 
-    sourcemap: 'inline',
+    sourcemap: 'hidden',
 
     vueRouterMode: 'history', // available values: 'hash', 'history'
     // vueRouterBase,
