@@ -14,6 +14,8 @@
 const { configure } = require('quasar/wrappers')
 const path = require('path')
 
+require('dotenv').config()
+
 module.exports = configure((ctx) => ({
   eslint: {
     // fix: true,
@@ -66,9 +68,9 @@ module.exports = configure((ctx) => ({
     // publicPath: '/',
     // analyze: true,
     env: {
-      api: ctx.dev ? 'http://vartose.fvds.ru' : 'http://vartose.fvds.ru',
-      sentryDSN: ctx.dev ? '' : 'https://35b24a8c8b834480b9e6bab649b4c3fa@o4504101310562304.ingest.sentry.io/4504101318885376',
-      sentryOrigin: ctx.dev ? 'localhost' : 'gamification-frontend.netlify.app',
+      API: ctx.dev ? 'http://vartose.fvds.ru' : 'http://vartose.fvds.ru',
+      SENTRY_DSN: ctx.dev ? '' : process.env.SENTRY_DSN,
+      SENTRY_ORIGIN: ctx.dev ? 'localhost' : 'gamification-frontend.netlify.app',
     },
     // rawDefine: {}
     // ignorePublicFolder: true,

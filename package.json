@@ -24,6 +24,7 @@
     "@sentry/tracing": "^7.17.4",
     "@sentry/vue": "^7.17.4",
     "axios": "^0.21.1",
+    "dotenv": "^16.0.3",
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",
