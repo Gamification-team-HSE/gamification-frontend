@@ -5,7 +5,7 @@
       v-model="emailRef"
       borderless
       placeholder="yourmail@corp.com"
-      class="text-h3"
+      class="text-h4"
       :hint="isEmailEmpty ? '' : 'Press Enter to try login'"
       type="email"
       autofocus
@@ -20,7 +20,7 @@
       v-model.number="codeRef"
       borderless
       placeholder="6841"
-      class="text-h3"
+      class="text-h4"
       hint="Enter code from email"
       mask="####"
       autofocus
@@ -45,6 +45,7 @@ import { useRouter } from 'vue-router'
 const userStore = useUserStore()
 const router = useRouter()
 
+console.warn('ASd 4')
 type Step = 'email' | 'code' | 'loading'
 const step = ref<Step>('email')
 
