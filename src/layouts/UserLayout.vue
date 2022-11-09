@@ -16,7 +16,7 @@
             no-caps
             dense
             padding="xs md"
-            size="lg"
+            class="text-h5"
             :color="userRoute.color"
             @click="$router.push({ name: userRoute.route })"
           >
@@ -29,8 +29,7 @@
             no-caps
             dense
             padding="xs md"
-            size="lg"
-            color="negative"
+            color="negative text-h5"
             @click="layout.signOut"
           >
             Sign out

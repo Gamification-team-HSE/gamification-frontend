@@ -5,23 +5,8 @@
         #{{ state.ratingPlace }}
       </div>
       <q-card flat>
-        <q-card-section class="row justify-between">
-          <div class="column">
-            <div class="text-subtitle1">
-              Username
-            </div>
-            <div class="text-h5">
-              {{ state.fullName }}
-            </div>
-          </div>
-          <div class="column">
-            <div class="text-subtitle1">
-              Email
-            </div>
-            <div class="text-h5">
-              {{ state.email }}
-            </div>
-          </div>
+        <q-card-section class="text-center text-h2">
+          {{ state.fullName }}
         </q-card-section>
       </q-card>
       <q-separator />
@@ -132,7 +117,6 @@
 
 <script setup lang="ts">
 import { User } from 'src/types'
-import { ref } from 'vue'
 
 const state: User = {
   fullName: 'Artem Shuvaev',
