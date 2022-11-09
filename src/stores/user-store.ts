@@ -31,7 +31,7 @@ export const useUserStore = defineStore('user', {
       if (!accessToken) return
       LocalStorageService.set('access_token', accessToken)
     },
-    unlogin() {
+    signOut() {
       this.isLoggedIn = false
 
       LocalStorageService.remove('access_token')

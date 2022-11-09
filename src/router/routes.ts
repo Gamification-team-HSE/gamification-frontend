@@ -9,38 +9,44 @@ const routes: RouteRecordRaw[] = [
       {
         path: '',
         name: 'main',
-        component: () => import('pages/IndexPage.vue'),
+        component: () => import('pages/ProfilePage.vue'),
       },
       {
         path: 'users/',
         name: 'users',
-        component: () => import('pages/IndexPage.vue'),
+        component: () => import('pages/UsersPage.vue'),
       },
       {
         path: 'users/:id',
         name: 'user',
-        component: () => import('pages/IndexPage.vue'),
+        component: () => import('pages/UserPage.vue'),
       },
       {
         path: 'achievements/',
         name: 'achievements',
-        component: () => import('pages/IndexPage.vue'),
+        component: () => import('pages/AchievementsPage.vue'),
       },
       {
         path: 'achievements/:id',
         name: 'achievement',
-        component: () => import('pages/IndexPage.vue'),
+        component: () => import('pages/AchievementPage.vue'),
       },
       {
         path: 'ratings',
         name: 'ratings',
-        component: () => import('pages/IndexPage.vue'),
+        component: () => import('pages/RatingsPage.vue'),
       },
     ],
     beforeEnter: (to, from, next) => {
       const userStore = useUserStore()
       if (!userStore.isLoggedIn) {
         next({ name: 'login' })
+        return
+      }
+
+      if (userStore.isAdmin) {
+        const nextName = to?.name ?? 'main'
+        next({ name: `admin.${nextName.toString()}` })
         return
       }
 
@@ -66,7 +72,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/admin/',
-    component: () => import('layouts/AdminLayout.vue'),
+    component: () => import('layouts/UserLayout.vue'),
     beforeEnter: (to, from, next) => {
       const userStore = useUserStore()
       if (!userStore.isLoggedIn) {
@@ -84,53 +90,43 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: '',
-        name: 'admin',
-        component: () => import('pages/IndexPage.vue'),
+        name: 'admin.main',
+        component: () => import('pages/AdminPage.vue'),
       },
       {
-        path: 'goals/',
-        name: 'admin.goals',
-        component: () => import('pages/IndexPage.vue'),
+        path: 'stats/', // Also CRUD modal for single stat
+        name: 'admin.stats',
+        component: () => import('pages/StatsPage.vue'),
       },
       {
-        path: 'goals/:id',
-        name: 'admin.goal',
-        component: () => import('pages/IndexPage.vue'),
-      },
-      {
-        path: 'events/',
+        path: 'events/', // Also CRUD modal for single event
         name: 'admin.events',
-        component: () => import('pages/IndexPage.vue'),
-      },
-      {
-        path: 'events/:id',
-        name: 'admin.event',
-        component: () => import('pages/IndexPage.vue'),
+        component: () => import('pages/EventsPage.vue'),
       },
       {
         path: 'users/',
         name: 'admin.users',
-        component: () => import('pages/IndexPage.vue'),
+        component: () => import('pages/UsersPage.vue'),
       },
       {
         path: 'users/:id',
         name: 'admin.user',
-        component: () => import('pages/IndexPage.vue'),
+        component: () => import('pages/UserPage.vue'),
       },
       {
         path: 'achievements/',
         name: 'admin.achievements',
-        component: () => import('pages/IndexPage.vue'),
+        component: () => import('pages/AchievementsPage.vue'),
       },
       {
         path: 'achievements/:id',
         name: 'admin.achievement',
-        component: () => import('pages/IndexPage.vue'),
+        component: () => import('pages/AchievementPage.vue'),
       },
       {
         path: 'ratings',
         name: 'admin.ratings',
-        component: () => import('pages/IndexPage.vue'),
+        component: () => import('pages/RatingsPage.vue'),
       },
     ],
   },

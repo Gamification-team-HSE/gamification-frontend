@@ -17,7 +17,4 @@ export default boot(({ app, router }) => {
 
     tracesSampleRate: 1.0,
   })
-
-  // eslint-disable-next-line no-console
-  console.log('Sentry setup success.')
 })

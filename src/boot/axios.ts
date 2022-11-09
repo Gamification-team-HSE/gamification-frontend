@@ -43,6 +43,7 @@ api.interceptors.response.use(
     if (error?.response?.status === 401 && !config?.sent) {
       config.sent = true
 
+      // TODO getting new creds from backend
       const result = await new Promise<{
         accessToken: string,
         refreshToken: string
@@ -61,7 +62,7 @@ api.interceptors.response.use(
           authorization: `Bearer ${result?.accessToken}`,
         }
       } else {
-        userStore.unlogin()
+        userStore.signOut()
       }
 
       return axios(config)

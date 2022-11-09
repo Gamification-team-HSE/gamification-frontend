@@ -9,15 +9,16 @@ export default boot(({ redirect, urlPath }) => {
     'refresh_token',
   )
 
-  const accessToken = LocalStorageService.get(
-    'access_token',
-  )
-
   if (refreshToken) {
-    userStore.setAuth(refreshToken, accessToken)
-  } else {
-    if (urlPath.includes('login')) return
+    const accessToken = LocalStorageService.get(
+      'access_token',
+    )
 
-    redirect({ name: 'login' })
+    userStore.setAuth(refreshToken, accessToken)
+    return
   }
+
+  // Redirect to login but not in loop reloads
+  if (urlPath.includes('login')) return
+  redirect({ name: 'login' })
 })

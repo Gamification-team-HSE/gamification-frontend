@@ -2,11 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header class="bg-transparent text-dark">
       <q-toolbar>
-        <q-toolbar-title
-          class=" text-h4"
-        >
-          Gamification
-        </q-toolbar-title>
+        <ToolbarTitleComponent />
       </q-toolbar>
     </q-header>
 
@@ -17,5 +13,6 @@
 </template>
 
 <script setup lang="ts">
+import ToolbarTitleComponent from 'src/components/layouts/ToolbarTitleComponent.vue'
 
 </script>

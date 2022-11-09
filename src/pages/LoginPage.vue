@@ -19,7 +19,7 @@
       v-else-if="step === 'code'"
       v-model.number="codeRef"
       borderless
-      placeholder="6841"
+      placeholder="7777"
       class="text-h4"
       hint="Enter code from email"
       mask="####"
@@ -45,7 +45,6 @@ import { useRouter } from 'vue-router'
 const userStore = useUserStore()
 const router = useRouter()
 
-console.warn('ASd 4')
 type Step = 'email' | 'code' | 'loading'
 const step = ref<Step>('email')
 
@@ -65,13 +64,16 @@ const trySubmitEmail = (): void => {
     return
   }
 
+  if (email !== 'sh@gmail.com') {
+    isError.value = true
+    return
+  }
+
   step.value = 'loading'
 
   setTimeout(() => {
     step.value = 'code'
   }, 300)
-
-  console.warn('ASd 123 success', emailRef.value)
 }
 
 const trySubmitCode = (): void => {
@@ -79,14 +81,19 @@ const trySubmitCode = (): void => {
 
   if (codeRef.value.toString().length < 4) return
 
-  console.warn('ASD 2 success', codeRef.value)
-
   setTimeout(() => {
     step.value = 'loading'
 
-    userStore.setAuth('refresh', 'access')
-
     setTimeout(() => {
+      if (codeRef.value.toString() !== '6666') {
+        step.value = 'code'
+        codeRef.value = ''
+        isError.value = true
+        return
+      }
+
+      userStore.setAuth('refresh', 'access')
+
       router.push({ name: 'main' })
     }, 300)
   }, 150)
