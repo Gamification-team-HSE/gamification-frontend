@@ -1,6 +1,6 @@
 <template>
   <q-page class="row items-center justify-center">
-    <div class="col-6 q-gutter-y-lg">
+    <div class=" col-lg-4 col-md-6 col-sm-8 col-11 q-gutter-y-lg">
       <div class="text-h1 text-center text-primary">
         #{{ state.ratingPlace }}
       </div>
