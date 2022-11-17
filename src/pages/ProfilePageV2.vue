@@ -16,7 +16,7 @@
           />{{ state.email }}
         </q-card-section>
       </q-card>
-      <div class="row justify-between q-mt-none q-gutter-x-md q-gutter-y-lg no-wrap-md">
+      <div class="row justify-between q-mt-none q-gutter-lg no-wrap-md">
         <q-card
           class="g-rounded g-shadow bg-white col-grow"
         >
