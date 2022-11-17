@@ -16,11 +16,11 @@
           />{{ state.email }}
         </q-card-section>
       </q-card>
-      <div class="row justify-between">
+      <div class="row justify-between q-gutter-x-lg no-wrap">
         <q-card
           class="g-rounded g-shadow bg-white"
         >
-          <q-card-section class="row justify-between">
+          <q-card-section class="row justify-between no-wrap">
             <div class="column q-gutter-y-md">
               <div class="text-h5">
                 Achievements
@@ -51,7 +51,7 @@
         <q-card
           class="g-rounded g-shadow bg-white"
         >
-          <q-card-section class="row full-height justify-between">
+          <q-card-section class="row full-height no-wrap justify-between">
             <div class="column q-gutter-y-md">
               <div class=" text-h5 ">
                 Rating
@@ -66,7 +66,7 @@
                   flat
                   rounded
                   no-caps
-                  class="text-subtitle1"
+                  class="text-subtitle1 text-no-wrap"
                   @click="showRatingTooltip = true"
                 >
                   What is this?
@@ -82,7 +82,7 @@
               </div>
             </div>
             <div class="column q-mx-md text-h2 text-weight-medium text-primary justify-center items-center">
-              <div class="row items-center">
+              <div class="row no-wrap items-center">
                 <q-icon
                   name="trending_up"
                   size="50px"
