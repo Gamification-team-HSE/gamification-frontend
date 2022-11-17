@@ -1,6 +1,6 @@
 <template>
   <q-page class="row items-center justify-center">
-    <div class=" col-lg-5 col-xl-4 col-md-6 col-sm-8 col-11 q-gutter-y-lg">
+    <div class=" col-lg-6 col-xl-5 col-md-8 col-sm-8 col-11 q-gutter-y-lg">
       <q-card
         class="g-rounded g-shadow q-pa-md"
       >
@@ -16,9 +16,9 @@
           />{{ state.email }}
         </q-card-section>
       </q-card>
-      <div class="row justify-between q-gutter-x-sm no-wrap">
+      <div class="row justify-between q-mt-none q-gutter-x-md q-gutter-y-lg no-wrap-md">
         <q-card
-          class="g-rounded g-shadow bg-white"
+          class="g-rounded g-shadow bg-white col-grow"
         >
           <q-card-section class="row justify-between no-wrap">
             <div class="column q-gutter-y-md">
@@ -49,7 +49,7 @@
           </q-card-section>
         </q-card>
         <q-card
-          class="g-rounded g-shadow bg-white"
+          class="g-rounded g-shadow bg-white col-grow"
         >
           <q-card-section class="row full-height no-wrap justify-between">
             <div class="column q-gutter-y-md">
