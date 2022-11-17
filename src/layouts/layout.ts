@@ -1,6 +1,5 @@
 import { adminRoutes, userRoutes } from 'src/constants/routes'
 import { useUserStore } from 'src/stores/user-store'
-import { LayoutRoute } from 'src/types'
 import { computed, ref } from 'vue'
 
 export const useLayout = () => {

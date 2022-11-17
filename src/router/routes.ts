@@ -9,7 +9,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '',
         name: 'main',
-        component: () => import('pages/ProfilePage.vue'),
+        component: () => import('pages/ProfilePageV2.vue'),
       },
       {
         path: 'users/',

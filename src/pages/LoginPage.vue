@@ -9,6 +9,7 @@
       :hint="isEmailEmpty ? '' : 'Press Enter to try login'"
       type="email"
       autofocus
+      autocomplete="email"
       no-error-icon
       error-message="Invalid email, please try again"
       :error="isError"
@@ -25,6 +26,7 @@
       mask="####"
       autofocus
       no-error-icon
+      autocomplete="off"
       error-message="Wrong code, please try again"
       :error="isError"
       @update:model-value="trySubmitCode"

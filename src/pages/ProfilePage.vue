@@ -41,7 +41,7 @@
       </div>
 
       <div class=" text-h5 q-mt-xl">
-        Achievements list
+        Achievements list / Statistic
       </div>
 
       <q-list>

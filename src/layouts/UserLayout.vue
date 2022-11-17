@@ -1,6 +1,9 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header class="bg-transparent text-dark">
+  <q-layout
+    view="lHh Lpr lFf"
+    class="bg-grey-2"
+  >
+    <q-header class="bg-transparent text-dark q-py-sm">
       <q-toolbar>
         <ToolbarTitleComponent />
 
@@ -29,7 +32,8 @@
             no-caps
             dense
             padding="xs md"
-            color="negative text-h5"
+            class=" text-h5"
+            color="negative"
             @click="layout.signOut"
           >
             Sign out
@@ -62,7 +66,7 @@
             :key="index"
             v-ripple
             clickable
-            @click="$router.push({name: menuItem.route})"
+            @click="$router.push({ name: menuItem.route })"
           >
             <q-item-section>
               {{ menuItem.label }}
