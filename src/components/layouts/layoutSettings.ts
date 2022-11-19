@@ -10,7 +10,7 @@ export const useLayoutSettings = () => {
   const theme = computed(() => $q.dark.mode)
 
   const lang = computed(() => (i18n.locale.value === 'ru-RU' ? 'RU' : 'EN'))
-  const reverseLang = computed(() => (lang.value === 'EN' ? 'RU' : 'EN'))
+  const reverseLang = computed(() => (lang.value === 'EN' ? '🇷🇺 RU' : '🇬🇧 EN'))
 
   const toggleLang = () => {
     if (lang.value === 'EN') {
