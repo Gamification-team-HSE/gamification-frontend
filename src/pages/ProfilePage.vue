@@ -23,10 +23,10 @@
           <q-card-section class="row justify-between no-wrap">
             <div class="column q-gutter-y-md">
               <div class="text-h5">
-                Achievements
+                {{ $t('achievements') }}
               </div>
               <div class="text-subtitle1">
-                You have {{ state.achievements }} out of {{ state.achievementsTotal }}
+                {{ $t('youHaveAchivs', {count: state.achievements, total: state.achievementsTotal}) }}
               </div>
             </div>
             <div class="column">
@@ -54,11 +54,11 @@
           <q-card-section class="row full-height no-wrap justify-between">
             <div class="column q-gutter-y-md">
               <div class=" text-h5 ">
-                Rating
+                {{ $t('rating') }}
               </div>
 
               <div class="text-subtitle1">
-                You are {{ state.ratingPlace }} out of {{ state.ratingTotalPlaces }}
+                {{ $t('youAreInRating', {count: state.ratingPlace, total: state.ratingTotalPlaces}) }}
               </div>
               <div>
                 <q-btn
@@ -69,14 +69,12 @@
                   class="text-subtitle1 text-no-wrap"
                   @click="showRatingTooltip = true"
                 >
-                  What is this?
+                  {{ $t('whatIsThis') }}
                   <q-tooltip
                     v-model="showRatingTooltip"
                     class="text-subtitle1 bg-blue-2 text-dark"
                   >
-                    Rating based on total achievements count between other users.
-                    <br>
-                    It's okay if you are not in the top.
+                    {{ $t('aboutRating') }}
                   </q-tooltip>
                 </q-btn>
               </div>
@@ -109,7 +107,7 @@
             padding="sm xl"
             @click="showFeed = true"
           >
-            Feed
+            {{ $t('feed') }}
           </q-btn>
           <q-btn
             flat
@@ -121,7 +119,7 @@
             padding="sm xl"
             @click="showFeed = false"
           >
-            Achievements
+            {{ $t('achievements') }}
           </q-btn>
         </div>
 
@@ -130,6 +128,8 @@
         <div class="column">
           <q-list class=" q-gutter-y-sm">
             <q-item
+              v-for="_, index in [0, 1, 2, 3]"
+              :key="index"
               clickable
               class="g-rounded"
             >
@@ -159,40 +159,7 @@
                 side
                 top
               >
-                5 min ago
-              </q-item-section>
-            </q-item>
-            <q-item
-              clickable
-              class="g-rounded"
-            >
-              <q-item-section
-                top
-                avatar
-              >
-                <q-avatar
-                  size="66px"
-                  rounded
-                >
-                  <img src="https://cdn-icons-png.flaticon.com/512/5968/5968923.png">
-                </q-avatar>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label class=" text-h6">
-                  What a good sprint
-                </q-item-label>
-                <q-item-label
-                  lines="2"
-                  class=" text-subtitle1"
-                >
-                  Done 10 tasks in one sprint
-                </q-item-label>
-              </q-item-section>
-              <q-item-section
-                side
-                top
-              >
-                5 min ago
+                {{ $t('minsAgo', {count: 5}) }}
               </q-item-section>
             </q-item>
           </q-list>

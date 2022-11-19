@@ -1,7 +1,21 @@
-// This is just an example,
-// so you can safely delete all default props below
-
 export default {
-  failed: 'Action failed',
-  success: 'Action was successful',
+  pressEnterToTryLogin: 'Press Enter to try login',
+  invalidEmailTryAgain: 'Invalid email, please try again',
+  enterCodeFromEmail: 'Enter code from email',
+  wrongCodeTryAgain: 'Wrong code, please try again',
+  profileMe: 'Me',
+  profileAdmin: 'Admin',
+  ratings: 'Ratings',
+  rating: 'Rating',
+  achievements: 'Achievements',
+  users: 'Users',
+  stats: 'Stats',
+  events: 'Events',
+  signOut: 'Sign out',
+  feed: 'Feed',
+  youHaveAchivs: 'You have %{count} out of %{total}',
+  youAreInRating: 'You are %{count} out of %{total}',
+  whatIsThis: 'What is this?',
+  aboutRating: 'Rating based on total achievements count between other users. It`s okay if you are not in the top.',
+  minsAgo: '%{count} mins ago',
 }

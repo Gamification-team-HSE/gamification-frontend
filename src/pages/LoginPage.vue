@@ -6,12 +6,12 @@
       borderless
       placeholder="yourmail@corp.com"
       class="text-h4"
-      :hint="isEmailEmpty ? '' : 'Press Enter to try login'"
+      :hint="isEmailEmpty ? '' : $t('pressEnterToTryLogin')"
       type="email"
       autofocus
       autocomplete="email"
       no-error-icon
-      error-message="Invalid email, please try again"
+      :error-message="$t('invalidEmailTryAgain')"
       :error="isError"
       @update:model-value="isError = false"
       @keyup.prevent.enter="trySubmitEmail"
@@ -22,12 +22,12 @@
       borderless
       placeholder="7777"
       class="text-h4"
-      hint="Enter code from email"
+      :hint="$t('enterCodeFromEmail')"
       mask="####"
       autofocus
       no-error-icon
       autocomplete="off"
-      error-message="Wrong code, please try again"
+      :error-message="$t('wrongCodeTryAgain')"
       :error="isError"
       @update:model-value="trySubmitCode"
     />

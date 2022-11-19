@@ -3,24 +3,24 @@ import { LayoutRoute } from 'src/types'
 export const userRoutes: Array<LayoutRoute> = [
   {
     route: 'main',
-    label: 'Me',
+    label: 'profileMe',
     color: 'primary',
     icon: 'sym_o_person',
   },
   {
     route: 'ratings',
-    label: 'Ratings',
+    label: 'ratings',
     icon: 'sym_o_trending_up',
   },
   {
     route: 'achievements',
-    label: 'Achievements',
+    label: 'achievements',
     icon: 'sym_o_hotel_class',
 
   },
   {
     route: 'users',
-    label: 'Users',
+    label: 'users',
     icon: 'sym_o_group',
   },
 ]
@@ -28,38 +28,38 @@ export const userRoutes: Array<LayoutRoute> = [
 export const adminRoutes: Array<LayoutRoute> = [
   {
     route: 'admin.main',
-    label: 'Admin',
+    label: 'profileAdmin',
     color: 'primary',
     icon: 'sym_o_person',
 
   },
   {
     route: 'admin.ratings',
-    label: 'Ratings',
+    label: 'ratings',
     icon: 'sym_o_trending_up',
 
   },
   {
     route: 'admin.achievements',
-    label: 'Achievements',
+    label: 'achievements',
     icon: 'sym_o_hotel_class',
 
   },
   {
     route: 'admin.users',
-    label: 'Users',
+    label: 'users',
     icon: 'sym_o_group',
 
   },
   {
     route: 'admin.stats',
-    label: 'Stats',
+    label: 'stats',
     icon: 'sym_o_analytics',
 
   },
   {
     route: 'admin.events',
-    label: 'Events',
+    label: 'events',
     icon: 'sym_o_celebration',
 
   },

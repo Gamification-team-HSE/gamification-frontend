@@ -27,7 +27,7 @@
                 :key="index"
                 v-ripple
                 clickable
-                class=" text-subtitle1"
+                class="text-subtitle1"
                 :class="route.color ? `text-${route.color}` : ''"
                 @click="$router.push({name: route.route})"
               >
@@ -38,14 +38,15 @@
                   />
                 </q-item-section>
 
-                <q-item-section>{{ route.label }}</q-item-section>
+                <q-item-section>{{ $t(route.label) }}</q-item-section>
               </q-item>
-              <q-separator class=" q-mx-md q-my-sm" />
+
+              <q-separator class="q-mx-md q-my-sm" />
 
               <q-item
                 v-ripple
                 clickable
-                class=" text-subtitle1 text-negative"
+                class="text-subtitle1 text-negative"
                 @click="layout.signOut"
               >
                 <q-item-section side>
