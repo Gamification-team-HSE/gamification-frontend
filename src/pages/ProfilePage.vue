@@ -73,6 +73,7 @@
                   <q-tooltip
                     v-model="showRatingTooltip"
                     class="text-subtitle1 bg-blue-2 text-dark"
+                    max-width="350px"
                   >
                     {{ $t('aboutRating') }}
                   </q-tooltip>
