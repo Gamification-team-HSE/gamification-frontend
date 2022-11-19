@@ -1,8 +1,4 @@
 export default {
-  pressEnterToTryLogin: 'Press Enter to try login',
-  invalidEmailTryAgain: 'Invalid email, please try again',
-  enterCodeFromEmail: 'Enter code from email',
-  wrongCodeTryAgain: 'Wrong code, please try again',
   profileMe: 'Me',
   profileAdmin: 'Admin',
   ratings: 'Ratings',
@@ -18,4 +14,20 @@ export default {
   whatIsThis: 'What is this?',
   aboutRating: 'Rating based on total achievements count between other users. It`s okay if you are not in the top.',
   minsAgo: '%{count} mins ago',
+
+  // Login v2 page
+  loginIntoSystemHeader: 'Sign in',
+  loginEmailLabel: 'We will send code to your email',
+  loginEmailError: 'Incorrect email, please try again',
+  loginSendCode: 'Send code',
+  loginInputCode: 'Enter the code',
+  loginResendCode: 'Send code again',
+  loginIncorrectCode: 'Incorrect code, please try again',
+  loginIntoSystemBtn: 'Sign in',
+  loginUserNotExists: 'Account not exist',
+  loginChangeEmail: 'Change email',
+  loginDialogHeader: 'I do not have an account. How to sign up?',
+  loginDialogBody: `Administrators of the system have permissions to add new users.
+  Contact yours using email or in working chats.`,
+  loginDialogBtn: 'Got it',
 }

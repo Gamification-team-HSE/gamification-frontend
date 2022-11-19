@@ -1,8 +1,4 @@
 export default {
-  pressEnterToTryLogin: 'Нажмите Enter чтобы войти',
-  invalidEmailTryAgain: 'Неверная почта, попробуйте еще раз',
-  enterCodeFromEmail: 'Введите код из письма',
-  wrongCodeTryAgain: 'Неверный код, попробуйте еще раз',
   profileMe: 'Моя страница',
   profileAdmin: 'Admin',
   ratings: 'Рейтинг',
@@ -18,4 +14,20 @@ export default {
   whatIsThis: 'Что это?',
   aboutRating: 'Рейтинг рассчитывает на основе всех достижений у всех пользователей. Ничего страшного, если вы не впереди всех.',
   minsAgo: '%{count} минут назад',
+
+  // New login v2,
+  loginIntoSystemHeader: 'Вход в систему',
+  loginEmailLabel: 'Вы вышлем код на вашу почту',
+  loginEmailError: 'Некорректный адрес, попробуйте еще раз',
+  loginSendCode: 'Отправить код',
+  loginInputCode: 'Введите код с почты',
+  loginResendCode: 'Выслать код еще раз',
+  loginIncorrectCode: 'Неверный код, попробуйте еще раз',
+  loginIntoSystemBtn: 'Войти в систему',
+  loginUserNotExists: 'Меня нет в системе',
+  loginChangeEmail: 'Ввести другой аккаунт',
+  loginDialogHeader: 'Меня нет в системе. Что делать?',
+  loginDialogBody: `Добавлением пользователей в систему занимаются администраторы.
+  Напишите своему на контактную почту или в рабочем чате.`,
+  loginDialogBtn: 'Понятно',
 }

@@ -4,6 +4,8 @@
   --main: white;
   --main-reverse: var(--q-dark);
 
+  --secondary: var(--q-secondary);
+
   --bg-main: #{$grey-2};
 
   --shadows: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -13,9 +15,12 @@
   --main: var(--q-dark);
   --main-reverse: white;
 
+  --secondary: #{$grey-5};
+
   --bg-main: var(--q-dark-page);
 
-  --shadows: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  --shadows: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 
 .bg-header {
@@ -28,6 +33,14 @@
 
 .text-header {
   color: var(--main-reverse) !important;
+}
+
+.text-secondary {
+  color: var(--secondary) !important;
+}
+
+.bg-secondary {
+  color: var(--secondary) !important;
 }
 
 // utility styles
