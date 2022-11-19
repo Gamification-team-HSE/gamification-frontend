@@ -27,7 +27,7 @@
                 :key="index"
                 v-ripple
                 clickable
-                class="text-subtitle1"
+                class="text-subtitle1 g-rounded"
                 :class="route.color ? `text-${route.color}` : ''"
                 @click="$router.push({name: route.route})"
               >
@@ -46,7 +46,7 @@
               <q-item
                 v-ripple
                 clickable
-                class="text-subtitle1 text-negative"
+                class="text-subtitle1 text-negative g-rounded"
                 @click="layout.signOut"
               >
                 <q-item-section side>

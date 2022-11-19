@@ -17,7 +17,7 @@ export default {
 
   // New login v2,
   loginIntoSystemHeader: 'Вход в систему',
-  loginEmailLabel: 'Вы вышлем код на вашу почту',
+  loginEmailLabel: 'Введите почту, мы вышлем код для входа',
   loginEmailError: 'Некорректный адрес, попробуйте еще раз',
   loginSendCode: 'Отправить код',
   loginInputCode: 'Введите код с почты',

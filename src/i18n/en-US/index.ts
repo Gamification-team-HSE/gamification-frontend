@@ -17,7 +17,7 @@ export default {
 
   // Login v2 page
   loginIntoSystemHeader: 'Sign in',
-  loginEmailLabel: 'We will send code to your email',
+  loginEmailLabel: 'Enter an email, we will send code for sign in',
   loginEmailError: 'Incorrect email, please try again',
   loginSendCode: 'Send code',
   loginInputCode: 'Enter the code',

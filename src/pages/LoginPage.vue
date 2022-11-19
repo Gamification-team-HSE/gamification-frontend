@@ -22,17 +22,12 @@
           placeholder="example@mail.com"
           autofocus
           :error="isError"
+          :error-message="$t('loginEmailError')"
           clearable
           :readonly="isLoading"
           @keyup.prevent.enter="trySendCode"
           @update:model-value="isError = false"
-        >
-          <template #error>
-            <div class="row items-center text-subtitle2">
-              {{ $t('loginEmailError') }}
-            </div>
-          </template>
-        </q-input>
+        />
       </q-card-section>
       <q-card-actions class="text-h2 justify-center q-gutter-y-sm">
         <q-btn
@@ -84,6 +79,7 @@
           mask="####"
           autofocus
           :error="isError"
+          :error-message="$t('loginIncorrectCode')"
           :readonly="isLoading"
           clearable
           @keyup.prevent.enter="tryLogin"
@@ -102,11 +98,6 @@
               :label="$t('loginResendCode')"
               @click="sendCodeAgain"
             />
-          </template>
-          <template #error>
-            <div class="row items-center text-subtitle2">
-              {{ $t('loginIncorrectCode') }}
-            </div>
           </template>
         </q-input>
       </q-card-section>
@@ -133,7 +124,9 @@
       </q-card-actions>
     </q-card>
 
-    <q-dialog v-model="userNotExistDialog">
+    <q-dialog
+      v-model="userNotExistDialog"
+    >
       <q-card class="g-rounded">
         <q-card-section class="row items-center">
           <div class="text-h5">
@@ -156,10 +149,12 @@
         <q-card-actions align="center">
           <q-btn
             v-close-popup
-            flat
+            outline
             :label="$t('loginDialogBtn')"
             color="primary"
-            class="full-width g-rounded"
+            no-caps
+            autofocus
+            class="full-width g-rounded text-subtitle1"
           />
         </q-card-actions>
       </q-card>
