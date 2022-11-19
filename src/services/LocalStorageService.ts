@@ -1,12 +1,14 @@
 type Schema = {
   access_token: string
   refresh_token: string
+  isDark: boolean
+  lang: 'ru-RU' | 'en-US'
 }
 
 export class LocalStorageService {
   public static get<K extends keyof Schema>(key: K): Schema[K] | null {
     const value = localStorage.getItem(key)
-    if (!value) return value
+    if (!value) return null
 
     return JSON.parse(value) as Schema[K]
   }

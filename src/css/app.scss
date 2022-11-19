@@ -1,8 +1,37 @@
 // app global css in SCSS form
 
+:root {
+  --main: white;
+  --main-reverse: var(--q-dark);
+
+  --bg-main: #{$grey-2};
+}
+
+.body--dark {
+  --main: var(--q-dark);
+  --main-reverse: white;
+
+  --bg-main: var(--q-dark-page);
+}
+
+.bg-header {
+  background-color: var(--main) !important;
+}
+
+.bg-body {
+  background-color: var(--bg-main) !important;
+}
+
+.text-header {
+  color: var(--main-reverse) !important;
+}
+
+// utility styles
+
 .g-rounded {
   border-radius: 10px;
 }
 
 .g-shadow {
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;}
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}

@@ -1,122 +1,214 @@
 <template>
   <q-page class="row items-center justify-center">
-    <div class=" col-lg-4 col-md-6 col-sm-8 col-11 q-gutter-y-lg">
-      <div class="text-h1 text-center text-primary">
-        #{{ state.ratingPlace }}
-      </div>
-      <q-card flat>
-        <q-card-section class="text-center text-h2">
+    <div class=" col-lg-6 col-xl-5 col-md-8 col-sm-8 col-11 q-gutter-y-lg">
+      <q-card
+        class="g-rounded g-shadow q-pa-md"
+      >
+        <q-card-section class="text-h2">
           {{ state.fullName }}
         </q-card-section>
+        <q-card-section class="text-h5">
+          <q-icon
+            name="alternate_email"
+            color="primary"
+            size="lg"
+            class="q-mr-sm"
+          />{{ state.email }}
+        </q-card-section>
       </q-card>
-      <q-separator />
-      <div class="row justify-between q-gutter-x-lg">
+      <div class="row justify-between q-mt-none q-gutter-lg no-wrap-md">
         <q-card
-          flat
-          class="column col-grow"
+          class="g-rounded g-shadow col-grow"
         >
-          <q-card-section class="column">
-            <span class="text-subtitle1">Rating place</span>
-            <span class="text-h4">#{{ state.ratingPlace }}/{{ state.ratingTotalPlaces }}</span>
+          <q-card-section class="row justify-between no-wrap">
+            <div class="column q-gutter-y-md">
+              <div class="text-h5">
+                Achievements
+              </div>
+              <div class="text-subtitle1">
+                You have {{ state.achievements }} out of {{ state.achievementsTotal }}
+              </div>
+            </div>
+            <div class="column">
+              <q-circular-progress
+                :min="0"
+                :max="state.achievementsTotal"
+                :value="state.achievements"
+                size="100px"
+                :thickness="0.22"
+                color="green-5"
+                track-color="green-1"
+                class="q-ma-md"
+                show-value
+              >
+                <span class="text-h4 text-green-5"> {{
+                  state.achievements
+                }}</span>
+              </q-circular-progress>
+            </div>
           </q-card-section>
         </q-card>
         <q-card
-          flat
-          class=" column col-grow"
+          class="g-rounded g-shadow col-grow"
         >
-          <q-card-section class="column">
-            <span class="text-subtitle1">Achievements</span>
-            <span class="text-h4">{{ state.achievements }}/{{ state.achievementsTotal }}</span>
-          </q-card-section>
-        </q-card>
-        <q-card
-          flat
-          class=" column col-grow"
-        >
-          <q-card-section class="column">
-            <span class="text-subtitle1">Events</span>
-            <span class="text-h4">{{ state.events }}</span>
+          <q-card-section class="row full-height no-wrap justify-between">
+            <div class="column q-gutter-y-md">
+              <div class=" text-h5 ">
+                Rating
+              </div>
+
+              <div class="text-subtitle1">
+                You are {{ state.ratingPlace }} out of {{ state.ratingTotalPlaces }}
+              </div>
+              <div>
+                <q-btn
+                  color="primary"
+                  flat
+                  rounded
+                  no-caps
+                  class="text-subtitle1 text-no-wrap"
+                  @click="showRatingTooltip = true"
+                >
+                  What is this?
+                  <q-tooltip
+                    v-model="showRatingTooltip"
+                    class="text-subtitle1 bg-blue-2 text-dark"
+                  >
+                    Rating based on total achievements count between other users.
+                    <br>
+                    It's okay if you are not in the top.
+                  </q-tooltip>
+                </q-btn>
+              </div>
+            </div>
+            <div class="column q-mx-md text-h2 text-weight-medium text-primary justify-center items-center">
+              <div class="row no-wrap items-center">
+                <q-icon
+                  name="sym_o_trending_up"
+                  size="50px"
+                  color="primary"
+                />
+                <span>{{ state.ratingPlace }}
+                </span>
+              </div>
+            </div>
           </q-card-section>
         </q-card>
       </div>
+      <q-card
+        class="column g-rounded g-shadow q-px-lg q-pb-lg q-gutter-y-md"
+      >
+        <div class="row q-gutter-x-lg">
+          <q-btn
+            flat
+            :color="showFeed ? 'primary' : ''"
+            no-caps
+            class="text-h5"
+            rounded
+            dense
+            padding="sm xl"
+            @click="showFeed = true"
+          >
+            Feed
+          </q-btn>
+          <q-btn
+            flat
+            :color="!showFeed ? 'primary' : ''"
+            no-caps
+            class="text-h5"
+            rounded
+            dense
+            padding="sm xl"
+            @click="showFeed = false"
+          >
+            Achievements
+          </q-btn>
+        </div>
 
-      <div class=" text-h5 q-mt-xl">
-        Achievements list / Statistic
-      </div>
+        <q-separator />
 
-      <q-list>
-        <q-item>
-          <q-item-section
-            top
-            avatar
-          >
-            <q-avatar
-              size="66px"
-              rounded
+        <div class="column">
+          <q-list class=" q-gutter-y-sm">
+            <q-item
+              clickable
+              class="g-rounded"
             >
-              <img src="https://cdn-icons-png.flaticon.com/512/5968/5968923.png">
-            </q-avatar>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label class=" text-h6">
-              What a good sprint
-            </q-item-label>
-            <q-item-label
-              lines="2"
-              class=" text-subtitle1"
+              <q-item-section
+                top
+                avatar
+              >
+                <q-avatar
+                  size="66px"
+                  rounded
+                >
+                  <img src="https://cdn-icons-png.flaticon.com/512/5968/5968923.png">
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label class=" text-h6">
+                  What a good sprint
+                </q-item-label>
+                <q-item-label
+                  lines="2"
+                  class=" text-subtitle1"
+                >
+                  Done 10 tasks in one sprint
+                </q-item-label>
+              </q-item-section>
+              <q-item-section
+                side
+                top
+              >
+                5 min ago
+              </q-item-section>
+            </q-item>
+            <q-item
+              clickable
+              class="g-rounded"
             >
-              Done 10 tasks in one sprint
-            </q-item-label>
-          </q-item-section>
-          <q-item-section
-            side
-            top
-          >
-            5 min ago
-          </q-item-section>
-        </q-item>
-
-        <q-separator
-          spaced
-          inset
-        />
-        <q-item>
-          <q-item-section
-            top
-            avatar
-          >
-            <q-avatar
-              size="66px"
-              rounded
-            >
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
-            </q-avatar>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label class=" text-h6">
-              Login into app!
-            </q-item-label>
-            <q-item-label
-              lines="2"
-              class=" text-subtitle1"
-            >
-              First login into gamefication app
-            </q-item-label>
-          </q-item-section>
-          <q-item-section
-            side
-            top
-          >
-            10 days ago
-          </q-item-section>
-        </q-item>
-      </q-list>
+              <q-item-section
+                top
+                avatar
+              >
+                <q-avatar
+                  size="66px"
+                  rounded
+                >
+                  <img src="https://cdn-icons-png.flaticon.com/512/5968/5968923.png">
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label class=" text-h6">
+                  What a good sprint
+                </q-item-label>
+                <q-item-label
+                  lines="2"
+                  class=" text-subtitle1"
+                >
+                  Done 10 tasks in one sprint
+                </q-item-label>
+              </q-item-section>
+              <q-item-section
+                side
+                top
+              >
+                5 min ago
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </div>
+      </q-card>
     </div>
   </q-page>
 </template>
 
 <script setup lang="ts">
 import { User } from 'src/types'
+import { ref } from 'vue'
+
+const showRatingTooltip = ref(false)
+
+const showFeed = ref(true)
 
 const state: User = {
   fullName: 'Artem Shuvaev',

@@ -1,89 +1,66 @@
 <template>
   <q-layout
     view="lHh Lpr lFf"
-    class="bg-grey-2"
+    class="bg-body"
   >
-    <q-header class="bg-transparent text-dark q-py-sm">
+    <q-header
+      class="bg-header text-header q-py-sm"
+      bordered
+    >
       <q-toolbar>
         <ToolbarTitleComponent />
 
-        <div
-          v-if="!$q.platform.is.mobile"
-          class="row q-gutter-x-sm"
+        <ToolbarSettingsComponent />
+        <q-btn
+          icon="menu"
+          flat
+          size="lg"
+          rounded
         >
-          <q-btn
-            v-for="(userRoute, index) in layout.routes.value"
-            :key="index"
-            flat
-            rounded
-            no-caps
-            dense
-            padding="xs md"
-            class="text-h5"
-            :color="userRoute.color"
-            @click="$router.push({ name: userRoute.route })"
+          <q-menu
+            class="g-rounded"
+            style="min-width: 300px"
           >
-            {{ userRoute.label }}
-          </q-btn>
+            <div class="column q-py-md">
+              <q-item
+                v-for="route, index in layout.routes.value"
+                :key="index"
+                v-ripple
+                clickable
+                class=" text-subtitle1"
+                :class="route.color ? `text-${route.color}` : ''"
+                @click="$router.push({name: route.route})"
+              >
+                <q-item-section side>
+                  <q-icon
+                    :name="route.icon"
+                    :color="route.color"
+                  />
+                </q-item-section>
 
-          <q-btn
-            flat
-            rounded
-            no-caps
-            dense
-            padding="xs md"
-            class=" text-h5"
-            color="negative"
-            @click="layout.signOut"
-          >
-            Sign out
-          </q-btn>
-        </div>
-        <div v-else>
-          <q-btn
-            flat
-            round
-            dense
-            icon="menu"
-            class="q-mr-sm"
-            @click="layout.drawer.value = !layout.drawer.value"
-          />
-        </div>
+                <q-item-section>{{ route.label }}</q-item-section>
+              </q-item>
+              <q-separator class=" q-mx-md q-my-sm" />
+
+              <q-item
+                v-ripple
+                clickable
+                class=" text-subtitle1 text-negative"
+                @click="layout.signOut"
+              >
+                <q-item-section side>
+                  <q-icon
+                    name="sym_o_logout"
+                    color="negative"
+                  />
+                </q-item-section>
+                <q-item-section>Sign out</q-item-section>
+              </q-item>
+            </div>
+          </q-menu>
+        </q-btn>
       </q-toolbar>
     </q-header>
-
-    <q-drawer
-      v-model="layout.drawer.value"
-      overlay
-      :breakpoint="500"
-      bordered
-      class="bg-grey-3"
-    >
-      <q-scroll-area class="fit">
-        <q-list>
-          <q-item
-            v-for="(menuItem, index) in layout.routes.value"
-            :key="index"
-            v-ripple
-            clickable
-            @click="$router.push({ name: menuItem.route })"
-          >
-            <q-item-section>
-              {{ menuItem.label }}
-            </q-item-section>
-          </q-item>
-          <q-item
-            v-ripple
-            clickable
-            @click="layout.signOut"
-          >
-            <q-item-section>
-              Sign out
-            </q-item-section>
-          </q-item>
-        </q-list>
-      </q-scroll-area>
-    </q-drawer>
 
     <q-page-container>
       <router-view />
@@ -92,6 +69,7 @@
 </template>
 
 <script setup lang="ts">
+import ToolbarSettingsComponent from 'src/components/layouts/ToolbarSettingsComponent.vue'
 import ToolbarTitleComponent from 'src/components/layouts/ToolbarTitleComponent.vue'
 import { useLayout } from './layout'
 

@@ -38,5 +38,8 @@
       ],
       "url": "https://on.cypress.io/cypress.schema.json"
     }
-  ]
+  ],
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

@@ -4,12 +4,12 @@ import { RouteRecordRaw } from 'vue-router'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('layouts/UserLayoutV2.vue'),
+    component: () => import('layouts/UserLayout.vue'),
     children: [
       {
         path: '',
         name: 'main',
-        component: () => import('pages/ProfilePageV2.vue'),
+        component: () => import('src/pages/ProfilePage.vue'),
       },
       {
         path: 'users/',
