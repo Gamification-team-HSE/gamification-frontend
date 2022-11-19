@@ -67,9 +67,8 @@
                 <q-btn
                   color="primary"
                   flat
-                  rounded
                   no-caps
-                  class="text-subtitle1 text-no-wrap"
+                  class="text-subtitle1 text-no-wrap g-rounded"
                   @click="showRatingTooltip = true"
                 >
                   {{ $t('whatIsThis') }}
@@ -105,8 +104,7 @@
             flat
             :color="showFeed ? 'primary' : ''"
             no-caps
-            class="text-h5"
-            rounded
+            class="text-h5 g-rounded"
             dense
             padding="sm xl"
             @click="showFeed = true"
@@ -117,8 +115,7 @@
             flat
             :color="!showFeed ? 'primary' : ''"
             no-caps
-            class="text-h5"
-            rounded
+            class="text-h5 g-rounded"
             dense
             padding="sm xl"
             @click="showFeed = false"

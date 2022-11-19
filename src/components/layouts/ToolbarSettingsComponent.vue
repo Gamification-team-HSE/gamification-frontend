@@ -2,8 +2,7 @@
   <div class="row items-center q-gutter-x-sm">
     <q-btn
       flat
-      rounded
-      class=" text-subtitle1"
+      class="text-subtitle1 g-rounded"
       dense
       @click="layout.toggleLang"
     >

@@ -15,7 +15,7 @@
           icon="menu"
           flat
           size="lg"
-          rounded
+          class="g-rounded"
         >
           <q-menu
             class="g-rounded"
