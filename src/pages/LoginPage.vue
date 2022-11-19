@@ -24,10 +24,20 @@
           :error="isError"
           :error-message="$t('loginEmailError')"
           clearable
+          type="email"
+          inputmode="email"
+          autocomplete="email"
           :readonly="isLoading"
           @keyup.prevent.enter="trySendCode"
           @update:model-value="isError = false"
-        />
+        >
+          <template #prepend>
+            <q-icon
+              size="xs"
+              name="sym_o_alternate_email"
+            />
+          </template>
+        </q-input>
       </q-card-section>
       <q-card-actions class="text-h2 justify-center q-gutter-y-sm">
         <q-btn
@@ -78,6 +88,8 @@
           placeholder="0000"
           mask="####"
           autofocus
+          inputmode="numeric"
+          autocomplete="off"
           :error="isError"
           :error-message="$t('loginIncorrectCode')"
           :readonly="isLoading"
