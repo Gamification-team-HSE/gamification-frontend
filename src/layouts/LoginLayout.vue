@@ -3,7 +3,7 @@
     view="lHh Lpr lFf"
   >
     <q-header
-      class="bg-white text-dark q-py-sm"
+      class="bg-header text-header q-py-sm"
     >
       <q-toolbar>
         <ToolbarTitleComponent />
