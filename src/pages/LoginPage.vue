@@ -91,6 +91,7 @@
         >
           <template #hint>
             <q-btn
+              v-if="!codeRef"
               flat
               rounded
               color="primary"
