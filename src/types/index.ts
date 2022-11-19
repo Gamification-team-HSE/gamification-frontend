@@ -1,4 +1,4 @@
-export type LayoutRoute = { route: string, label: string, color?: string }
+export type LayoutRoute = { route: string, label?: string, color?: string, icon?: string }
 
 export type User = {
   fullName: string

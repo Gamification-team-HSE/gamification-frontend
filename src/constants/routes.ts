@@ -5,19 +5,23 @@ export const userRoutes: Array<LayoutRoute> = [
     route: 'main',
     label: 'Me',
     color: 'primary',
+    icon: 'sym_o_person',
   },
   {
     route: 'ratings',
     label: 'Ratings',
+    icon: 'sym_o_trending_up',
   },
   {
     route: 'achievements',
     label: 'Achievements',
+    icon: 'sym_o_hotel_class',
 
   },
   {
     route: 'users',
     label: 'Users',
+    icon: 'sym_o_group',
   },
 ]
 

@@ -4,7 +4,7 @@ import { RouteRecordRaw } from 'vue-router'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('layouts/UserLayout.vue'),
+    component: () => import('layouts/UserLayoutV2.vue'),
     children: [
       {
         path: '',

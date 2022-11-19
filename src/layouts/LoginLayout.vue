@@ -1,6 +1,10 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header class="bg-transparent text-dark">
+  <q-layout
+    view="lHh Lpr lFf"
+  >
+    <q-header
+      class="bg-white text-dark q-py-sm"
+    >
       <q-toolbar>
         <ToolbarTitleComponent />
       </q-toolbar>

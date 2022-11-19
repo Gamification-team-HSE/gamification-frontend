@@ -128,8 +128,44 @@
         <q-separator />
 
         <div class="column">
-          <q-list>
-            <q-item>
+          <q-list class=" q-gutter-y-sm">
+            <q-item
+              clickable
+              class="g-rounded"
+            >
+              <q-item-section
+                top
+                avatar
+              >
+                <q-avatar
+                  size="66px"
+                  rounded
+                >
+                  <img src="https://cdn-icons-png.flaticon.com/512/5968/5968923.png">
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label class=" text-h6">
+                  What a good sprint
+                </q-item-label>
+                <q-item-label
+                  lines="2"
+                  class=" text-subtitle1"
+                >
+                  Done 10 tasks in one sprint
+                </q-item-label>
+              </q-item-section>
+              <q-item-section
+                side
+                top
+              >
+                5 min ago
+              </q-item-section>
+            </q-item>
+            <q-item
+              clickable
+              class="g-rounded"
+            >
               <q-item-section
                 top
                 avatar
