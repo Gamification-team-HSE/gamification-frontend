@@ -1,5 +1,8 @@
 <template>
-  <q-page class="row items-center justify-center">
+  <q-page
+    padding
+    class="row items-center justify-center"
+  >
     <div class=" col-lg-6 col-xl-5 col-md-8 col-sm-8 col-11 q-gutter-y-lg">
       <q-card
         class="g-rounded g-shadow q-pa-md"
