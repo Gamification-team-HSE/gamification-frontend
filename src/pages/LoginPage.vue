@@ -97,9 +97,12 @@
           @keyup.prevent.enter="tryLogin"
           @update:model-value="tryLogin"
         >
-          <template #hint>
+          <template
+            v-if="!codeRef"
+            #hint
+          >
             <q-btn
-              v-if="!codeRef"
+              v-if="!wasResended"
               flat
               rounded
               color="primary"
@@ -107,9 +110,13 @@
               padding="none sm"
               no-caps
               :disable="isLoading"
+              :loading="isResending"
               :label="$t('loginResendCode')"
               @click="sendCodeAgain"
             />
+            <div v-else>
+              Код отправлен повторно
+            </div>
           </template>
         </q-input>
       </q-card-section>
@@ -136,9 +143,7 @@
       </q-card-actions>
     </q-card>
 
-    <q-dialog
-      v-model="userNotExistDialog"
-    >
+    <q-dialog v-model="userNotExistDialog">
       <q-card class="g-rounded">
         <q-card-section class="row items-center">
           <div class="text-h5">
@@ -189,6 +194,8 @@ const isCodeStep = ref(false)
 const userNotExistDialog = ref(false)
 
 const isLoading = ref(false)
+const isResending = ref(false)
+const wasResended = ref(false)
 const isError = ref(false)
 
 const emailRef = ref('')
@@ -217,13 +224,18 @@ const trySendCode = () => {
 }
 
 const sendCodeAgain = () => {
+  isResending.value = true
   codeRef.value = undefined
   isError.value = false
+
+  setTimeout(() => {
+    isResending.value = false
+    wasResended.value = true
+  }, 300)
 }
 
 const backToEmail = () => {
   codeRef.value = undefined
-  emailRef.value = ''
   isError.value = false
   isCodeStep.value = false
 }

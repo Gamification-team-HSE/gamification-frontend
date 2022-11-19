@@ -16,12 +16,13 @@ export default {
   minsAgo: '%{count} mins ago',
 
   // Login v2 page
-  loginIntoSystemHeader: 'Sign in',
+  loginIntoSystemHeader: 'Sign In',
   loginEmailLabel: 'Enter an email, we will send code for sign in',
   loginEmailError: 'Incorrect email, please try again',
   loginSendCode: 'Send code',
   loginInputCode: 'Enter the code',
   loginResendCode: 'Send code again',
+  loginCodeResended: 'Code sent again',
   loginIncorrectCode: 'Incorrect code, please try again',
   loginIntoSystemBtn: 'Sign in',
   loginUserNotExists: 'Account not exist',
