@@ -4,10 +4,9 @@
       flat
       class="text-subtitle1 g-rounded"
       dense
+      :label="layout.lang.value"
       @click="layout.toggleLang"
-    >
-      {{ layout.lang.value }}
-    </q-btn>
+    />
     <q-toggle
       :model-value="layout.theme.value === true"
       checked-icon="sym_o_dark_mode"

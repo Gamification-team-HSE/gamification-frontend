@@ -69,9 +69,9 @@
                   flat
                   no-caps
                   class="text-subtitle1 text-no-wrap g-rounded"
+                  :label="$t('whatIsThis')"
                   @click="showRatingTooltip = true"
                 >
-                  {{ $t('whatIsThis') }}
                   <q-tooltip
                     v-model="showRatingTooltip"
                     class="text-subtitle1 bg-blue-2 text-dark"
@@ -107,10 +107,9 @@
             class="text-h5 g-rounded"
             dense
             padding="sm xl"
+            :label="$t('feed')"
             @click="showFeed = true"
-          >
-            {{ $t('feed') }}
-          </q-btn>
+          />
           <q-btn
             flat
             :color="!showFeed ? 'primary' : ''"
@@ -118,10 +117,9 @@
             class="text-h5 g-rounded"
             dense
             padding="sm xl"
+            :label="$t('achievements')"
             @click="showFeed = false"
-          >
-            {{ $t('achievements') }}
-          </q-btn>
+          />
         </div>
 
         <q-separator />
