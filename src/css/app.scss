@@ -38,8 +38,12 @@
   color: var(--secondary) !important;
 }
 
+.text-secondary-reverse {
+  color: var(--main) !important;
+}
+
 .bg-secondary {
-  color: var(--secondary) !important;
+  background-color: var(--secondary) !important;
 }
 
 // utility styles
