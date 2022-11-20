@@ -15,7 +15,7 @@
         />
         <div
           class="text-primary"
-          :class="$q.platform.is.mobile ? 'text-h6' : 'text-h4'"
+          :class="$q.platform.is.mobile ? 'text-h6' : 'text-h5'"
         >
           Добавление пользователя
         </div>
