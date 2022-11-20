@@ -40,6 +40,7 @@
             class="g-rounded"
             icon="sym_o_add"
             :label="$t('adminAddUserViaForm')"
+            @click="showNotImplemented"
           />
           <q-btn
             no-caps
@@ -48,6 +49,7 @@
             icon="sym_o_table"
             outline
             :label="$t('adminAddUserViaExcel')"
+            @click="showNotImplemented"
           />
           <q-btn
             no-caps
@@ -56,6 +58,7 @@
             icon="sym_o_turn_right"
             flat
             :label="$t('adminGoToUsers')"
+            @click="$router.push({name: 'admin.users'})"
           />
         </q-card-actions>
       </q-card>
@@ -80,6 +83,7 @@
             class="g-rounded full-width"
             icon="sym_o_turn_right"
             :label="$t('adminGoToRating')"
+            @click="$router.push({name: 'admin.ratings'})"
           />
         </q-card-actions>
       </q-card>
@@ -104,6 +108,7 @@
             class="g-rounded"
             icon="sym_o_add"
             :label="$t('adminAddAchiev')"
+            @click="showNotImplemented"
           />
           <q-btn
             no-caps
@@ -112,6 +117,7 @@
             icon="sym_o_turn_right"
             flat
             :label="$t('adminGoToAchieves')"
+            @click="$router.push({name: 'admin.achievements'})"
           />
         </q-card-actions>
       </q-card>
@@ -136,6 +142,7 @@
             class="g-rounded"
             icon="sym_o_add"
             :label="$t('adminAddEvent')"
+            @click="showNotImplemented"
           />
           <q-btn
             no-caps
@@ -144,6 +151,7 @@
             icon="sym_o_turn_right"
             flat
             :label="$t('adminGoToEvents')"
+            @click="$router.push({name: 'admin.events'})"
           />
         </q-card-actions>
       </q-card>
@@ -168,6 +176,7 @@
             class="g-rounded"
             icon="sym_o_add"
             :label="$t('adminAddStat')"
+            @click="showNotImplemented"
           />
           <q-btn
             no-caps
@@ -176,9 +185,27 @@
             icon="sym_o_turn_right"
             flat
             :label="$t('adminGoToStats')"
+            @click="$router.push({name: 'admin.stats'})"
           />
         </q-card-actions>
       </q-card>
     </div>
   </q-page>
 </template>
+
+<script lang="ts" setup>
+import { useQuasar } from 'quasar'
+
+const $q = useQuasar()
+
+const showNotImplemented = () => {
+  $q.notify({
+    icon: 'sym_o_bug_report',
+    message: 'Chill out',
+    caption: 'Feature in progress',
+    timeout: 2000,
+    position: 'top-right',
+    color: 'primary',
+  })
+}
+</script>
