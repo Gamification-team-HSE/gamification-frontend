@@ -47,6 +47,7 @@
               <q-item
                 v-ripple
                 clickable
+                dense
                 class="text-subtitle1 text-negative g-rounded"
                 @click="layout.signOut"
               >
@@ -59,7 +60,12 @@
                     color="negative"
                   />
                 </q-item-section>
-                <q-item-section>{{ $t('signOut') }}</q-item-section>
+                <q-item-section class=" column q-gutter-y-none">
+                  <div>{{ $t('signOut') }}</div>
+                  <div class="text-caption text-secondary">
+                    {{ layout.email }}
+                  </div>
+                </q-item-section>
               </q-item>
             </div>
           </q-menu>

@@ -10,5 +10,6 @@ export const useLayout = () => {
   return {
     signOut: userStore.signOut,
     routes,
+    email: userStore.email,
   }
 }

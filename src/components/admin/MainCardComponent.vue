@@ -1,4 +1,4 @@
-<template>
+st<template>
   <q-card class="g-rounded g-shadow">
     <q-card-section
       class=" no-wrap text-primary row items-center  q-pb-none"

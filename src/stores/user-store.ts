@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { adminEmail, userEmail } from 'src/constants/mockAuth'
 import { LocalStorageService } from 'src/services/LocalStorageService'
 
 type State = {
@@ -16,6 +17,7 @@ export const useUserStore = defineStore('user', {
     accessToken: null,
   }),
   getters: {
+    email: (state) => (state.isAdmin ? adminEmail : userEmail),
   },
   actions: {
     setAuth(refreshToken: string | null, accessToken: string | null, isAdmin = false) {
