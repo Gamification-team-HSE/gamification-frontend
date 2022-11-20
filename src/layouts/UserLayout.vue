@@ -20,6 +20,7 @@
           <q-menu
             class="g-rounded"
             style="min-width: 300px"
+            :class="{ 'full-width': $q.platform.is.mobile }"
           >
             <div class="column q-py-md">
               <q-item
