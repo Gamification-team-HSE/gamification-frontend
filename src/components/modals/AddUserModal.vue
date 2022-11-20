@@ -1,6 +1,8 @@
 <template>
   <q-dialog
     :model-value="props.openCreateUser"
+    :full-width="$q.platform.is.mobile"
+    :position="$q.platform.is.mobile ? 'bottom' : 'standard'"
     @update:model-value="emit('close')"
   >
     <q-card class="g-rounded">
@@ -11,7 +13,10 @@
           color="primary"
           class="q-mr-xs"
         />
-        <div class="text-h5 text-primary">
+        <div
+          class="text-primary"
+          :class="$q.platform.is.mobile ? 'text-h6' : 'text-h4'"
+        >
           Добавление пользователя
         </div>
         <q-space />
@@ -50,7 +55,7 @@
             />
           </q-card-actions>
         </q-card>
-        <div class="text-h6 row items-center q-mt-md">
+        <div class="row no-wrap items-center q-mt-md">
           <q-icon
             name="sym_o_badge"
             class="q-mr-sm"
