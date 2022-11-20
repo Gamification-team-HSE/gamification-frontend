@@ -143,43 +143,15 @@
       </q-card-actions>
     </q-card>
 
-    <q-dialog v-model="userNotExistDialog">
-      <q-card class="g-rounded">
-        <q-card-section class="row items-center no-wrap">
-          <div class="text-h5">
-            {{ $t('loginDialogHeader') }}
-          </div>
-          <q-space />
-          <q-btn
-            v-close-popup
-            icon="close"
-            flat
-            round
-            dense
-          />
-        </q-card-section>
-
-        <q-card-section class="q-pt-none text-subtitle1">
-          {{ $t('loginDialogBody') }}
-        </q-card-section>
-
-        <q-card-actions align="center">
-          <q-btn
-            v-close-popup
-            outline
-            :label="$t('loginDialogBtn')"
-            color="primary"
-            no-caps
-            autofocus
-            class="full-width g-rounded text-subtitle1"
-          />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+    <AccountNotExistsFAQModal
+      :user-not-exist-dialog="userNotExistDialog"
+      @close="userNotExistDialog = false"
+    />
   </q-page>
 </template>
 
 <script setup lang="ts">
+import AccountNotExistsFAQModal from 'src/components/modals/AccountNotExistsFAQModal.vue'
 import { useUserStore } from 'src/stores/user-store'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'

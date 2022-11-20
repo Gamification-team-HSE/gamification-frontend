@@ -58,7 +58,7 @@
                     color="negative"
                   />
                 </q-item-section>
-                <q-item-section>Sign out</q-item-section>
+                <q-item-section>{{ $t('signOut') }}</q-item-section>
               </q-item>
             </div>
           </q-menu>
