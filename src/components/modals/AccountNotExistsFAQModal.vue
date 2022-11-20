@@ -1,6 +1,8 @@
 <template>
   <q-dialog
     :model-value="props.userNotExistDialog"
+    :full-width="$q.platform.is.mobile"
+    :position="$q.platform.is.mobile ? 'bottom' : 'standard'"
     @update:model-value="emit('close')"
   >
     <q-card class="g-rounded">
