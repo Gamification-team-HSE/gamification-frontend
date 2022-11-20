@@ -29,7 +29,7 @@
                 clickable
                 class="text-subtitle1 g-rounded"
                 :class="route.color ? `text-${route.color}` : ''"
-                @click="$router.push({name: route.route})"
+                :to="{name: route.route}"
               >
                 <q-item-section side>
                   <q-icon

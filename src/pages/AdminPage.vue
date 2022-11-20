@@ -58,7 +58,7 @@
             icon="sym_o_turn_right"
             flat
             :label="$t('adminGoToUsers')"
-            @click="$router.push({name: 'admin.users'})"
+            :to="{ name: 'admin.users' }"
           />
         </q-card-actions>
       </q-card>
@@ -83,7 +83,7 @@
             class="g-rounded full-width"
             icon="sym_o_turn_right"
             :label="$t('adminGoToRating')"
-            @click="$router.push({name: 'admin.ratings'})"
+            :to="{ name: 'admin.ratings' }"
           />
         </q-card-actions>
       </q-card>
@@ -99,7 +99,8 @@
         <q-card-section class=" text-subtitle1">
           {{ $t('adminAchievText', {
             count: 25,
-          }) }}
+          })
+          }}
         </q-card-section>
         <q-card-actions class="row  q-gutter-y-sm">
           <q-btn
@@ -117,7 +118,7 @@
             icon="sym_o_turn_right"
             flat
             :label="$t('adminGoToAchieves')"
-            @click="$router.push({name: 'admin.achievements'})"
+            :to="{ name: 'admin.achievements' }"
           />
         </q-card-actions>
       </q-card>
@@ -133,7 +134,8 @@
         <q-card-section class=" text-subtitle1">
           {{ $t('adminEventsText', {
             count: 25,
-          }) }}
+          })
+          }}
         </q-card-section>
         <q-card-actions class="row  q-gutter-y-sm">
           <q-btn
@@ -151,7 +153,7 @@
             icon="sym_o_turn_right"
             flat
             :label="$t('adminGoToEvents')"
-            @click="$router.push({name: 'admin.events'})"
+            :to="{ name: 'admin.events' }"
           />
         </q-card-actions>
       </q-card>
@@ -167,7 +169,8 @@
         <q-card-section class=" text-subtitle1">
           {{ $t('adminStatsText', {
             count: 25,
-          }) }}
+          })
+          }}
         </q-card-section>
         <q-card-actions class="row  q-gutter-y-sm">
           <q-btn
@@ -185,7 +188,7 @@
             icon="sym_o_turn_right"
             flat
             :label="$t('adminGoToStats')"
-            @click="$router.push({name: 'admin.stats'})"
+            :to="{ name: 'admin.stats' }"
           />
         </q-card-actions>
       </q-card>
