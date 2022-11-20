@@ -3,6 +3,7 @@ type Schema = {
   refresh_token: string
   isDark: boolean
   lang: 'ru-RU' | 'en-US'
+  isAdmin: boolean
 }
 
 export class LocalStorageService {

@@ -201,6 +201,10 @@ const isError = ref(false)
 const emailRef = ref('')
 const codeRef = ref<number>()
 
+const adminEmail = 'admin@mail.com'
+const userEmail = 'user@mail.com'
+const code = '6666'
+
 const trySendCode = () => {
   isLoading.value = true
 
@@ -214,7 +218,7 @@ const trySendCode = () => {
   setTimeout(() => {
     isLoading.value = false
 
-    if (email !== 'sh@gmail.com') {
+    if (email !== userEmail && email !== adminEmail) {
       isError.value = true
       return
     }
@@ -248,13 +252,13 @@ const tryLogin = () => {
   isLoading.value = true
 
   setTimeout(() => {
-    if (codeRef.value?.toString() !== '6666') {
+    if (codeRef.value?.toString() !== code) {
       isLoading.value = false
       isError.value = true
       return
     }
 
-    userStore.setAuth('refresh', 'access')
+    userStore.setAuth('refresh', 'access', emailRef.value === adminEmail)
 
     router.push({ name: 'main' })
   }, 300)

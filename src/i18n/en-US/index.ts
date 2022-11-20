@@ -31,4 +31,25 @@ export default {
   loginDialogBody: `Administrators of the system have permissions to add new users.
   Contact yours using email or in working chats.`,
   loginDialogBtn: 'Got it',
+
+  // Admin page
+  usersRating: 'Users rating',
+  // TODO translate for english
+  adminMainText: 'Здесь вы можете добавлять пользователей, события, достижения и показатели, а изменять или удалять - в списках соответствующих сущностей.',
+  adminUsersText: 'В системе сейчас %{count} активных и %{deleted} удаленных пользователей, вы можете добавлять пользователей здесь, а удалять и изменять - в списке пользователей.',
+  adminRating1: 'По умолчанию рейтинг строится на основе количества выполненных показателей относительно всех достижений.',
+  adminRating2: 'Но на странице рейтинга вы можете строить его по отдельным показателям.',
+  adminAchievText: 'В системе сейчас %{count} достижений, вы можете добавлять их здесь, а удалять и изменять - в списке достижений.',
+  adminEventsText: 'В системе сейчас %{count} событий, вы можете добавлять их здесь, а удалять и изменять - в списке событий.',
+  adminStatsText: 'В системе сейчас %{count} показателей, вы можете добавлять их здесь, а удалять и изменять - в списке показателей.',
+  adminAddUserViaForm: 'Add manually',
+  adminAddUserViaExcel: 'Import from Excel',
+  adminGoToUsers: 'Go to all users',
+  adminGoToRating: 'Go to ratings',
+  adminAddAchiev: 'Add new achievement',
+  adminGoToAchieves: 'Go to all achievements',
+  adminAddEvent: 'Add new event',
+  adminGoToEvents: 'Go to all events',
+  adminAddStat: 'Add new stat counter',
+  adminGoToStats: 'Go to stats',
 }

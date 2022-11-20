@@ -14,7 +14,7 @@ export default boot(({ redirect, urlPath }) => {
       'access_token',
     )
 
-    userStore.setAuth(refreshToken, accessToken)
+    userStore.setAuth(refreshToken, accessToken, Boolean(LocalStorageService.get('isAdmin')))
     return
   }
 

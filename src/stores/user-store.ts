@@ -25,6 +25,8 @@ export const useUserStore = defineStore('user', {
       this.refreshToken = refreshToken
       this.accessToken = accessToken
 
+      LocalStorageService.set('isAdmin', isAdmin)
+
       if (!refreshToken) return
       LocalStorageService.set('refresh_token', refreshToken)
 
@@ -36,6 +38,7 @@ export const useUserStore = defineStore('user', {
 
       LocalStorageService.remove('access_token')
       LocalStorageService.remove('refresh_token')
+      LocalStorageService.remove('isAdmin')
 
       this.router.push({ name: 'login' })
     },
