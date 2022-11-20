@@ -112,7 +112,7 @@
           clearable
           type="email"
           inputmode="email"
-          autocomplete="email"
+          autocomplete="off"
           hint="Почту сможет поменять только администратор"
         />
         <q-input

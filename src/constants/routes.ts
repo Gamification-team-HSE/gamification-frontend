@@ -4,7 +4,6 @@ export const userRoutes: Array<LayoutRoute> = [
   {
     route: 'main',
     label: 'profileMe',
-    color: 'primary',
     icon: 'sym_o_person',
   },
   {
@@ -29,7 +28,6 @@ export const adminRoutes: Array<LayoutRoute> = [
   {
     route: 'admin.main',
     label: 'profileAdmin',
-    color: 'primary',
     icon: 'sym_o_admin_panel_settings',
   },
   {

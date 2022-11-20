@@ -26,16 +26,16 @@
                 v-for="route, index in layout.routes.value"
                 :key="index"
                 v-ripple
+                exact
                 clickable
                 class="text-subtitle1 g-rounded"
-                :class="route.color ? `text-${route.color}` : ''"
-                :to="{name: route.route}"
+                :to="{ name: route.route }"
               >
-                <q-item-section side>
-                  <q-icon
-                    :name="route.icon"
-                    :color="route.color"
-                  />
+                <q-item-section
+                  avatar
+                  class=" items-center"
+                >
+                  <q-icon :name="route.icon" />
                 </q-item-section>
 
                 <q-item-section>{{ $t(route.label) }}</q-item-section>
@@ -49,7 +49,10 @@
                 class="text-subtitle1 text-negative g-rounded"
                 @click="layout.signOut"
               >
-                <q-item-section side>
+                <q-item-section
+                  avatar
+                  class=" items-center"
+                >
                   <q-icon
                     name="sym_o_logout"
                     color="negative"
