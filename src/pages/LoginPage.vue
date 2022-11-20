@@ -145,7 +145,7 @@
 
     <q-dialog v-model="userNotExistDialog">
       <q-card class="g-rounded">
-        <q-card-section class="row items-center">
+        <q-card-section class="row items-center no-wrap">
           <div class="text-h5">
             {{ $t('loginDialogHeader') }}
           </div>

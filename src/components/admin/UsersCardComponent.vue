@@ -48,9 +48,8 @@
   <q-dialog v-model="openCreateUser">
     <q-card
       class="g-rounded"
-      style=" min-width: 550px"
     >
-      <q-card-section class="row items-center">
+      <q-card-section class="row items-center no-wrap">
         <q-icon
           name="sym_o_add"
           size="lg"
