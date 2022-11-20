@@ -28,8 +28,8 @@
         </q-card-section>
         <q-card-section class=" text-subtitle1">
           {{ $t('adminUsersText', {
-            count: 150,
-            deleted: 25
+            count: '150',
+            deleted: '25'
           })
           }}
         </q-card-section>
