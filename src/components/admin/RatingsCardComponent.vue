@@ -1,6 +1,6 @@
 <template>
   <q-card class="g-rounded g-shadow">
-    <q-card-section class="text-primary row items-center text-h5 q-pb-none">
+    <q-card-section class="text-primary no-wrap row items-center text-h5 q-pb-none">
       <q-icon
         name="sym_o_trending_up"
         size="lg"

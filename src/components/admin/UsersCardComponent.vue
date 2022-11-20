@@ -15,7 +15,10 @@
       })
       }}
     </q-card-section>
-    <q-card-actions class="row q-gutter-y-sm">
+    <q-card-actions
+      class="row q-gutter-y-sm"
+      :vertical="$q.platform.is.mobile"
+    >
       <q-btn
         no-caps
         color="primary"
