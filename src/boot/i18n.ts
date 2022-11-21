@@ -29,6 +29,7 @@ export default boot(({ app }) => {
     locale: lsLocale ?? 'en-US',
     legacy: false,
     messages,
+    runtimeOnly: false,
   })
 
   // Set i18n instance on app
