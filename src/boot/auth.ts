@@ -1,24 +1,20 @@
 import { boot } from 'quasar/wrappers'
 import { LocalStorageService } from 'src/services/LocalStorageService'
-import { useUserStore } from 'src/stores/user-store'
+import { useUserStore } from 'src/stores/userStore'
 
 export default boot(({ redirect, urlPath }) => {
   const userStore = useUserStore()
 
-  const refreshToken = LocalStorageService.get(
-    'refresh_token',
-  )
+  const authToken = LocalStorageService.get('authToken')
 
-  if (refreshToken) {
-    const accessToken = LocalStorageService.get(
-      'access_token',
-    )
-
-    userStore.setAuth(refreshToken, accessToken, Boolean(LocalStorageService.get('isAdmin')))
+  if (!authToken) {
+  // Redirect to login but not in loop reloads
+    if (urlPath.includes('login')) return
+    redirect({ name: 'login' })
     return
   }
 
-  // Redirect to login but not in loop reloads
-  if (urlPath.includes('login')) return
-  redirect({ name: 'login' })
+  const isAdmin = Boolean(LocalStorageService.get('isAdmin'))
+
+  userStore.setAuth(authToken, isAdmin)
 })

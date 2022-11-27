@@ -1,6 +1,5 @@
 type Schema = {
-  access_token: string
-  refresh_token: string
+  authToken: string
   isDark: boolean
   lang: 'ru-RU' | 'en-US'
   isAdmin: boolean

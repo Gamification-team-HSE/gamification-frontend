@@ -1,6 +1,5 @@
-import { boot } from 'quasar/wrappers'
 import axios, { AxiosInstance } from 'axios'
-import { useUserStore } from 'src/stores/user-store'
+import { useUserStore } from 'src/stores/userStore'
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -21,12 +20,12 @@ const api = axios.create({ baseURL: process.env.API })
 
 api.interceptors.request.use(
   async (config) => {
-    const { accessToken } = userStore
+    const { authToken } = userStore
 
-    if (accessToken) {
+    if (authToken) {
       config.headers = {
         ...config.headers,
-        authorization: `Bearer ${accessToken}`,
+        authorization: `Bearer ${authToken}`,
       }
     }
 
@@ -43,44 +42,12 @@ api.interceptors.response.use(
     if (error?.response?.status === 401 && !config?.sent) {
       config.sent = true
 
-      // TODO getting new creds from backend
-      const result = await new Promise<{
-        accessToken: string,
-        refreshToken: string
-      }>((resolve) => {
-        resolve({
-          accessToken: 'access',
-          refreshToken: 'refresh',
-        })
-      })
-
-      if (result?.accessToken) {
-        userStore.setAuth(result.refreshToken, result.accessToken)
-
-        config.headers = {
-          ...config.headers,
-          authorization: `Bearer ${result?.accessToken}`,
-        }
-      } else {
-        userStore.signOut()
-      }
+      userStore.signOut()
 
       return axios(config)
     }
     return Promise.reject(error)
   },
 )
-
-export default boot(({ app }) => {
-  // for use inside Vue files (Options API) through this.$axios and this.$api
-
-  app.config.globalProperties.$axios = axios
-  // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)
-  //       so you won't necessarily have to import axios in each vue file
-
-  app.config.globalProperties.$api = api
-  // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
-  //       so you can easily perform requests against your app's API
-})
 
 export { api }

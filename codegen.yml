@@ -1,0 +1,10 @@
+schema: './src/graphql/*.*'
+documents: './src/graphql/operations/*.*'
+generates:
+    src/api/generated.ts:
+        plugins:
+            - typescript
+            - typescript-operations
+            - typescript-graphql-request
+        config:
+            maybeValue: T | null | undefined

@@ -83,7 +83,7 @@
 
 <script setup lang="ts">
 import { adminEmail, code } from 'src/constants/mockAuth'
-import { useUserStore } from 'src/stores/user-store'
+import { useUserStore } from 'src/stores/userStore'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -131,7 +131,7 @@ const tryLogin = () => {
       return
     }
 
-    userStore.setAuth('refresh', 'access', props.email === adminEmail)
+    userStore.setAuth('auth-token', props.email === adminEmail)
 
     router.push({ name: 'main' })
   }, 300)

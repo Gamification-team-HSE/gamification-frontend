@@ -5,42 +5,35 @@ import { LocalStorageService } from 'src/services/LocalStorageService'
 type State = {
   isAdmin: boolean
   isLoggedIn: boolean
-  refreshToken: string | null
-  accessToken: string | null
+  authToken: string | null
 }
 
 export const useUserStore = defineStore('user', {
   state: (): State => ({
     isAdmin: false,
     isLoggedIn: false,
-    refreshToken: null,
-    accessToken: null,
+    authToken: null,
   }),
   getters: {
     email: (state) => (state.isAdmin ? adminEmail : userEmail),
   },
   actions: {
-    setAuth(refreshToken: string | null, accessToken: string | null, isAdmin = false) {
+    setAuth(authToken: State['authToken'], isAdmin = false) {
       this.isLoggedIn = true
       this.isAdmin = isAdmin
 
-      this.refreshToken = refreshToken
-      this.accessToken = accessToken
+      this.authToken = authToken
 
       LocalStorageService.set('isAdmin', isAdmin)
 
-      if (!refreshToken) return
-      LocalStorageService.set('refresh_token', refreshToken)
-
-      if (!accessToken) return
-      LocalStorageService.set('access_token', accessToken)
+      if (authToken) LocalStorageService.set('authToken', authToken)
     },
     signOut() {
       this.isLoggedIn = false
+      this.authToken = null
 
-      LocalStorageService.remove('access_token')
-      LocalStorageService.remove('refresh_token')
       LocalStorageService.remove('isAdmin')
+      LocalStorageService.remove('authToken')
 
       this.router.push({ name: 'login' })
     },

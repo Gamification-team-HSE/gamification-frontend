@@ -124,6 +124,8 @@
 
         <q-separator />
 
+        <!-- TODO показатели -->
+
         <div class="column">
           <q-list class=" q-gutter-y-sm">
             <q-item

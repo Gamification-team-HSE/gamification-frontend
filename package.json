@@ -20,7 +20,8 @@
     "concurrently:dev:jest": "concurrently \"quasar dev\" \"jest --watch\"",
     "publish:patch": "npm version patch --force",
     "publish:minor": "npm version minor --force",
-    "publish:major": "npm version major --force"
+    "publish:major": "npm version major --force",
+    "compile": "graphql-codegen"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
@@ -28,6 +29,7 @@
     "@sentry/vue": "^7.17.4",
     "axios": "^0.21.1",
     "dotenv": "^16.0.3",
+    "graphql": "^15.8.0",
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",
@@ -35,6 +37,9 @@
     "vue-router": "^4.0.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^2.13.12",
+    "@graphql-codegen/client-preset": "^1.1.4",
+    "@graphql-codegen/typescript-graphql-request": "^4.5.8",
     "@intlify/vite-plugin-vue-i18n": "^3.3.1",
     "@quasar/app-vite": "^1.0.0",
     "@quasar/babel-preset-app": "^2.0.1",

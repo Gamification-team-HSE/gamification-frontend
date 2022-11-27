@@ -1,4 +1,4 @@
-import { useUserStore } from 'src/stores/user-store'
+import { useUserStore } from 'src/stores/userStore'
 import { RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
@@ -31,6 +31,7 @@ const routes: RouteRecordRaw[] = [
         name: 'achievement',
         component: () => import('pages/AchievementPage.vue'),
       },
+      // убрать у обычных пользователей страницу вообще
       {
         path: 'ratings',
         name: 'ratings',
