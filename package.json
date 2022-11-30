@@ -2,7 +2,7 @@
   "name": "gamification-frontend",
   "version": "0.7.0",
   "description": "Gamification app frontend",
-  "productName": "Achiev`ki",
+  "productName": "Achievit",
   "author": "Artem Shuvaev <shuvaevlol@gmail.com>",
   "private": true,
   "scripts": {

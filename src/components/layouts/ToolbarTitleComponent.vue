@@ -6,6 +6,6 @@
       size="md"
       class="bg-light-blue-1 g-rounded q-pa-sm"
     />
-    Achiev`ki
+    Achievit
   </q-toolbar-title>
 </template>
