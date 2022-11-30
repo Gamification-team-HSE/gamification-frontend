@@ -71,6 +71,7 @@
           placeholder="example@mail.com"
           autofocus
           :error-message="$t('loginEmailError')"
+          :error="emailError"
           clearable
           type="email"
           inputmode="email"
@@ -93,12 +94,12 @@
 
       <q-card-actions class="q-pa-lg">
         <q-btn
-          v-close-popup
           label="Добавить пользователя"
           color="primary"
           no-caps
           size="lg"
           class="g-rounded full-width text-subtitle1"
+          @click="addUser"
         />
       </q-card-actions>
     </q-card>
@@ -106,7 +107,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { Role } from 'src/api/generated'
+import { graphqlSDK } from 'src/boot/grapqhl'
+import { onMounted, ref } from 'vue'
 
 const props = defineProps({
   openCreateUser: Boolean,
@@ -118,4 +121,30 @@ const emit = defineEmits<{(e: 'close'): void,
 
 const emailRef = ref('')
 const nameRef = ref('')
+
+const emailError = ref(false)
+
+const addUser = async () => {
+  if (!emailRef.value.length) return
+
+  try {
+    await graphqlSDK.CreateUser({
+      user: {
+        Name: nameRef.value.trim(),
+        Role: Role.User,
+        email: emailRef.value.trim(),
+      },
+    })
+
+    emit('close')
+  } catch (error) {
+    emailError.value = true
+    console.warn('ASD 123', (error as any).response)
+  }
+}
+
+onMounted(() => {
+  emailRef.value = ''
+  nameRef.value = ''
+})
 </script>

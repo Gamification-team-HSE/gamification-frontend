@@ -1,0 +1,4 @@
+
+mutation SendCode($email: String!) {
+  SendCode(email: $email)
+}

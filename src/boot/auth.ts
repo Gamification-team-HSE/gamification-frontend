@@ -2,7 +2,7 @@ import { boot } from 'quasar/wrappers'
 import { LocalStorageService } from 'src/services/LocalStorageService'
 import { useUserStore } from 'src/stores/userStore'
 
-export default boot(({ redirect, urlPath }) => {
+export default boot(async ({ redirect, urlPath }) => {
   const userStore = useUserStore()
 
   const authToken = LocalStorageService.get('authToken')
@@ -14,7 +14,5 @@ export default boot(({ redirect, urlPath }) => {
     return
   }
 
-  const isAdmin = Boolean(LocalStorageService.get('isAdmin'))
-
-  userStore.setAuth(authToken, isAdmin)
+  await userStore.setAuth(authToken)
 })

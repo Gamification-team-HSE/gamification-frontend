@@ -1,29 +1,18 @@
-scalar Time
+scalar Any
 
-type User {
-    id: Int!
-    foreign_id: Int!
-    email: String!
-    created_at: Time!
-    deleted_at: Time
-    role: Role!
-}
+directive @goField(forceResolver: Boolean, name: String) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
 
-enum Role {
-    admin
-    user
-}
-
-input NewUser {
-    foreign_id: Int
-    email: String!
-}
-
+directive @auth on FIELD_DEFINITION
 
 type Query {
-    GetUser(id: Int!): User!
+    GetUser(id: Int!): User! @auth @goField(forceResolver: true)
+    GetCurrentUser: User! @auth @goField(forceResolver: true)
+    GetUsers: [User!]! @auth @goField(forceResolver: true)
 }
 
 type Mutation {
-    CreateUser(user: NewUser!): User!
+    SendCode(email: String!): Any
+    VerifyCode(email: String!, code: Int!): String!
+
+    CreateUser(user: NewUser!): Any @auth @goField(forceResolver: true)
 }

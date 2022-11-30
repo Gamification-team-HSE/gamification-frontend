@@ -82,10 +82,9 @@
 </template>
 
 <script setup lang="ts">
-import { adminEmail, code } from 'src/constants/mockAuth'
+import { graphqlSDK } from 'src/boot/grapqhl'
 import { useUserStore } from 'src/stores/userStore'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 
 const emit = defineEmits<{(e: 'back'): void,
 }>()
@@ -98,7 +97,6 @@ const props = defineProps({
 })
 
 const userStore = useUserStore()
-const router = useRouter()
 
 const codeRef = ref<number>()
 const isLoading = ref(false)
@@ -106,34 +104,37 @@ const isResending = ref(false)
 const wasResended = ref(false)
 const isError = ref(false)
 
-const sendCodeAgain = () => {
+const sendCodeAgain = async () => {
   isResending.value = true
   codeRef.value = undefined
   isError.value = false
 
-  setTimeout(() => {
-    isResending.value = false
-    wasResended.value = true
-  }, 300)
+  await graphqlSDK.SendCode({
+    email: props.email,
+  })
+
+  isResending.value = false
+  wasResended.value = true
 }
 
-const tryLogin = () => {
+const tryLogin = async () => {
   isError.value = false
 
   if (!codeRef.value || codeRef.value.toString().length < 4) return
 
   isLoading.value = true
 
-  setTimeout(() => {
-    if (codeRef.value?.toString() !== code) {
-      isLoading.value = false
-      isError.value = true
-      return
-    }
+  try {
+    const res = await graphqlSDK.VerifyCode({
+      email: props.email,
+      code: codeRef.value,
+    })
 
-    userStore.setAuth('auth-token', props.email === adminEmail)
-
-    router.push({ name: 'main' })
-  }, 300)
+    await userStore.setAuth(res.VerifyCode, props.email)
+    userStore.pushToProfile()
+  } catch (error) {
+    isLoading.value = false
+    isError.value = true
+  }
 }
 </script>

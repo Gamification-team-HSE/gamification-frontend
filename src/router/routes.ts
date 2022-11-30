@@ -105,7 +105,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/EventsPage.vue'),
       },
       {
-        path: 'users/',
+        path: 'users/', // Also CRUD modal for single event
         name: 'admin.users',
         component: () => import('pages/UsersPage.vue'),
       },

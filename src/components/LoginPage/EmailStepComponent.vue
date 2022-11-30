@@ -67,8 +67,8 @@
 </template>
 
 <script setup lang="ts">
+import { graphqlSDK } from 'src/boot/grapqhl'
 import AccountNotExistsFAQModal from 'src/components/modals/AccountNotExistsFAQModal.vue'
-import { adminEmail, userEmail } from 'src/constants/mockAuth'
 import { ref } from 'vue'
 
 const emit = defineEmits<{(e: 'next', email: string): void,
@@ -81,7 +81,7 @@ const emailRef = ref('')
 const isLoading = ref(false)
 const isError = ref(false)
 
-const trySendCode = () => {
+const trySendCode = async () => {
   isLoading.value = true
 
   const email = emailRef.value.trim()
@@ -91,16 +91,10 @@ const trySendCode = () => {
     return
   }
 
-  setTimeout(() => {
-    isLoading.value = false
+  await graphqlSDK.SendCode({
+    email,
+  })
 
-    if (email !== userEmail && email !== adminEmail) {
-      isError.value = true
-      return
-    }
-
-    emit('next', email)
-  }, 300)
+  emit('next', email)
 }
-
 </script>
