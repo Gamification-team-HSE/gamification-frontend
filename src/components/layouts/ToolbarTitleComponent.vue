@@ -1,10 +1,9 @@
 <template>
   <q-toolbar-title class="text-h4 q-ml-md ">
     <q-icon
-      name="sym_o_trending_up"
+      name="img:/znachok.png"
       color="primary"
-      size="md"
-      class="bg-light-blue-1 g-rounded q-pa-sm"
+      size="xl"
     />
     Achievit
   </q-toolbar-title>
