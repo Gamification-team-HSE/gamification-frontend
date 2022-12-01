@@ -2,7 +2,7 @@ import { GraphQLClient } from 'graphql-request'
 import { getSdk } from 'src/api/generated'
 import { useUserStore } from 'src/stores/userStore'
 
-export const client = new GraphQLClient('http://vartose.fvds.ru/gapi/v1/query', {
+export const client = new GraphQLClient(`${process.env.API}/gapi/v1/query`, {
   // credentials: 'include',
 })
 
