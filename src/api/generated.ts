@@ -99,7 +99,7 @@ export type GetUserQuery = { __typename?: 'Query', GetUser: { __typename?: 'User
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', GetUsers: Array<{ __typename?: 'User', email: string, name?: string | null | undefined, role: Role, id: number, avatar?: string | null | undefined }> };
+export type GetUsersQuery = { __typename?: 'Query', GetUsers: Array<{ __typename?: 'User', email: string, name?: string | null | undefined, role: Role, id: number, avatar?: string | null | undefined, created_at: any, deleted_at?: any | null | undefined }> };
 
 export type SendCodeMutationVariables = Exact<{
   email: Scalars['String'];
@@ -150,6 +150,8 @@ export const GetUsersDocument = gql`
     role
     id
     avatar
+    created_at
+    deleted_at
   }
 }
     `;

@@ -29,6 +29,7 @@ export const useUserStore = defineStore('user', {
   }),
   getters: {
     isAdmin: (state) => state.role !== Role.User,
+    canCreateAdmin: (state) => state.role === Role.SuperAdmin,
   },
   actions: {
     async setAuth(authToken: State['authToken'], email: State['email'] = null) {

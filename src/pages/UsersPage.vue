@@ -4,49 +4,99 @@
     padding
   >
     <div class=" col-lg-6 col-xl-5 col-md-8 col-sm-8 col-11 q-gutter-y-lg">
-      <q-input
-        v-model="filter"
-        outlined
-        class="full-width text-subtitle1"
-        bottom-slots
-        placeholder="Find by name"
-        autofocus
-        clearable
+      <HeaderCardComponent
+        :is-loading="isLoading"
+        :filter="filter"
+        :mode="mode"
+        @change-filter="changeFilter"
+        @switch-mode="switchMode"
       />
-      <q-card
-        v-for="user, index in usersByName"
-        :key="index"
+
+      <template v-if="!isLoading">
+        <SearchNotFoundComponent v-if="!filteredUsers.length" />
+
+        <UsersList
+          v-else
+          :mode="mode"
+          :users="filteredUsers"
+        />
+      </template>
+      <div
+        v-else
+        class="row justify-center q-mt-xl"
       >
-        <q-card-section>
-          {{
-            user.name
-          }}
-        </q-card-section>
-        <q-card-section>
-          {{
-            user.email
-          }}
-        </q-card-section>
-      </q-card>
+        <q-spinner
+          color="primary"
+          size="7em"
+        />
+      </div>
     </div>
   </q-page>
 </template>
 
 <script lang="ts" setup>
-import { User } from 'src/api/generated'
+import { Role, type User } from 'src/api/generated'
 import { graphqlSDK } from 'src/boot/grapqhl'
+import HeaderCardComponent from 'src/components/UsersPage/HeaderCardComponent.vue'
+import SearchNotFoundComponent from 'src/components/UsersPage/SearchNotFoundComponent.vue'
+import { Mode } from 'src/components/UsersPage/types'
+import UsersList from 'src/components/UsersPage/UsersList.vue'
 import {
   computed, reactive, ref,
 } from 'vue'
 
+const mode = ref<Mode>('active')
+const isLoading = ref(true)
 const users = reactive<Array<Partial<User>>>([])
-
 const filter = ref('')
 
-const usersByName = computed(() => users.filter((user) => user.name?.includes(filter.value)))
+const filtersByMode = {
+  active: {
+    shouldBeDeleted: false,
+    roles: [Role.User],
+  },
+  deleted: {
+    shouldBeDeleted: true,
+    roles: [Role.User],
+  },
+  admins: {
+    shouldBeDeleted: false,
+    roles: [Role.Admin, Role.SuperAdmin],
+  },
+}
 
-graphqlSDK.GetUsers().then((res) => {
-  users.push(...res.GetUsers)
+const filteredUsers = computed(() => {
+  const filterByMode = filtersByMode[mode.value]
+
+  const localUsers = users.filter((user) => {
+    const emailInFilter = user.email?.includes(filter.value)
+    if (!emailInFilter) return false
+
+    const userRole = user.role
+    if (!userRole) return false
+
+    const userCorrectDeletedByFilter = (filterByMode.shouldBeDeleted ? user.deleted_at : !user.deleted_at)
+    if (!userCorrectDeletedByFilter) return false
+
+    const userCorrectRoleByFilter = filterByMode.roles.includes(userRole)
+    return userCorrectRoleByFilter
+  })
+
+  return localUsers
 })
 
+graphqlSDK.GetUsers().then((res) => {
+  users.push(...res.GetUsers.reverse())
+  isLoading.value = false
+})
+
+const switchMode = (newMode: Mode): void => {
+  if (newMode === mode.value) return
+
+  mode.value = newMode
+}
+
+const changeFilter = (newValue: string): void => {
+  filter.value = newValue
+}
 </script>

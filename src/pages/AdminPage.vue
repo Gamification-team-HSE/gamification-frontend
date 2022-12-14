@@ -15,10 +15,10 @@
 </template>
 
 <script lang="ts" setup>
-import MainCardComponent from 'src/components/admin/MainCardComponent.vue'
-import UsersCardComponent from 'src/components/admin/UsersCardComponent.vue'
-import RatingsCardComponent from 'src/components/admin/RatingsCardComponent.vue'
-import AchievementsCardComponent from 'src/components/admin/AchievementsCardComponent.vue'
-import EventsCardComponent from 'src/components/admin/EventsCardComponent.vue'
-import StatsCardComponent from 'src/components/admin/StatsCardComponent.vue'
+import MainCardComponent from 'src/components/AdminPage/MainCardComponent.vue'
+import UsersCardComponent from 'src/components/AdminPage/UsersCardComponent.vue'
+import RatingsCardComponent from 'src/components/AdminPage/RatingsCardComponent.vue'
+import AchievementsCardComponent from 'src/components/AdminPage/AchievementsCardComponent.vue'
+import EventsCardComponent from 'src/components/AdminPage/EventsCardComponent.vue'
+import StatsCardComponent from 'src/components/AdminPage/StatsCardComponent.vue'
 </script>

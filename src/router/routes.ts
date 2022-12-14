@@ -47,7 +47,7 @@ const routes: RouteRecordRaw[] = [
 
       if (userStore.isAdmin) {
         const nextName = to?.name ?? 'main'
-        next({ name: `admin.${nextName.toString()}` })
+        next({ name: `admin.${nextName.toString()}`, params: to.params })
         return
       }
 

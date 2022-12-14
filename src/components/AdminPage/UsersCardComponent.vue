@@ -49,6 +49,7 @@
   </q-card>
 
   <AddUserModal
+    v-if="openCreateUser"
     :open-create-user="openCreateUser"
     @close="openCreateUser = false"
     @open-excel="openCreateUser = false"

@@ -9,6 +9,7 @@
   --bg-main: #{$grey-2};
 
   --shadows: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  --shadows-hover: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
 }
 
 .body--dark {
@@ -20,6 +21,7 @@
   --bg-main: var(--q-dark-page);
 
   --shadows: rgba(132, 132, 132, 0.3) 0px 1px 2px 0px;
+  --shadows-hover: rgba(132, 132, 132, 0.5) 0px 1px 2px 0px;
 }
 
 .bg-header {
@@ -54,4 +56,8 @@
 
 .g-shadow {
   box-shadow: var(--shadows);
+}
+
+.g-shadow:hover.g-shadow-hover {
+  box-shadow: var(--shadows-hover);
 }

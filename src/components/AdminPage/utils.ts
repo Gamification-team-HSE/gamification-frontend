@@ -6,7 +6,7 @@ export const useUtils = () => {
   const showNotImplemented = () => {
     $q.notify({
       icon: 'sym_o_bug_report',
-      message: 'Chill out',
+      message: 'Please wait',
       caption: 'Feature in progress',
       timeout: 2000,
       position: 'top-right',

@@ -4,6 +4,8 @@ query GetUsers {
     name,
     role,
     id,
-    avatar
+    avatar,
+    created_at,
+    deleted_at
   }
 }

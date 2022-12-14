@@ -69,12 +69,11 @@
 <script setup lang="ts">
 import { graphqlSDK } from 'src/boot/grapqhl'
 import AccountNotExistsFAQModal from 'src/components/modals/AccountNotExistsFAQModal.vue'
+import { validateEmail } from 'src/utils/utils'
 import { ref } from 'vue'
 
 const emit = defineEmits<{(e: 'next', email: string): void,
 }>()
-
-const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/
 
 const userNotExistDialog = ref(false)
 const emailRef = ref('')
@@ -83,18 +82,23 @@ const isError = ref(false)
 
 const trySendCode = async () => {
   isLoading.value = true
+  emailRef.value = emailRef.value.trim()
 
-  const email = emailRef.value.trim()
-  if (!emailPattern.test(email)) {
+  if (!validateEmail(emailRef.value)) {
     isError.value = true
     isLoading.value = false
     return
   }
 
-  await graphqlSDK.SendCode({
-    email,
-  })
+  try {
+    await graphqlSDK.SendCode({
+      email: emailRef.value,
+    })
 
-  emit('next', email)
+    emit('next', emailRef.value)
+  } catch (error) {
+    isError.value = true
+    isLoading.value = false
+  }
 }
 </script>
