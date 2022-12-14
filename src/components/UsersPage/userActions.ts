@@ -1,11 +1,20 @@
 import { useQuasar } from 'quasar'
 import { User } from 'src/api/generated'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Mode } from './types'
 
 export const useUserActions = () => {
   const i18n = useI18n()
   const $q = useQuasar()
+
+  const openEditModal = ref(false)
+  const openIdForEditing = ref<number | undefined>(undefined)
+
+  const closeEditModal = (): void => {
+    openEditModal.value = false
+    openIdForEditing.value = undefined
+  }
 
   const deleteUser = (mode: Mode, userId?: User['id']): void => {
     if (!userId) throw new Error('User doesnt have an ID')
@@ -50,25 +59,21 @@ export const useUserActions = () => {
       class: 'g-rounded',
       position: $q.platform.is.mobile ? 'bottom' : 'standard',
     }).onOk(() => {
-      // eslint-disable-next-line no-console
-      console.warn('ASD CONFIRM DELETE', userId)
+      $q.notify({
+        icon: 'sym_o_delete',
+        message: 'Success blocking',
+        timeout: 2000,
+        position: 'top-right',
+        color: 'primary',
+      })
     })
   }
 
   const editUser = (userId?: User['id']): void => {
     if (!userId) throw new Error('User doesnt have an ID')
 
-    // eslint-disable-next-line no-console
-    console.warn('ASd edit', userId)
-
-    $q.notify({
-      icon: 'sym_o_bug_report',
-      message: 'Please wait',
-      caption: 'Feature in progress',
-      timeout: 2000,
-      position: 'top-right',
-      color: 'primary',
-    })
+    openEditModal.value = true
+    openIdForEditing.value = userId
   }
 
   const recoverUser = (mode: Mode, userId?: User['id']): void => {
@@ -99,10 +104,17 @@ export const useUserActions = () => {
       class: 'g-rounded',
       position: $q.platform.is.mobile ? 'bottom' : 'standard',
     }).onOk(() => {
-      // eslint-disable-next-line no-console
-      console.warn('ASD CONFIRM RECOVERING', userId)
+      $q.notify({
+        icon: 'sym_o_settings_backup_restore',
+        message: 'Success restoring',
+        timeout: 2000,
+        position: 'top-right',
+        color: 'primary',
+      })
     })
   }
 
-  return { editUser, recoverUser, deleteUser }
+  return {
+    editUser, recoverUser, deleteUser, openEditModal, openIdForEditing, closeEditModal,
+  }
 }

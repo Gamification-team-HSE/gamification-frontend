@@ -83,5 +83,4 @@ const emit = defineEmits<{(e: 'switchMode', mode: Mode): void,
 }>()
 
 const userStore = useUserStore()
-
 </script>

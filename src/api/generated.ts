@@ -94,7 +94,7 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', GetUser: { __typename?: 'User', email: string, created_at: any, id: number } };
+export type GetUserQuery = { __typename?: 'Query', GetUser: { __typename?: 'User', email: string, name?: string | null | undefined, created_at: any, id: number } };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -137,6 +137,7 @@ export const GetUserDocument = gql`
     query GetUser($id: Int!) {
   GetUser(id: $id) {
     email
+    name
     created_at
     id
   }

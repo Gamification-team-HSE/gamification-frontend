@@ -6,3 +6,9 @@ export const validateEmail = (email: string): boolean => {
 
   return emailPattern.test(trimmed)
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const logError = (error: unknown, ...params: any[]) : void => {
+  // eslint-disable-next-line no-console
+  console.error(error, params)
+}

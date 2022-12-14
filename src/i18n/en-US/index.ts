@@ -67,11 +67,15 @@ export default {
   adminWithoutUsername: 'Admins have not username',
   userAdded: 'User created',
 
+  // Edit user modal
+  editUserHeader: 'User editing',
+  saveChanges: 'Save Changes',
+
   // Users page
   usersList: 'List of users',
   searchByEmail: 'Search by email',
   activeUsers: 'Active ({count})',
-  deletedUsers: 'Deleted ({count})',
+  deletedUsers: 'Blocked ({count})',
   adminsUsers: 'Administrators ({count})',
   notFoundByFilter: 'Nothing found for your request',
   added: 'Added',

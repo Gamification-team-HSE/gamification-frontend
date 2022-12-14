@@ -61,6 +61,12 @@
         </q-tooltip>
       </q-btn>
     </template>
+    <EditUserModal
+      v-if="openEditModal"
+      :open-modal="openEditModal"
+      :user-id="openIdForEditing"
+      @close="closeEditModal"
+    />
   </div>
 </template>
 
@@ -70,6 +76,7 @@ import { useUserStore } from 'src/stores/userStore'
 import { PropType } from 'vue'
 import { useUserActions } from './userActions'
 import { Mode } from './types'
+import EditUserModal from '../modals/EditUserModal.vue'
 
 defineProps({
   user: {
@@ -84,6 +91,9 @@ defineProps({
 
 const {
   editUser, recoverUser, deleteUser,
+  openEditModal,
+  openIdForEditing,
+  closeEditModal,
 } = useUserActions()
 const userStore = useUserStore()
 

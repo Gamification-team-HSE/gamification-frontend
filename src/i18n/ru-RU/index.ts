@@ -57,7 +57,7 @@ export default {
   addSeveralUsers: 'Для добавления сразу нескольких пользователей',
   addUserGoToExcelMode: 'Перейти к добавлению из Excel',
   fillInfoAboutUser: 'Заполните информацию о пользователе',
-  onlyAdminCanChangeEmail: 'Почту сможет поменять только администратор',
+  onlyAdminCanChangeEmail: 'Почту может менять только администратор',
   usernamePlaceholder: 'Имя в системе, например - ФИО',
   itsRequiredField: 'Это обязательное поле',
   userCanChangeLater: 'Пользователь сможет поменять позже',
@@ -67,11 +67,15 @@ export default {
   adminWithoutUsername: 'Администраторам это поле не нужно',
   userAdded: 'Пользователь создан',
 
+  // Edit user modal
+  editUserHeader: 'Изменение пользователя',
+  saveChanges: 'Сохранить изменения',
+
   // Users page
   usersList: 'Список пользователей',
   searchByEmail: 'Поиск по email',
   activeUsers: 'Активные ({count})',
-  deletedUsers: 'Удаленные ({count})',
+  deletedUsers: 'Заблокированные ({count})',
   adminsUsers: 'Администраторы ({count})',
   notFoundByFilter: 'По вашему запросу ничего не найдено',
   added: 'Добавлен',

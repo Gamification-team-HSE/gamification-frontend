@@ -142,7 +142,7 @@ import { useQuasar } from 'quasar'
 import { Role } from 'src/api/generated'
 import { graphqlSDK } from 'src/boot/grapqhl'
 import { useUserStore } from 'src/stores/userStore'
-import { validateEmail } from 'src/utils/utils'
+import { logError, validateEmail } from 'src/utils/utils'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -201,7 +201,7 @@ const addUser = async () => {
     emit('close')
   } catch (error) {
     emailError.value = true
-    console.warn('ASD 123', (error as any).response)
+    logError('Creating user error', (error as any).response)
   }
 }
 </script>
