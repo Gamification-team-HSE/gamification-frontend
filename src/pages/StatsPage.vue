@@ -1,5 +1,5 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    stats
+    stats 2
   </q-page>
 </template>
