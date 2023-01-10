@@ -3,6 +3,7 @@ scalar Any
 directive @goField(forceResolver: Boolean, name: String) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
 
 directive @auth on FIELD_DEFINITION
+directive @adminOnly on FIELD_DEFINITION
 
 type Query {
     GetUser(id: Int!): User! @auth @goField(forceResolver: true)
@@ -15,4 +16,6 @@ type Mutation {
     VerifyCode(email: String!, code: Int!): String!
 
     CreateUser(user: NewUser!): Any @auth @goField(forceResolver: true)
+
+    CreateStat(stat: NewStat!): Any @auth @adminOnly @goField(forceResolver: true)
 }

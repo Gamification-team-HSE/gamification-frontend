@@ -19,9 +19,15 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  CreateStat?: Maybe<Scalars['Any']>;
   CreateUser?: Maybe<Scalars['Any']>;
   SendCode?: Maybe<Scalars['Any']>;
   VerifyCode: Scalars['String'];
+};
+
+
+export type MutationCreateStatArgs = {
+  stat: NewStat;
 };
 
 
@@ -38,6 +44,14 @@ export type MutationSendCodeArgs = {
 export type MutationVerifyCodeArgs = {
   code: Scalars['Int'];
   email: Scalars['String'];
+};
+
+export type NewStat = {
+  description?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  period?: InputMaybe<Scalars['String']>;
+  seq_period?: InputMaybe<Scalars['String']>;
+  start_at?: InputMaybe<Scalars['Time']>;
 };
 
 export type NewUser = {
@@ -64,6 +78,17 @@ export enum Role {
   SuperAdmin = 'super_admin',
   User = 'user'
 }
+
+export type Stat = {
+  __typename?: 'Stat';
+  created_at: Scalars['Time'];
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  period: Scalars['String'];
+  seq_period?: Maybe<Scalars['String']>;
+  start_at: Scalars['Time'];
+};
 
 export type User = {
   __typename?: 'User';

@@ -38,7 +38,7 @@
 import { Role, type User } from 'src/api/generated'
 import { graphqlSDK } from 'src/boot/grapqhl'
 import HeaderCardComponent from 'src/components/UsersPage/HeaderCardComponent.vue'
-import SearchNotFoundComponent from 'src/components/UsersPage/SearchNotFoundComponent.vue'
+import SearchNotFoundComponent from 'src/components/SearchNotFoundComponent.vue'
 import { Mode } from 'src/components/UsersPage/types'
 import UsersList from 'src/components/UsersPage/UsersList.vue'
 import {
