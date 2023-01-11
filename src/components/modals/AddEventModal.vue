@@ -47,41 +47,87 @@
           v-model="eventNameRef"
           outlined
           class="full-width text-subtitle1"
-          bottom-slots
           :placeholder="$t('eventNamePlaceholder')"
           autofocus
           clearable
-          :error="eventNameError"
           type="text"
           autocomplete="off"
           tabindex="1"
-          @update:model-value="eventNameError = false"
           @keyup.prevent.enter="addEvent"
         />
         <q-input
           v-model="eventDescRef"
           outlined
           class="full-width text-subtitle1"
-          bottom-slots
           :placeholder="$t('eventDescPlaceholder')"
           autofocus
           clearable
-          :error="eventDescError"
           type="text"
           autocomplete="off"
-          tabindex="1"
-          @update:model-value="eventDescError = false"
+          tabindex="2"
           @keyup.prevent.enter="addEvent"
         />
+
+        <div class="row no-wrap justify-between q-mt-md">
+          <q-file
+            v-model="eventImage"
+            :label="$t('fileUpload')"
+            class="self-start"
+            counter
+            outlined
+            tabindex="3"
+            accept=".jpg, .pdf, image/*"
+            max-files="1"
+            style="max-width: 43%"
+          >
+            <template #prepend>
+              <q-icon name="sym_o_attach_file" />
+            </template>
+          </q-file>
+
+          <q-input
+            outlined
+            :placeholder="$t('eventDatePlaceholder')"
+            :model-value="`${dateRange.from}` == `${dateRange.to}` ? `${dateRange}` : `${dateRange.from} - ${dateRange.to}`"
+            style="max-width: 55%"
+            tabindex="4"
+          >
+            <template #append>
+              <q-icon
+                name="sym_o_date_range"
+                class="cursor-pointer"
+              >
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date
+                    v-model="dateRange"
+                    range
+                  >
+                    <div class="row items-center justify-end">
+                      <q-btn
+                        v-close-popup
+                        label="Close"
+                        flat
+                      />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+        </div>
       </q-card-section>
 
-      <q-card-actions class="q-px-lg q-pb-lg q-pt-none">
+      <q-card-actions class="q-px-lg q-py-lg">
         <q-btn
           :label="$t('addEvent')"
           color="primary"
           no-caps
           size="lg"
-          tabindex="2"
+          tabindex="5"
           class="g-rounded full-width text-subtitle1"
           @click="addEvent"
         />
@@ -113,11 +159,10 @@ const i18n = useI18n()
 
 const eventNameRef = ref('')
 const eventDescRef = ref('')
+const eventImage = ref(null)
+const dateRange = ref({ from: '2023/01/01', to: '2023/01/05' })
 
 const isAdmin = ref(false)
-
-const eventNameError = ref(false)
-const eventDescError = ref(false)
 
 const addEvent = async () => {
   // emailRef.value = emailRef.value.trim()

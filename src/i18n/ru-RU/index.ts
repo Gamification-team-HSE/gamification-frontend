@@ -101,5 +101,7 @@ export default {
   eventNamePlaceholder: 'Название события, например, Новый год 2023',
   eventDescPlaceholder: 'Описание события',
   eventRequiredField: 'Это обязательное поле',
+  fileUpload: 'Выберите изображение',
+  eventDatePlaceholder: 'ГГГГ/ММ/ДД - ГГГГ/ММ/ДД',
   addEvent: 'Добавить событие',
 }

@@ -101,5 +101,7 @@ export default {
   eventNamePlaceholder: 'Event name, e.g. New Year 2023',
   eventDescPlaceholder: 'Event description',
   eventRequiredField: 'It is required field',
+  fileUpload: 'Choose image',
+  eventDatePlaceholder: 'YYYY/MM/DD - YYYY/MM/DD',
   addEvent: 'Add event',
 }
