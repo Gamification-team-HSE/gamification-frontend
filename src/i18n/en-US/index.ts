@@ -94,4 +94,12 @@ export default {
   unblock: 'Unblock',
   recoverUserConfirmTitle: 'User recover',
   recoverUserConfirmMessage: 'Restore the user to the system. You can always block it again.',
+
+  // Add event modal
+  addEventHeader: 'Creating event',
+  fillEventInfo: 'Fill event information, please',
+  eventNamePlaceholder: 'Event name, e.g. New Year 2023',
+  eventDescPlaceholder: 'Event description',
+  eventRequiredField: 'It is required field',
+  addEvent: 'Add event',
 }
