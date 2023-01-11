@@ -104,4 +104,7 @@ export default {
   fileUpload: 'Choose image',
   eventDatePlaceholder: 'YYYY/MM/DD - YYYY/MM/DD',
   addEvent: 'Add event',
+
+  // Edit event modal
+  editEventHeader: 'Event editing',
 }

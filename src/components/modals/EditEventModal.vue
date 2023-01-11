@@ -1,6 +1,6 @@
 <template>
   <q-dialog
-    :model-value="props.openCreateEvent"
+    :model-value="props.openEditEvent"
     :full-width="$q.platform.is.mobile"
     :position="$q.platform.is.mobile ? 'bottom' : 'standard'"
     @update:model-value="emit('close')"
@@ -11,7 +11,7 @@
     >
       <q-card-section class="row items-center no-wrap q-py-md">
         <q-icon
-          name="sym_o_add"
+          name="sym_o_edit"
           size="lg"
           color="primary"
           class="q-mr-xs"
@@ -20,7 +20,7 @@
           class="text-primary"
           :class="$q.platform.is.mobile ? 'text-h6' : 'text-h5'"
         >
-          {{ $t('addEventHeader') }}
+          {{ $t('editEventHeader') }}
         </div>
         <q-space />
         <q-btn
@@ -35,37 +35,38 @@
       <q-separator />
 
       <q-card-section class="q-px-lg q-pt-lg column q-gutter-y-md q-pb-none text-subtitle1">
-        <div class="row no-wrap items-center q-mt-md">
-          <q-icon
-            name="sym_o_event"
-            class="q-mr-sm"
-            size="md"
-          />
-          <span>{{ $t('fillEventInfo') }}</span>
-        </div>
         <q-input
           v-model="eventNameRef"
-          outlined
           class="full-width text-subtitle1"
+          outlined
+          bottom-slots
           :placeholder="$t('eventNamePlaceholder')"
+          :hint="$t('itsRequiredField')"
+          :error-message="$t('itsRequiredField')"
+          :clearable="!eventNameRef || eventNameRef !== oldEventName"
+          :error="eventNameError"
           autofocus
-          clearable
+          clear-icon="sym_o_restart_alt"
           type="text"
           autocomplete="off"
           tabindex="1"
-          @keyup.prevent.enter="addEvent"
+          @update:model-value="eventNameError = false"
+          @clear="restoreEventName"
+          @keyup.prevent.enter="editEvent"
         />
         <q-input
           v-model="eventDescRef"
-          outlined
           class="full-width text-subtitle1"
+          outlined
+          bottom-slots
           :placeholder="$t('eventDescPlaceholder')"
+          :clearable="!eventDescRef || eventDescRef !== oldEventDesc"
           autofocus
-          clearable
           type="text"
           autocomplete="off"
           tabindex="2"
-          @keyup.prevent.enter="addEvent"
+          @clear="restoreEventDesc"
+          @keyup.prevent.enter="editEvent"
         />
 
         <div class="row no-wrap justify-between q-mt-md">
@@ -89,8 +90,10 @@
             outlined
             :placeholder="$t('eventDatePlaceholder')"
             :model-value="`${dateRange.from}` == `${dateRange.to}` ? `${dateRange}` : `${dateRange.from} - ${dateRange.to}`"
+            :clearable="!dateRange || dateRange !== oldDateRange"
             style="max-width: 55%"
             tabindex="4"
+            @clear="restoreDateRange"
           >
             <template #append>
               <q-icon
@@ -123,13 +126,13 @@
 
       <q-card-actions class="q-px-lg q-py-lg">
         <q-btn
-          :label="$t('addEvent')"
+          :label="$t('saveChanges')"
           color="primary"
           no-caps
           size="lg"
           tabindex="5"
           class="g-rounded full-width text-subtitle1"
-          @click="addEvent"
+          @click="editEvent"
         />
       </q-card-actions>
     </q-card>
@@ -139,11 +142,14 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
 import { graphqlSDK } from 'src/boot/grapqhl'
-import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { PropType, ref } from 'vue'
 
 const props = defineProps({
-  openCreateEvent: Boolean,
+  openEditEvent: Boolean,
+  eventId: {
+    type: Number as PropType<Event['id']> | undefined,
+    default: undefined,
+  },
 })
 
 const emit = defineEmits<{(e: 'close'): void,
@@ -153,38 +159,51 @@ const emit = defineEmits<{(e: 'close'): void,
 const $q = useQuasar()
 
 const eventNameRef = ref('')
+const oldEventName = ref('')
 const eventDescRef = ref('')
+const oldEventDesc = ref('')
 const eventImage = ref(null)
+const oldEventImage = ref(null)
 const dateRange = ref({ from: '2023/01/01', to: '2023/01/05' })
+const oldDateRange = ref({ from: '2023/01/01', to: '2023/01/05' })
 
-const addEvent = async () => {
+const eventNameError = ref(false)
 
-  // eventNameRef.value = eventNameRef.value.trim()
-  // if (!eventNameRef.value.length) {
-  //   eventNameError.value = true
-  //   return
-  // }
+const restoreEventName = (): void => {
+  eventNameRef.value = oldEventName.value
+}
 
-  // try {
-  //   await graphqlSDK.CreateEvent({
-  //     event: {
-  //       Name: eventNameRef.value,
-  //       Description: eventDescRef.value,
-  //     },
-  //   })
+const restoreEventDesc = (): void => {
+  eventDescRef.value = oldEventDesc.value
+}
 
-  //   $q.notify({
-  //     icon: 'sym_o_calendar_add_on',
-  //     message: i18n.t('eventAdded'),
-  //     timeout: 2000,
-  //     position: 'top-right',
-  //     color: 'primary',
-  //   })
+const restoreDateRange = (): void => {
+  dateRange.value = oldDateRange.value
+}
 
-  //   emit('close')
-  // } catch (error) {
-  //   emailError.value = true
-  //   logError('Creating event error', (error as any).response)
-  // }
+const editEvent = (): void => {
+  eventNameRef.value = eventNameRef.value.trim()
+  if (!eventNameRef.value.length) {
+    eventNameError.value = true
+    return
+  }
+
+  if (eventNameRef.value === oldEventName.value && eventDescRef.value === oldEventDesc.value && eventImage.value === oldEventImage.value && dateRange.value === oldDateRange.value) {
+    $q.notify({
+      icon: 'sym_o_close',
+      message: 'Nothing changed',
+      timeout: 2000,
+      position: 'top-right',
+      color: 'warning',
+    })
+  } else {
+    $q.notify({
+      icon: 'sym_o_edit',
+      message: 'Success editing',
+      timeout: 2000,
+      position: 'top-right',
+      color: 'primary',
+    })
+  }
 }
 </script>

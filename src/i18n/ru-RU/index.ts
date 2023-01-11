@@ -104,4 +104,7 @@ export default {
   fileUpload: 'Выберите изображение',
   eventDatePlaceholder: 'ГГГГ/ММ/ДД - ГГГГ/ММ/ДД',
   addEvent: 'Добавить событие',
+
+  // Edit event modal
+  editEventHeader: 'Изменение события',
 }
