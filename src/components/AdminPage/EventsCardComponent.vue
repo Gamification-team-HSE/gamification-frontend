@@ -24,7 +24,7 @@
         class="g-rounded"
         icon="sym_o_add"
         :label="$t('adminAddEvent')"
-        @click="showNotImplemented"
+        @click="openCreateEvent = true"
       />
       <q-btn
         no-caps
@@ -37,10 +37,20 @@
       />
     </q-card-actions>
   </q-card>
+
+  <AddEventModal
+    v-if="openCreateEvent"
+    :open-create-event="openCreateEvent"
+    @close="openCreateEvent = false"
+  />
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useUtils } from './utils'
+import AddEventModal from '../modals/AddEventModal.vue'
 
 const { showNotImplemented } = useUtils()
+
+const openCreateEvent = ref(false)
 </script>

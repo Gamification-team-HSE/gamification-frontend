@@ -94,4 +94,17 @@ export default {
   unblock: 'Разблокировать',
   recoverUserConfirmTitle: 'Разблокировка пользователя',
   recoverUserConfirmMessage: 'Восстановить пользователя в систему. Вы всегда можете заблокировать его снова.',
+
+  // Add event modal
+  addEventHeader: 'Добавление события',
+  fillEventInfo: 'Заполните информацию о событии',
+  eventNamePlaceholder: 'Название события, например, Новый год 2023',
+  eventDescPlaceholder: 'Описание события',
+  eventRequiredField: 'Это обязательное поле',
+  fileUpload: 'Выберите изображение',
+  eventDatePlaceholder: 'ГГГГ/ММ/ДД - ГГГГ/ММ/ДД',
+  addEvent: 'Добавить событие',
+
+  // Edit event modal
+  editEventHeader: 'Изменение события',
 }
