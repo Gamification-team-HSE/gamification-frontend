@@ -141,13 +141,12 @@
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
-import { graphqlSDK } from 'src/boot/grapqhl'
-import { PropType, ref } from 'vue'
+import { ref } from 'vue'
 
 const props = defineProps({
   openEditEvent: Boolean,
   eventId: {
-    type: Number as PropType<Event['id']> | undefined,
+    type: Number, // TODO
     default: undefined,
   },
 })

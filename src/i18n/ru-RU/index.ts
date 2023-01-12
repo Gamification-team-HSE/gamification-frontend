@@ -102,7 +102,7 @@ export default {
   eventDescPlaceholder: 'Описание события',
   eventRequiredField: 'Это обязательное поле',
   fileUpload: 'Выберите изображение',
-  eventDatePlaceholder: 'ГГГГ/ММ/ДД - ГГГГ/ММ/ДД',
+  eventDatePlaceholder: 'ДД.ММ.ГГГГ - ДД.ММ.ГГГГ',
   addEvent: 'Добавить событие',
 
   // Edit event modal

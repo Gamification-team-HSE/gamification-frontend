@@ -35,7 +35,7 @@
       <q-separator />
 
       <q-card-section class="q-px-lg q-pt-lg column q-gutter-y-md q-pb-none text-subtitle1">
-        <div class="row no-wrap items-center q-mt-md">
+        <div class="row no-wrap text-subtitle1 items-center q-mt-md">
           <q-icon
             name="sym_o_event"
             class="q-mr-sm"
@@ -88,7 +88,7 @@
           <q-input
             outlined
             :placeholder="$t('eventDatePlaceholder')"
-            :model-value="`${dateRange.from}` == `${dateRange.to}` ? `${dateRange}` : `${dateRange.from} - ${dateRange.to}`"
+            :model-value="dateStringComputed"
             style="max-width: 55%"
             tabindex="4"
           >
@@ -105,6 +105,7 @@
                   <q-date
                     v-model="dateRange"
                     range
+                    mask="DD.MM.YYYY"
                   >
                     <div class="row items-center justify-end">
                       <q-btn
@@ -139,7 +140,7 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
 import { graphqlSDK } from 'src/boot/grapqhl'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
@@ -147,15 +148,28 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{(e: 'close'): void,
-  (e: 'openExcel'): void
 }>()
 
 const $q = useQuasar()
 
+const today = new Date()
+const currentDate = today.toLocaleDateString('ru-RU')
+
+today.setDate(today.getDate() + 1)
+const nextDate = today.toLocaleDateString('ru-RU')
+
 const eventNameRef = ref('')
 const eventDescRef = ref('')
 const eventImage = ref(null)
-const dateRange = ref({ from: '2023/01/01', to: '2023/01/05' })
+const dateRange = ref<string | {from: string, to: string}>({ from: currentDate, to: nextDate })
+
+const dateStringComputed = computed<string>(() => {
+  if (!dateRange.value) return ''
+
+  if (typeof dateRange.value === 'string') return dateRange.value
+
+  return `${dateRange.value.from} - ${dateRange.value.to}`
+})
 
 const addEvent = async () => {
 

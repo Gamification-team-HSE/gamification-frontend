@@ -102,7 +102,7 @@ export default {
   eventDescPlaceholder: 'Event description',
   eventRequiredField: 'It is required field',
   fileUpload: 'Choose image',
-  eventDatePlaceholder: 'YYYY/MM/DD - YYYY/MM/DD',
+  eventDatePlaceholder: 'DD.MM.YYYY - DD.MM.YYYY',
   addEvent: 'Add event',
 
   // Edit event modal
