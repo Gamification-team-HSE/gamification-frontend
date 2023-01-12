@@ -29,48 +29,46 @@
         :key="event.id"
         class="g-shadow g-shadow-hover g-rounded"
       >
-        <div class="row justify-around items-center q-gutter-x-md ">
-          <q-avatar size="5em">
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
-            <!-- тут потом будет картинка ивента -->
-          </q-avatar>
-          <q-card-section class="column q-pb-none">
-            <div class="text-h6">
-              {{ event.name }}
+        <q-card-section class="row justify-between items-center text-subtitle1">
+          <div class="row q-gutter-x-md">
+            <q-avatar size="5em">
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+              <!-- тут потом будет картинка ивента -->
+            </q-avatar>
+            <div class="column">
+              <div class="text-h6">
+                {{ event.name }}
+              </div>
+              <div class="text-subtitle1 q-mt-sm">
+                {{ event.description || $t('noDescription') }}
+              </div>
+              <div class="text-caption">
+                {{ $t('eventDuration') }}: {{ event.dateRange.from == event.dateRange.to ? new Date(event.dateRange.from).toLocaleDateString('ru-RU') : new Date(event.dateRange.from).toLocaleDateString('ru-RU') + '-' + new Date(event.dateRange.to).toLocaleDateString('ru-RU') }}
+              </div>
             </div>
-            <div class="text-subtitle1 q-mt-sm">
-              {{ event.description || $t('noDescription') }}
-            </div>
-            <div class="text-caption">
-              {{ $t('eventDuration') }}: {{ event.dateRange.from == event.dateRange.to ? new Date(event.dateRange.from).toLocaleDateString('ru-RU') : new Date(event.dateRange.from).toLocaleDateString('ru-RU') + '-' + new Date(event.dateRange.to).toLocaleDateString('ru-RU') }}
-            </div>
-          </q-card-section>
-          <q-card-actions class="row no-wrap">
+          </div>
+          <div class="row">
             <q-btn
               flat
               icon="sym_o_edit"
-              size="md"
+              size="xl"
               outline
               color="primary"
-              class="g-rounded full-width"
+              class="g-rounded"
               no-caps
-            >
-              {{ $t('edit') }}
-            </q-btn>
+            />
             <q-btn
               flat
               icon="sym_o_delete"
-              size="md"
+              size="xl"
               outline
               color="negative"
-              class="g-rounded full-width"
+              class="g-rounded"
               no-caps
               @click="deleteEvent(event.id)"
-            >
-              {{ $t('delete') }}
-            </q-btn>
-          </q-card-actions>
-        </div>
+            />
+          </div>
+        </q-card-section>
       </q-card>
       <SearchNotFoundComponent v-if="!filteredAndSortedArray.length" />
     </div>
