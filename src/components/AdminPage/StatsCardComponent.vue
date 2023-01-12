@@ -24,7 +24,7 @@
         class="g-rounded"
         icon="sym_o_add"
         :label="$t('adminAddStat')"
-        @click="showNotImplemented"
+        @click="isAddModalOpen = true"
       />
       <q-btn
         no-caps
@@ -37,10 +37,19 @@
       />
     </q-card-actions>
   </q-card>
+  <AddStatModal
+    v-if="isAddModalOpen"
+    :is-open="isAddModalOpen"
+    @close="isAddModalOpen = false"
+  />
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+import AddStatModal from '../modals/AddStatModal.vue'
 import { useUtils } from './utils'
 
 const { showNotImplemented } = useUtils()
+
+const isAddModalOpen = ref(false)
 </script>
