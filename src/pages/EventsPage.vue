@@ -47,7 +47,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row q-gutter-x-sm">
             <q-btn
               flat
               icon="sym_o_edit"
@@ -56,7 +56,15 @@
               color="primary"
               class="g-rounded"
               no-caps
-            />
+            >
+              <q-tooltip
+                :offset="[0,5]"
+                :delay="250"
+                transition-duration="0"
+              >
+                {{ $t('edit') }}
+              </q-tooltip>
+            </q-btn>
             <q-btn
               flat
               icon="sym_o_delete"
@@ -66,7 +74,15 @@
               class="g-rounded"
               no-caps
               @click="deleteEvent(event.id)"
-            />
+            >
+              <q-tooltip
+                :offset="[0,5]"
+                :delay="250"
+                transition-duration="0"
+              >
+                {{ $t('delete') }}
+              </q-tooltip>
+            </q-btn>
           </div>
         </q-card-section>
       </q-card>
@@ -96,7 +112,7 @@ const example1: Event = {
   name: 'Событие1',
   description: 'Описание события',
   imgUrl: 'https://cdn.quasar.dev/img/boy-avatar.png',
-  dateRange: { from: Date.now(), to: Date.now() },
+  dateRange: { from: Date.now(), to: Date.now() + 24 * 60 * 60 * 1000 },
   created_at: Date.now(),
   id: 1,
 }
@@ -105,7 +121,7 @@ const example2: Event = {
   name: 'Событие2',
   description: 'Описание события',
   imgUrl: 'https://cdn.quasar.dev/img/boy-avatar.png',
-  dateRange: { from: Date.now(), to: Date.now() },
+  dateRange: { from: Date.now(), to: Date.now() + 24 * 60 * 60 * 1000 },
   created_at: Date.now(),
   id: 2,
 }

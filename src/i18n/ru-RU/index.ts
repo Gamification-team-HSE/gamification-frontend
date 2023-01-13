@@ -111,5 +111,5 @@ export default {
   // Events page
   findByName: 'Найти по названию',
   noDescription: 'Нет описания',
-  eventDuration: 'Продолжительность:',
+  eventDuration: 'Продолжительность',
 }
