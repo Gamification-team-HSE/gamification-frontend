@@ -107,4 +107,9 @@ export default {
 
   // Edit event modal
   editEventHeader: 'Event editing',
+
+  // Events page
+  findByName: 'Find by name',
+  noDescription: 'No description',
+  eventDuration: 'Duration',
 }
