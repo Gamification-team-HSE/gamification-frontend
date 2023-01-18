@@ -217,7 +217,7 @@ const editEvent = (): void => {
       name: eventNameRef.value,
       description: eventDescRef.value,
       imgUrl: 'https://cdn.quasar.dev/img/boy-avatar.png',
-      dateRange: { from: Date.parse(dateRange.value.from), to: Date.parse(dateRange.value.to) },
+      dateRange: { from: new Date(dateRange.value.from).getTime(), to: new Date(dateRange.value.to).getTime() },
       created_at: props.event.created_at,
       id: props.event.id,
     }

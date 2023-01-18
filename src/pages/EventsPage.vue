@@ -15,7 +15,9 @@
         <EventsList
           v-else
           :events="filteredAndSortedArray"
+          :event-list="eventsArray"
           @change-event="changeEvent"
+          @delete-event-emit="deleteEventEmit"
         />
       </template>
       <div
@@ -32,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, reactive } from 'vue'
 // import { useQuasar } from 'quasar'
 import SearchNotFoundComponent from 'src/components/SearchNotFoundComponent.vue'
 import EventsList from 'src/components/EventsPage/EventsList.vue'
@@ -69,10 +71,10 @@ const example2: Event = {
   id: 2,
 }
 
-const eventsArray = ref<Event[]>([example1, example2])
+const eventsArray = reactive<Event[]>([example1, example2])
 const filterValue = ref('')
 const filteredAndSortedArray = computed<Event[]>(() => {
-  const arr = [...eventsArray.value].sort((a, b) => b.created_at - a.created_at)
+  const arr = [...eventsArray].sort((a, b) => b.created_at - a.created_at)
   const filterValueLower = filterValue.value.toLowerCase()
   return arr.filter((item) => item.name.toLowerCase().includes(filterValueLower) || item.description?.toLowerCase().includes(filterValueLower))
 })
@@ -82,10 +84,19 @@ const changeFilter = (newValue: string): void => {
 }
 
 const changeEvent = (newEvent: Event) => {
-  const oldEvent = filteredAndSortedArray.value.find(({ id }) => id === newEvent.id)
+  const oldEvent = eventsArray.find(({ id }) => id === newEvent.id)
   if (oldEvent !== undefined) {
-    const oldEventIndex = filteredAndSortedArray.value.indexOf(oldEvent)
-    filteredAndSortedArray.value[oldEventIndex] = newEvent
+    const oldEventIndex = eventsArray.indexOf(oldEvent)
+    eventsArray[oldEventIndex] = newEvent
   }
 }
+
+const deleteEventEmit = (eventToDelete: Event) => {
+  const oldEvent = eventsArray.find(({ id }) => id === eventToDelete.id)
+  if (oldEvent !== undefined) {
+    const oldEventIndex = eventsArray.indexOf(oldEvent)
+    eventsArray.splice(oldEventIndex, 1)
+  }
+}
+
 </script>

@@ -27,6 +27,7 @@
       class="g-rounded"
       no-caps
       @click="deleteEvent(event.id)"
+      @delete-event-emit="deleteEventEmit"
     >
       <q-tooltip
         :offset="[0,5]"
@@ -66,9 +67,13 @@ defineProps({
     type: Object as PropType<Event>,
     required: true,
   },
+  eventList: {
+    type: Array as PropType<Array<Event>>,
+    required: true,
+  },
 })
 
-const emit = defineEmits<{(e: 'changeEvent', value: Event): void}>()
+const emit = defineEmits<{(e: 'changeEvent', value: Event): void, (e: 'deleteEventEmit', value: Event): void}>()
 
 const {
   editEvent, deleteEvent,
@@ -81,4 +86,7 @@ const changeEvent = (newEvent: Event) => {
   emit('changeEvent', newEvent)
 }
 
+const deleteEventEmit = (eventToDelete: Event) => {
+  emit('deleteEventEmit', eventToDelete)
+}
 </script>
