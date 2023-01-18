@@ -1,0 +1,41 @@
+<template>
+  <q-card class=" g-shadow g-rounded">
+    <q-card-section class=" text-h4">
+      {{ $t('events') }}
+    </q-card-section>
+    <q-card-section>
+      <q-input
+        :model-value="props.filter"
+        outlined
+        class="full-width text-h6"
+        :placeholder="$t('findByName')"
+        autofocus
+        clearable
+        hide-bottom-space
+        :disable="isLoading"
+        :readonly="isLoading"
+        @update:model-value="value => emit('changeFilter', value?.toString() ?? '')"
+      >
+        <template #prepend>
+          <q-icon name="sym_o_search" />
+        </template>
+      </q-input>
+    </q-card-section>
+  </q-card>
+</template>
+
+<script setup lang="ts">
+
+const props = defineProps({
+  isLoading: Boolean,
+  filter: {
+    type: String,
+    required: true,
+  },
+})
+
+const emit = defineEmits<{(e: 'switchMode'): void,
+(e: 'changeFilter', filter: string): void
+}>()
+
+</script>

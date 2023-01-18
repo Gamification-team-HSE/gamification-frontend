@@ -112,4 +112,7 @@ export default {
   findByName: 'Найти по названию',
   noDescription: 'Нет описания',
   eventDuration: 'Продолжительность',
+  deleteEventTitle: 'Удалить событие',
+  deleteEventConfirm: 'Вы уверены, что хотите удалить событие?',
+  deleteEventSuccess: 'Событие удалено',
 }
