@@ -98,6 +98,7 @@
 import { useQuasar } from 'quasar'
 import { User } from 'src/api/generated'
 import { graphqlSDK } from 'src/boot/grapqhl'
+import { useUsersStore } from 'src/stores/usersStore'
 import { useUserStore } from 'src/stores/userStore'
 import { logError, validateEmail } from 'src/utils/utils'
 import {
@@ -116,6 +117,7 @@ const emit = defineEmits<{(e: 'close'): void,
 }>()
 
 const userStore = useUserStore()
+const usersStore = useUsersStore()
 const $q = useQuasar()
 
 const id = computed(() => props.userId ?? userStore.id)
@@ -141,6 +143,8 @@ const restoreName = (): void => {
 }
 
 const editUser = (): void => {
+  if (!props.userId) return
+
   isLoading.value = true
 
   emailRef.value = emailRef.value.trim()
@@ -166,6 +170,12 @@ const editUser = (): void => {
       color: 'warning',
     })
   } else {
+    usersStore.updateUser({
+      id: props.userId,
+      email: emailRef.value,
+      name: nameRef.value,
+    })
+
     $q.notify({
       icon: 'sym_o_edit',
       message: 'Success editing',

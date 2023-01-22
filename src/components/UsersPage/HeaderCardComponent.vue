@@ -33,7 +33,7 @@
         :disable="isLoading"
         @click="emit('switchMode', 'active')"
       >
-        {{ $t('activeUsers', {count: 'N'}) }}
+        {{ $t('activeUsers', {count: usersStore.totalCounters.active}) }}
       </q-btn>
       <q-btn
         v-if="userStore.isAdmin"
@@ -44,7 +44,7 @@
         :disable="isLoading"
         @click="emit('switchMode', 'deleted')"
       >
-        {{ $t('deletedUsers', {count: 'N'}) }}
+        {{ $t('deletedUsers', {count: usersStore.totalCounters.banned}) }}
       </q-btn>
       <q-btn
         v-if="userStore.canCreateAdmin"
@@ -55,13 +55,14 @@
         :disable="isLoading"
         @click="emit('switchMode', 'admins')"
       >
-        {{ $t('adminsUsers', {count: 'N'}) }}
+        {{ $t('adminsUsers', {count: usersStore.totalCounters.admins}) }}
       </q-btn>
     </q-card-section>
   </q-card>
 </template>
 
 <script setup lang="ts">
+import { useUsersStore } from 'src/stores/usersStore'
 import { useUserStore } from 'src/stores/userStore'
 import type { PropType } from 'vue'
 import type { Mode } from './types'
@@ -83,4 +84,5 @@ const emit = defineEmits<{(e: 'switchMode', mode: Mode): void,
 }>()
 
 const userStore = useUserStore()
+const usersStore = useUsersStore()
 </script>
