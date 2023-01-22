@@ -86,7 +86,7 @@ const filteredUsers = computed(() => {
 })
 
 graphqlSDK.GetUsers().then((res) => {
-  users.push(...res.GetUsers.reverse())
+  users.push(...res.GetUsers.users.reverse())
   isLoading.value = false
 })
 

@@ -1,11 +1,6 @@
-query GetUsers {
-  GetUsers {
-    email,
-    name,
-    role,
-    id,
-    avatar,
-    created_at,
-    deleted_at
+query GetUsers($pagination: Pagination, $filter: UserFilter) {
+  GetUsers(pagination: $pagination, filter: $filter) {
+    total {admins, active, banned}
+    users {id, foreign_id, email, name, created_at, deleted_at, role, avatar}
   }
 }
