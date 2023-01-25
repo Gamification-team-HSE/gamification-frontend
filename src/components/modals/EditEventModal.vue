@@ -145,16 +145,7 @@ import {
   computed, onMounted, ref, PropType,
 } from 'vue'
 import { logError } from 'src/utils/utils'
-import { useEventsStore } from 'src/stores/eventsStore'
-
-type Event = {
-  name: string,
-  description: string,
-  imgUrl: string,
-  dateRange: { from: number, to: number },
-  created_at: number,
-  id: number,
-}
+import { useEventsStore, type Event } from 'src/stores/eventsStore'
 
 const props = defineProps({
   openModal: Boolean,
@@ -168,9 +159,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits<{(e: 'close'): void,
-  (e: 'changeEvent', value: Event): void,
-}>()
+const emit = defineEmits<{(e: 'close'): void}>()
 
 const $q = useQuasar()
 const eventsStore = useEventsStore()

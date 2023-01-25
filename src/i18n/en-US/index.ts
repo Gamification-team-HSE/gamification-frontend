@@ -115,4 +115,7 @@ export default {
   deleteEventTitle: 'Delete event',
   deleteEventConfirm: 'Are you sure you want to delete event?',
   deleteEventSuccess: 'Event deleted',
+
+  // Edit stat modal
+  editStatHeader: 'Stat editing',
 }

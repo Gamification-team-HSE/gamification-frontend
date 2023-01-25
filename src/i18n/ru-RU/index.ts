@@ -115,4 +115,7 @@ export default {
   deleteEventTitle: 'Удалить событие',
   deleteEventConfirm: 'Вы уверены, что хотите удалить событие?',
   deleteEventSuccess: 'Событие удалено',
+
+  // Edit stat modal
+  editStatHeader: 'Изменение показателя',
 }
