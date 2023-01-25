@@ -145,6 +145,7 @@ import {
   computed, onMounted, ref, PropType,
 } from 'vue'
 import { logError } from 'src/utils/utils'
+import { useEventsStore } from 'src/stores/eventsStore'
 
 type Event = {
   name: string,
@@ -172,6 +173,10 @@ const emit = defineEmits<{(e: 'close'): void,
 }>()
 
 const $q = useQuasar()
+const eventsStore = useEventsStore()
+
+const newDateFrom = () => new Date(props.event.dateRange.from).toLocaleDateString('ru-RU')
+const newDateTo = () => new Date(props.event.dateRange.to).toLocaleDateString('ru-RU')
 
 const id = computed(() => props.eventId)
 const eventNameRef = ref(props.event.name)
@@ -180,8 +185,8 @@ const eventDescRef = ref(props.event.description)
 const oldEventDesc = ref(props.event.description)
 const eventImage = ref(null)
 const oldEventImage = ref(null)
-const dateRange = ref({ from: new Date(props.event.dateRange.from).toLocaleDateString('ru-RU'), to: new Date(props.event.dateRange.to).toLocaleDateString('ru-RU') })
-const oldDateRange = ref({ from: new Date(props.event.dateRange.from).toLocaleDateString('ru-RU'), to: new Date(props.event.dateRange.to).toLocaleDateString('ru-RU') })
+const dateRange = ref({ from: newDateFrom(), to: newDateTo() })
+const oldDateRange = ref({ from: newDateFrom(), to: newDateTo() })
 
 const eventNameError = ref(false)
 
@@ -221,7 +226,7 @@ const editEvent = (): void => {
       created_at: props.event.created_at,
       id: props.event.id,
     }
-    emit('changeEvent', newEvent)
+    eventsStore.changeEvent(newEvent)
     emit('close')
     $q.notify({
       icon: 'sym_o_edit',

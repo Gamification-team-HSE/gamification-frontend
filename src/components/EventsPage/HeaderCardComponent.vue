@@ -34,8 +34,6 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits<{(e: 'switchMode'): void,
-(e: 'changeFilter', filter: string): void
-}>()
+const emit = defineEmits<{(e: 'changeFilter', filter: string): void}>()
 
 </script>

@@ -12,9 +12,6 @@
 
         <EventCardActionsComponent
           :event="event"
-          :event-list="eventList"
-          @change-event="changeEvent"
-          @delete-event-emit="deleteEventEmit"
         />
       </div>
     </q-card-section>
@@ -40,19 +37,6 @@ defineProps({
     type: Array as PropType<Array<Event>>,
     required: true,
   },
-  eventList: {
-    type: Array as PropType<Array<Event>>,
-    required: true,
-  },
 })
 
-const emit = defineEmits<{(e: 'changeEvent', value: Event): void, (e: 'deleteEventEmit', value: Event): void}>()
-
-const changeEvent = (newEvent: Event) => {
-  emit('changeEvent', newEvent)
-}
-
-const deleteEventEmit = (eventToDelete: Event) => {
-  emit('deleteEventEmit', eventToDelete)
-}
 </script>

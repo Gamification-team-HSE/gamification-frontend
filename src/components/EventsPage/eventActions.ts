@@ -1,4 +1,5 @@
 import { useQuasar } from 'quasar'
+import { useEventsStore } from 'src/stores/eventsStore'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -14,6 +15,7 @@ type Event = {
 export const useEventActions = () => {
   const i18n = useI18n()
   const $q = useQuasar()
+  const eventsStore = useEventsStore()
 
   const openEditModal = ref(false)
   const openIdForEditing = ref<number | undefined>(undefined)
@@ -23,8 +25,8 @@ export const useEventActions = () => {
     openIdForEditing.value = undefined
   }
 
-  const deleteEvent = (id: Event['id']): void => {
-    if (!id) throw new Error('Event doesnt have an ID')
+  const deleteEvent = (eventId: Event['id']): void => {
+    if (!eventId) throw new Error('Event doesnt have an ID')
 
     $q.dialog({
       ok: {
@@ -50,6 +52,7 @@ export const useEventActions = () => {
       class: 'g-rounded',
       position: $q.platform.is.mobile ? 'bottom' : 'standard',
     }).onOk(() => {
+      eventsStore.deleteEvent(eventId)
       $q.notify({
         icon: 'sym_o_delete',
         message: i18n.t('deleteEventSuccess'),
@@ -60,11 +63,11 @@ export const useEventActions = () => {
     })
   }
 
-  const editEvent = (id: Event['id']): void => {
-    if (!id) throw new Error('Event doesnt have an ID')
+  const editEvent = (eventId: Event['id']): void => {
+    if (!eventId) throw new Error('Event doesnt have an ID')
 
     openEditModal.value = true
-    openIdForEditing.value = id
+    openIdForEditing.value = eventId
   }
 
   return {
