@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-type Event = {
+export type Event = {
   name: string,
   description: string | null,
   imgUrl: string,

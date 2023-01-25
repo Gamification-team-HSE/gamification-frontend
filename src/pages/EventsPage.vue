@@ -37,17 +37,8 @@ import { computed, ref } from 'vue'
 import SearchNotFoundComponent from 'src/components/SearchNotFoundComponent.vue'
 import EventsList from 'src/components/EventsPage/EventsList.vue'
 import HeaderCardComponent from 'src/components/EventsPage/HeaderCardComponent.vue'
-import { useEventsStore } from 'src/stores/eventsStore'
+import { useEventsStore, type Event } from 'src/stores/eventsStore'
 // import { exportAllDeclaration } from '@babel/types'
-
-type Event = {
-  name: string,
-  description: string,
-  imgUrl: string,
-  dateRange: { from: number, to: number },
-  created_at: number,
-  id: number,
-}
 
 const eventsStore = useEventsStore()
 
