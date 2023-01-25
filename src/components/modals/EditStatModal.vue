@@ -203,7 +203,7 @@ const name = ref(props.stat.name)
 const description = ref(props.stat.description)
 const period = ref(props.stat.period)
 const seqPeriod = ref(props.stat.seq_period)
-const startAt = ref(props.stat.start_at)
+const startAt = ref(new Date(props.stat.start_at).toLocaleDateString('ru-RU'))
 
 const oldName = ref(props.stat.name)
 const oldDescription = ref(props.stat.description)
