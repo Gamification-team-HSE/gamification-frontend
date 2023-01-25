@@ -1,5 +1,6 @@
 import { useQuasar } from 'quasar'
 import { User } from 'src/api/generated'
+import { useUsersStore } from 'src/stores/usersStore'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Mode } from './types'
@@ -7,6 +8,7 @@ import { Mode } from './types'
 export const useUserActions = () => {
   const i18n = useI18n()
   const $q = useQuasar()
+  const usersStore = useUsersStore()
 
   const openEditModal = ref(false)
   const openIdForEditing = ref<number | undefined>(undefined)
@@ -59,6 +61,15 @@ export const useUserActions = () => {
       class: 'g-rounded',
       position: $q.platform.is.mobile ? 'bottom' : 'standard',
     }).onOk(() => {
+      if (mode === 'admins') {
+        usersStore.deleteUser(userId)
+        usersStore.tryLoadAdminsUsers(true)
+      } else {
+        usersStore.banUser(userId)
+        usersStore.tryLoadBannedUsers(true)
+        usersStore.tryLoadActiveUsers(true)
+      }
+
       $q.notify({
         icon: 'sym_o_delete',
         message: 'Success blocking',
@@ -104,6 +115,9 @@ export const useUserActions = () => {
       class: 'g-rounded',
       position: $q.platform.is.mobile ? 'bottom' : 'standard',
     }).onOk(() => {
+      usersStore.recoverUser(userId)
+      usersStore.tryLoadBannedUsers(true)
+      usersStore.tryLoadActiveUsers(true)
       $q.notify({
         icon: 'sym_o_settings_backup_restore',
         message: 'Success restoring',

@@ -35,20 +35,25 @@
 </template>
 
 <script lang="ts" setup>
-import { Role, type User } from 'src/api/generated'
-import { graphqlSDK } from 'src/boot/grapqhl'
+import { Role } from 'src/api/generated'
 import HeaderCardComponent from 'src/components/UsersPage/HeaderCardComponent.vue'
 import SearchNotFoundComponent from 'src/components/SearchNotFoundComponent.vue'
 import { Mode } from 'src/components/UsersPage/types'
 import UsersList from 'src/components/UsersPage/UsersList.vue'
 import {
-  computed, reactive, ref,
+  computed, ref,
 } from 'vue'
+import { useUsersStore } from 'src/stores/usersStore'
 
 const mode = ref<Mode>('active')
 const isLoading = ref(true)
-const users = reactive<Array<Partial<User>>>([])
 const filter = ref('')
+
+const usersStore = useUsersStore()
+
+usersStore.tryLoadActiveUsers().then(() => {
+  isLoading.value = false
+})
 
 const filtersByMode = {
   active: {
@@ -68,7 +73,14 @@ const filtersByMode = {
 const filteredUsers = computed(() => {
   const filterByMode = filtersByMode[mode.value]
 
-  const localUsers = users.filter((user) => {
+  const getUsers = () => {
+    if (mode.value === 'active') return usersStore.activeUsers
+    if (mode.value === 'deleted') return usersStore.bannedUsers
+
+    return usersStore.adminsUsers
+  }
+
+  const localUsers = getUsers().filter((user) => {
     const emailInFilter = user.email?.includes(filter.value)
     if (!emailInFilter) return false
 
@@ -85,13 +97,24 @@ const filteredUsers = computed(() => {
   return localUsers
 })
 
-graphqlSDK.GetUsers().then((res) => {
-  users.push(...res.GetUsers.reverse())
-  isLoading.value = false
-})
-
 const switchMode = (newMode: Mode): void => {
   if (newMode === mode.value) return
+
+  isLoading.value = false
+
+  if (newMode === 'active') {
+    usersStore.tryLoadActiveUsers().then(() => {
+      isLoading.value = false
+    })
+  } else if (newMode === 'admins') {
+    usersStore.tryLoadAdminsUsers().then(() => {
+      isLoading.value = false
+    })
+  } else if (newMode === 'deleted') {
+    usersStore.tryLoadBannedUsers().then(() => {
+      isLoading.value = false
+    })
+  }
 
   mode.value = newMode
 }

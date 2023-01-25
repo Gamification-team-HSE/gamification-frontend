@@ -1,0 +1,3 @@
+mutation RecoverUser($id: Int!) {
+  RecoverUser(id: $id)
+}
