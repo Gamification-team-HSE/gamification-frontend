@@ -112,4 +112,10 @@ export default {
   findByName: 'Find by name',
   noDescription: 'No description',
   eventDuration: 'Duration',
+  deleteEventTitle: 'Delete event',
+  deleteEventConfirm: 'Are you sure you want to delete event?',
+  deleteEventSuccess: 'Event deleted',
+
+  // Edit stat modal
+  editStatHeader: 'Stat editing',
 }

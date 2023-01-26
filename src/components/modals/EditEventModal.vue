@@ -1,6 +1,6 @@
 <template>
   <q-dialog
-    :model-value="props.openEditEvent"
+    :model-value="openModal"
     :full-width="$q.platform.is.mobile"
     :position="$q.platform.is.mobile ? 'bottom' : 'standard'"
     @update:model-value="emit('close')"
@@ -141,30 +141,41 @@
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
-import { ref } from 'vue'
+import {
+  computed, onMounted, ref, PropType,
+} from 'vue'
+import { logError } from 'src/utils/utils'
+import { useEventsStore, type Event } from 'src/stores/eventsStore'
 
 const props = defineProps({
-  openEditEvent: Boolean,
+  openModal: Boolean,
   eventId: {
     type: Number, // TODO
     default: undefined,
   },
+  event: {
+    type: Object as PropType<Event>,
+    required: true,
+  },
 })
 
-const emit = defineEmits<{(e: 'close'): void,
-  (e: 'openExcel'): void
-}>()
+const emit = defineEmits<{(e: 'close'): void}>()
 
 const $q = useQuasar()
+const eventsStore = useEventsStore()
 
-const eventNameRef = ref('')
-const oldEventName = ref('')
-const eventDescRef = ref('')
-const oldEventDesc = ref('')
+const newDateFrom = () => new Date(props.event.dateRange.from).toLocaleDateString('ru-RU')
+const newDateTo = () => new Date(props.event.dateRange.to).toLocaleDateString('ru-RU')
+
+const id = computed(() => props.eventId)
+const eventNameRef = ref(props.event.name)
+const oldEventName = ref(props.event.name)
+const eventDescRef = ref(props.event.description)
+const oldEventDesc = ref(props.event.description)
 const eventImage = ref(null)
 const oldEventImage = ref(null)
-const dateRange = ref({ from: '2023/01/01', to: '2023/01/05' })
-const oldDateRange = ref({ from: '2023/01/01', to: '2023/01/05' })
+const dateRange = ref({ from: newDateFrom(), to: newDateTo() })
+const oldDateRange = ref({ from: newDateFrom(), to: newDateTo() })
 
 const eventNameError = ref(false)
 
@@ -196,6 +207,16 @@ const editEvent = (): void => {
       color: 'warning',
     })
   } else {
+    const newEvent: Event = {
+      name: eventNameRef.value,
+      description: eventDescRef.value,
+      imgUrl: 'https://cdn.quasar.dev/img/boy-avatar.png',
+      dateRange: { from: new Date(dateRange.value.from).getTime(), to: new Date(dateRange.value.to).getTime() },
+      created_at: props.event.created_at,
+      id: props.event.id,
+    }
+    eventsStore.changeEvent(newEvent)
+    emit('close')
     $q.notify({
       icon: 'sym_o_edit',
       message: 'Success editing',
@@ -205,4 +226,11 @@ const editEvent = (): void => {
     })
   }
 }
+
+onMounted(() => {
+  if (!id.value) {
+    logError('Edit modal without id')
+    emit('close')
+  }
+})
 </script>

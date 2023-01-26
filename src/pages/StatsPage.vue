@@ -83,6 +83,7 @@
             color="primary"
             class="g-rounded full-width"
             no-caps
+            @click="editStat(stat.id)"
           >
             Редактировать
           </q-btn>
@@ -98,6 +99,13 @@
           >
             Удалить
           </q-btn>
+          <EditStatModal
+            v-if="openEditModal"
+            :open-modal="openEditModal"
+            :stat-id="openIdForEditing"
+            :stat="stat"
+            @close="closeEditModal"
+          />
         </q-card-actions>
       </q-card>
       <SearchNotFoundComponent v-if="!filteredAndSortedArray.length" />
@@ -110,39 +118,27 @@ import { computed, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { Stat } from 'src/api/generated'
 import SearchNotFoundComponent from 'src/components/SearchNotFoundComponent.vue'
-
-const example: Stat = {
-  __typename: 'Stat',
-  created_at: Date.now() - 1000,
-  description: 'Пользователь должен заходить в систему каждый день в течение 30 дней',
-  name: 'Заход в систему каждый день в месяце',
-  period: '30d',
-  seq_period: '1d',
-  start_at: Date.now(),
-  id: 1,
-}
-
-const example2: Stat = {
-  __typename: 'Stat',
-  created_at: Date.now(),
-  description: 'Показатель сотрудников по созданию новых задач',
-  name: 'Создание задачи каждый день',
-  period: '',
-  seq_period: '1d',
-  start_at: 0,
-  id: 2,
-}
+import EditStatModal from 'src/components/modals/EditStatModal.vue'
+import { useStatsStore } from 'src/stores/statsStore'
 
 const $q = useQuasar()
+const statsStore = useStatsStore()
 
-const statsArray = ref<Stat[]>([example, example2])
 const filterValue = ref('')
 
 const filteredAndSortedArray = computed<Stat[]>(() => {
-  const arr = [...statsArray.value].sort((a, b) => b.created_at - a.created_at)
+  const arr = [...statsStore.stats].sort((a, b) => b.created_at - a.created_at)
   const filterValueLower = filterValue.value.toLowerCase()
   return arr.filter((item) => item.name.toLowerCase().includes(filterValueLower) || item.description?.toLowerCase().includes(filterValueLower))
 })
+
+const openEditModal = ref(false)
+const openIdForEditing = ref<number | undefined>(undefined)
+
+const closeEditModal = (): void => {
+  openEditModal.value = false
+  openIdForEditing.value = undefined
+}
 
 const deleteStat = (id: Stat['id']): void => {
   $q.dialog({
@@ -177,7 +173,14 @@ const deleteStat = (id: Stat['id']): void => {
       color: 'primary',
     })
 
-    statsArray.value = statsArray.value.filter((stat) => stat.id !== id)
+    statsStore.stats = statsStore.stats.filter((stat) => stat.id !== id)
   })
+}
+
+const editStat = (id: Stat['id']): void => {
+  if (!id) throw new Error('Event doesnt have an ID')
+
+  openEditModal.value = true
+  openIdForEditing.value = id
 }
 </script>
