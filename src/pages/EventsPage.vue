@@ -31,19 +31,15 @@
 </template>
 
 <script lang="ts" setup>
-// import { computed, ref, reactive } from 'vue'
 import { computed, ref } from 'vue'
-// import { useQuasar } from 'quasar'
 import SearchNotFoundComponent from 'src/components/SearchNotFoundComponent.vue'
 import EventsList from 'src/components/EventsPage/EventsList.vue'
 import HeaderCardComponent from 'src/components/EventsPage/HeaderCardComponent.vue'
 import { useEventsStore, type Event } from 'src/stores/eventsStore'
-// import { exportAllDeclaration } from '@babel/types'
 
 const eventsStore = useEventsStore()
 
 const isLoading = ref(false)
-// const $q = useQuasar()
 
 const filterValue = ref('')
 const filteredAndSortedArray = computed<Event[]>(() => {

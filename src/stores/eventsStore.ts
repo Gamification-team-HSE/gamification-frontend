@@ -6,7 +6,7 @@ export type Event = {
   imgUrl: string,
   dateRange: { from: number, to: number },
   created_at: number,
-  id: number | null,
+  id: number,
 }
 
 const example1: Event = {

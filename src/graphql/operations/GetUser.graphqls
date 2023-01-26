@@ -4,5 +4,6 @@ query GetUser($id: Int!) {
     name
     created_at
     id
+    avatar
   }
 }

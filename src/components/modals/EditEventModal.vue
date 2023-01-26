@@ -77,7 +77,7 @@
             counter
             outlined
             tabindex="3"
-            accept=".jpg, .pdf, image/*"
+            accept=".jpg, image/*"
             max-files="1"
             style="max-width: 43%"
           >

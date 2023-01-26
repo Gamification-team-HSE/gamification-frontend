@@ -20,15 +20,7 @@
 
 <script setup lang="ts">
 import { PropType } from 'vue'
-
-type Event = {
-  name: string,
-  description: string,
-  imgUrl: string,
-  dateRange: { from: number, to: number },
-  created_at: number,
-  id: number,
-}
+import { Event } from '../../stores/eventsStore'
 
 defineProps({
   event: {

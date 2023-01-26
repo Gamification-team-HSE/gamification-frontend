@@ -6,7 +6,7 @@
     <div class=" col-lg-6 col-xl-5 col-md-8 col-sm-8 col-11 q-gutter-y-lg">
       <q-card class=" g-shadow g-rounded">
         <q-card-section class=" text-h4 q-pb-none">
-          Показатели (N)
+          Показатели ({{ statsStore.stats.length }})
         </q-card-section>
         <q-card-section>
           <q-input

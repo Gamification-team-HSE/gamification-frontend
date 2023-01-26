@@ -6,11 +6,11 @@
         size="lg"
         class=" q-mr-md"
       />
-      {{ $t('events') }} - 15
+      {{ $t('events') }} - {{ eventsStore.events.length }}
     </q-card-section>
     <q-card-section class=" text-subtitle1">
       {{ $t('adminEventsText', {
-        count: 25,
+        count: eventsStore.events.length,
       })
       }}
     </q-card-section>
@@ -46,11 +46,11 @@
 </template>
 
 <script setup lang="ts">
+import { useEventsStore } from 'src/stores/eventsStore'
 import { ref } from 'vue'
-import { useUtils } from './utils'
 import AddEventModal from '../modals/AddEventModal.vue'
 
-const { showNotImplemented } = useUtils()
-
 const openCreateEvent = ref(false)
+
+const eventsStore = useEventsStore()
 </script>

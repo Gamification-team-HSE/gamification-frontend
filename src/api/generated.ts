@@ -195,7 +195,7 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', GetUser: { __typename?: 'User', email: string, name?: string | null | undefined, created_at: any, id: number } };
+export type GetUserQuery = { __typename?: 'Query', GetUser: { __typename?: 'User', email: string, name?: string | null | undefined, created_at: any, id: number, avatar?: string | null | undefined } };
 
 export type GetUsersQueryVariables = Exact<{
   pagination?: InputMaybe<Pagination>;
@@ -268,6 +268,7 @@ export const GetUserDocument = gql`
     name
     created_at
     id
+    avatar
   }
 }
     `;

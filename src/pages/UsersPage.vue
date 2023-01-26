@@ -70,17 +70,17 @@ const filtersByMode = {
   },
 }
 
+const usersByMode = computed(() => {
+  if (mode.value === 'active') return usersStore.activeUsers
+  if (mode.value === 'deleted') return usersStore.bannedUsers
+
+  return usersStore.adminsUsers
+})
+
 const filteredUsers = computed(() => {
   const filterByMode = filtersByMode[mode.value]
 
-  const getUsers = () => {
-    if (mode.value === 'active') return usersStore.activeUsers
-    if (mode.value === 'deleted') return usersStore.bannedUsers
-
-    return usersStore.adminsUsers
-  }
-
-  const localUsers = getUsers().filter((user) => {
+  return usersByMode.value.filter((user) => {
     const emailInFilter = user.email?.includes(filter.value)
     if (!emailInFilter) return false
 
@@ -93,8 +93,6 @@ const filteredUsers = computed(() => {
     const userCorrectRoleByFilter = filterByMode.roles.includes(userRole)
     return userCorrectRoleByFilter
   })
-
-  return localUsers
 })
 
 const switchMode = (newMode: Mode): void => {

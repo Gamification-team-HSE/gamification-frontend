@@ -1,7 +1,7 @@
 <template>
   <div class="row items-center q-gutter-x-md ">
     <q-avatar size="5em">
-      <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+      <img :src="user.avatar ?? `https://cdn.quasar.dev/img/boy-avatar.png`">
     </q-avatar>
     <div class="column">
       <div class="text-h6">

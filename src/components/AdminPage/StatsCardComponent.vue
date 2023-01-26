@@ -6,11 +6,11 @@
         size="lg"
         class=" q-mr-md"
       />
-      {{ $t('stats') }} - 25
+      {{ $t('stats') }} - {{ statsStore.stats.length }}
     </q-card-section>
     <q-card-section class=" text-subtitle1">
       {{ $t('adminStatsText', {
-        count: 25,
+        count: statsStore.stats.length,
       })
       }}
     </q-card-section>
@@ -45,11 +45,11 @@
 </template>
 
 <script setup lang="ts">
+import { useStatsStore } from 'src/stores/statsStore'
 import { ref } from 'vue'
 import AddStatModal from '../modals/AddStatModal.vue'
-import { useUtils } from './utils'
-
-const { showNotImplemented } = useUtils()
 
 const isAddModalOpen = ref(false)
+
+const statsStore = useStatsStore()
 </script>

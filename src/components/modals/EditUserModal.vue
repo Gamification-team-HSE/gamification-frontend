@@ -35,6 +35,38 @@
       <q-separator />
 
       <q-card-section class="q-pa-lg column q-gutter-y-md text-subtitle1">
+        <div class="row justify-center">
+          <q-avatar
+            size="150px"
+            class="cursor-pointer"
+            @click="avatarInputRef?.pickFiles()"
+          >
+            <img
+              ref="avatarRef"
+              :src="avatarUrl"
+            >
+          </q-avatar>
+        </div>
+        <q-file
+          ref="avatarInputRef"
+          v-model="image"
+          class=" hidden"
+          :label="$t('fileUpload')"
+          counter
+          outlined
+          accept=".jpg, .jpeg, .png, image/*"
+          max-files="1"
+          dense
+          :disable="isLoading"
+          :readonly="isLoading"
+          :max-file-size="200000"
+          @update:model-value="readBlob"
+        >
+          <template #prepend>
+            <q-icon name="sym_o_attach_file" />
+          </template>
+        </q-file>
+
         <q-input
           v-model="nameRef"
           outlined
@@ -95,7 +127,7 @@
 </template>
 
 <script setup lang="ts">
-import { useQuasar } from 'quasar'
+import { QFile, QInput, useQuasar } from 'quasar'
 import { User } from 'src/api/generated'
 import { graphqlSDK } from 'src/boot/grapqhl'
 import { useUsersStore } from 'src/stores/usersStore'
@@ -120,6 +152,9 @@ const userStore = useUserStore()
 const usersStore = useUsersStore()
 const $q = useQuasar()
 
+const avatarRef = ref<HTMLImageElement>()
+const avatarInputRef = ref<QFile>()
+
 const id = computed(() => props.userId ?? userStore.id)
 
 const isLoading = ref(true)
@@ -134,6 +169,20 @@ const emailRef = ref('')
 const nameError = ref(false)
 const emailError = ref(false)
 
+const avatarUrl = ref('')
+const image = ref<File | null>(null)
+
+const readBlob = () => {
+  if (!image.value) return
+
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    if (!avatarRef.value || !e.target) return
+    avatarRef.value.src = e.target.result as string
+  }
+  reader.readAsDataURL(image.value)
+}
+
 const restoreEmail = (): void => {
   emailRef.value = oldEmail.value
 }
@@ -142,7 +191,7 @@ const restoreName = (): void => {
   nameRef.value = oldName.value
 }
 
-const editUser = (): void => {
+const editUser = async (): Promise<void> => {
   if (!props.userId) return
 
   isLoading.value = true
@@ -161,7 +210,7 @@ const editUser = (): void => {
     return
   }
 
-  if (nameRef.value === oldName.value && emailRef.value === oldEmail.value) {
+  if (nameRef.value === oldName.value && emailRef.value === oldEmail.value && !image.value) {
     $q.notify({
       icon: 'sym_o_close',
       message: 'Nothing changed',
@@ -170,10 +219,11 @@ const editUser = (): void => {
       color: 'warning',
     })
   } else {
-    usersStore.updateUser({
+    await usersStore.updateUser({
       id: props.userId,
       email: emailRef.value,
       name: nameRef.value,
+      avatar: image.value,
     })
 
     $q.notify({
@@ -202,6 +252,8 @@ onMounted(() => {
 
     oldEmail.value = res.GetUser.email
     oldName.value = res.GetUser.name ?? ''
+
+    avatarUrl.value = res.GetUser.avatar ?? 'https://cdn.quasar.dev/img/boy-avatar.png'
 
     isLoading.value = false
   }).catch((error) => {

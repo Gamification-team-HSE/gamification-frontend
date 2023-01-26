@@ -16,6 +16,10 @@ export const useUserActions = () => {
   const closeEditModal = (): void => {
     openEditModal.value = false
     openIdForEditing.value = undefined
+
+    usersStore.tryLoadBannedUsers(true)
+    usersStore.tryLoadActiveUsers(true)
+    usersStore.tryLoadAdminsUsers(true)
   }
 
   const deleteUser = (mode: Mode, userId?: User['id']): void => {

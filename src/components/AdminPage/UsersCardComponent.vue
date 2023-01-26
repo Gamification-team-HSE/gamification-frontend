@@ -6,12 +6,12 @@
         size="lg"
         class=" q-mr-md"
       />
-      {{ $t('users') }} - 150
+      {{ $t('users') }} - {{ usersStore.totalCounters.active }}
     </q-card-section>
     <q-card-section class=" text-subtitle1">
       {{ $t('adminUsersText', {
-        count: '150',
-        deleted: '25'
+        count: usersStore.totalCounters.active,
+        deleted: usersStore.totalCounters.banned
       })
       }}
     </q-card-section>
@@ -57,6 +57,7 @@
 </template>
 
 <script setup lang="ts">
+import { useUsersStore } from 'src/stores/usersStore'
 import { ref } from 'vue'
 import AddUserModal from '../modals/AddUserModal.vue'
 import { useUtils } from './utils'
@@ -64,4 +65,6 @@ import { useUtils } from './utils'
 const { showNotImplemented } = useUtils()
 
 const openCreateUser = ref(false)
+
+const usersStore = useUsersStore()
 </script>

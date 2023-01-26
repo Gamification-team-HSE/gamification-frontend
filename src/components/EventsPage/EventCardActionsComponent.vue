@@ -1,64 +1,45 @@
 <template>
-  <div class="row q-gutter-x-sm">
+  <q-card-actions class="row no-wrap">
     <q-btn
       flat
       icon="sym_o_edit"
-      size="xl"
+      size="md"
       outline
       color="primary"
-      class="g-rounded"
+      class="g-rounded full-width"
       no-caps
       @click="editEvent(event.id)"
     >
-      <q-tooltip
-        :offset="[0,5]"
-        :delay="250"
-        transition-duration="0"
-      >
-        {{ $t('edit') }}
-      </q-tooltip>
+      Редактировать
     </q-btn>
     <q-btn
       flat
       icon="sym_o_delete"
-      size="xl"
+      size="md"
       outline
       color="negative"
-      class="g-rounded"
+      class="g-rounded full-width"
       no-caps
       @click="deleteEvent(event.id)"
     >
-      <q-tooltip
-        :offset="[0,5]"
-        :delay="250"
-        transition-duration="0"
-      >
-        {{ $t('delete') }}
-      </q-tooltip>
+      Удалить
     </q-btn>
-    <EditEventModal
-      v-if="openEditModal"
-      :open-modal="openEditModal"
-      :event-id="openIdForEditing"
-      :event="event"
-      @close="closeEditModal"
-    />
-  </div>
+  </q-card-actions>
+
+  <EditEventModal
+    v-if="openEditModal"
+    :open-modal="openEditModal"
+    :event-id="openIdForEditing"
+    :event="event"
+    @close="closeEditModal"
+  />
 </template>
 
 <script setup lang="ts">
 import { PropType } from 'vue'
 import { useEventActions } from './eventActions'
 import EditEventModal from '../modals/EditEventModal.vue'
-
-type Event = {
-  name: string,
-  description: string,
-  imgUrl: string,
-  dateRange: { from: number, to: number },
-  created_at: number,
-  id: number,
-}
+import { Event } from '../../stores/eventsStore'
 
 defineProps({
   event: {

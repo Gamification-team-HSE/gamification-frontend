@@ -5,16 +5,14 @@
     class="g-shadow g-shadow-hover g-rounded cursor-pointer"
   >
     <q-card-section class="text-subtitle1">
-      <div class="row items-center justify-between">
-        <EventCardDataComponent
-          :event="event"
-        />
-
-        <EventCardActionsComponent
-          :event="event"
-        />
-      </div>
+      <EventCardDataComponent
+        :event="event"
+      />
     </q-card-section>
+
+    <EventCardActionsComponent
+      :event="event"
+    />
   </q-card>
 </template>
 
@@ -22,15 +20,7 @@
 import { PropType } from 'vue'
 import EventCardActionsComponent from './EventCardActionsComponent.vue'
 import EventCardDataComponent from './EventCardDataComponent.vue'
-
-type Event = {
-  name: string,
-  description: string,
-  imgUrl: string,
-  dateRange: { from: number, to: number },
-  created_at: number,
-  id: number,
-}
+import { Event } from '../../stores/eventsStore'
 
 defineProps({
   events: {
