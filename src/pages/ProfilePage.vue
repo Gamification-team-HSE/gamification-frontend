@@ -4,21 +4,39 @@
     class="row items-center justify-center"
   >
     <div class=" col-lg-6 col-xl-5 col-md-8 col-sm-8 col-11 q-gutter-y-lg">
-      <q-card
-        class="g-rounded g-shadow q-pa-md"
+      <div
+        class="g-rounded g-shadow q-pa-md row items-center"
       >
-        <q-card-section class="text-h2">
-          {{ state.fullName }}
-        </q-card-section>
-        <q-card-section class="text-h5">
-          <q-icon
-            name="alternate_email"
-            color="primary"
-            size="lg"
-            class="q-mr-sm"
-          />{{ state.email }}
-        </q-card-section>
-      </q-card>
+        <q-avatar
+          size="10em"
+        >
+          <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+        </q-avatar>
+        <div class="column">
+          <q-card-section class="text-h2 row no-wrap">
+            {{ state.fullName }}
+            <q-btn
+              flat
+              icon="sym_o_edit"
+              size="lg"
+              outline
+              dense
+              color="primary"
+              no-caps
+              class="g-rounded justify-end"
+              @click.stop="editUser(id)"
+            />
+          </q-card-section>
+          <q-card-section class="text-h5">
+            <q-icon
+              name="alternate_email"
+              color="primary"
+              size="lg"
+              class="q-mr-sm"
+            />{{ state.email }}
+          </q-card-section>
+        </div>
+      </div>
       <div class="row justify-between q-mt-none q-gutter-lg no-wrap-md">
         <q-card
           class="g-rounded g-shadow col-grow"
@@ -167,20 +185,39 @@
         </div>
       </q-card>
     </div>
+    <EditUserModal
+      v-if="openEditModal"
+      :open-modal="openEditModal"
+      :user-id="openIdForEditing"
+      @close="closeEditModal"
+    />
   </q-page>
 </template>
 
 <script setup lang="ts">
 import { User } from 'src/types'
 import { ref } from 'vue'
+import { useUserStore } from 'src/stores/userStore'
+import { useUserActions } from 'src/components/UsersPage/userActions'
+import EditUserModal from 'src/components/modals/EditUserModal.vue'
 
+const userStore = useUserStore()
+const { id } = userStore.$state
+const { username } = userStore.$state
+const { email } = userStore.$state
+const {
+  editUser, recoverUser, deleteUser,
+  openEditModal,
+  openIdForEditing,
+  closeEditModal,
+} = useUserActions()
 const showRatingTooltip = ref(false)
 
 const showFeed = ref(true)
 
 const state: User = {
-  fullName: 'Artem Shuvaev',
-  email: 'sh@gmail.com',
+  fullName: username,
+  email,
   achievements: 5,
   achievementsTotal: 20,
   events: 7,

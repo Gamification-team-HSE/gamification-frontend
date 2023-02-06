@@ -48,6 +48,7 @@ export const useUserStore = defineStore('user', {
       this.avatarUrl = user.avatar ?? null
       this.username = user.name ?? null
       this.role = user.role
+      this.id = user.id
     },
     pushToProfile() {
       this.router.push({

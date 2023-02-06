@@ -20,6 +20,7 @@ const routes: RouteRecordRaw[] = [
         path: 'users/:id',
         name: 'user',
         component: () => import('pages/UserPage.vue'),
+        props: true,
       },
       {
         path: 'achievements/',

@@ -29,7 +29,7 @@ import { Mode } from './types'
 import UserCardActionsComponent from './UserCardActionsComponent.vue'
 import UserCardDataComponent from './UserCardDataComponent.vue'
 
-defineProps({
+const props = defineProps({
   users: {
     type: Array as PropType<Array<Partial<User>>>,
     required: true,
@@ -44,13 +44,14 @@ const router = useRouter()
 
 const goToUserPage = (userId?: User['id']): void => {
   if (!userId) throw new Error('User doesnt have an ID')
-
-  router.push({
-    name: 'user',
-    params: {
-      id: userId.toString(),
-    },
-  })
+  if (props.mode === 'active') {
+    router.push({
+      name: 'user',
+      params: {
+        id: userId.toString(),
+      },
+    })
+  }
 }
 
 </script>
