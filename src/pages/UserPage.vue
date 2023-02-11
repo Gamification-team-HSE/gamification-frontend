@@ -201,7 +201,7 @@ import { graphqlSDK } from 'src/boot/grapqhl'
 import { logError } from 'src/utils/utils'
 import { Mode } from 'src/components/UsersPage/types'
 import { type User, Role } from 'src/api/generated'
-import UserActionsComponent from 'src/components/UsersPage/UserActionsComponent.vue'
+import UserActionsComponent from 'src/components/UserPage/UserActionsComponent.vue'
 
 const isLoading = ref(true)
 const showRatingTooltip = ref(false)
