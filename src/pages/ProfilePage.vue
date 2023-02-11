@@ -5,7 +5,7 @@
   >
     <div class=" col-lg-6 col-xl-5 col-md-8 col-sm-8 col-11 q-gutter-y-lg">
       <div
-        class="g-rounded g-shadow q-pa-md row items-center"
+        class="g-rounded g-shadow q-pa-md row items-center bg-white"
       >
         <q-avatar
           size="10em"
@@ -202,9 +202,7 @@ import { useUserActions } from 'src/components/UsersPage/userActions'
 import EditUserModal from 'src/components/modals/EditUserModal.vue'
 
 const userStore = useUserStore()
-const { id } = userStore.$state
-const { username } = userStore.$state
-const { email } = userStore.$state
+const { id, username, email } = userStore
 const {
   editUser, recoverUser, deleteUser,
   openEditModal,

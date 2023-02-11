@@ -20,7 +20,15 @@ const routes: RouteRecordRaw[] = [
         path: 'users/:id',
         name: 'user',
         component: () => import('pages/UserPage.vue'),
-        props: true,
+        beforeEnter: (to, from, next) => {
+          const userStore = useUserStore()
+          if (userStore.id === Number(to.params.id)) {
+            next({ name: 'main' })
+            return
+          }
+
+          next()
+        },
       },
       {
         path: 'achievements/',

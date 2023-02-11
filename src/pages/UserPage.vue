@@ -1,18 +1,21 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <div class=" col-lg-6 col-xl-5 col-md-8 col-sm-8 col-11 q-gutter-y-lg q-mt-none">
+    <div
+      v-if="!isLoading"
+      class="col-lg-6 col-xl-5 col-md-8 col-sm-8 col-11 q-gutter-y-lg q-mt-none"
+    >
       <q-card class="g-rounded g-shadow col-grow">
         <div class="g-rounded g-shadow q-pa-md q-ma-none row items-center q-gutter-x-md bg-white q-mt-lg">
           <q-avatar
             size="10em"
           >
             <img
-              :src="avatarUrl"
+              :src="user.avatar ?? 'https://cdn.quasar.dev/img/boy-avatar.png'"
             >
           </q-avatar>
           <div class="column">
             <q-card-section class="text-h2">
-              {{ nameRef }}
+              {{ user.name }}
             </q-card-section>
             <q-card-section class="text-h5">
               <q-icon
@@ -20,7 +23,7 @@
                 color="primary"
                 size="lg"
                 class="q-mr-sm"
-              />{{ emailRef }}
+              />{{ user.email }}
             </q-card-section>
           </div>
         </div>
@@ -179,39 +182,42 @@
         </div>
       </q-card>
     </div>
+    <div
+      v-else
+      class="row justify-center q-mt-xl"
+    >
+      <q-spinner
+        color="primary"
+        size="7em"
+      />
+    </div>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { graphqlSDK } from 'src/boot/grapqhl'
 import { logError } from 'src/utils/utils'
-import { useUserStore } from 'src/stores/userStore'
 import { Mode } from 'src/components/UsersPage/types'
 import { type User, Role } from 'src/api/generated'
 import UserActionsComponent from 'src/components/UsersPage/UserActionsComponent.vue'
 
-const userStore = useUserStore()
-
+const isLoading = ref(true)
 const showRatingTooltip = ref(false)
 const showFeed = ref(true)
 
 const router = useRoute()
 const { id } = router.params
 
-const nameRef = ref('')
-const emailRef = ref('')
-const avatarUrl = ref('')
-const createdAt = ref()
-const user: User = {
-  avatar: avatarUrl.value,
-  created_at: createdAt.value,
-  email: emailRef.value,
-  id,
-  name: nameRef.value,
+const user: User = reactive<User>({
+  name: '',
+  created_at: Date.now(),
+  email: '',
+  id: 0,
   role: Role.User,
-}
+})
+
 const state = {
   achievements: 5,
   achievementsTotal: 20,
@@ -227,14 +233,13 @@ onMounted(() => {
     logError('No user id')
     return
   }
-  if (userStore.id === parseInt(id, 10)) {
-    userStore.pushToProfile()
-  }
-  graphqlSDK.GetUser({ id: parseInt(id, 10) }).then((res) => {
-    nameRef.value = res.GetUser.name ?? ''
-    emailRef.value = res.GetUser.email
-    createdAt.value = res.GetUser.created_at
-    avatarUrl.value = res.GetUser.avatar ?? 'https://cdn.quasar.dev/img/boy-avatar.png'
+  graphqlSDK.GetUser({ id: Number(id) }).then((res) => {
+    user.name = res.GetUser.name ?? ''
+    user.email = res.GetUser.email
+    user.created_at = res.GetUser.created_at
+    user.avatar = res.GetUser.avatar ?? 'https://cdn.quasar.dev/img/boy-avatar.png'
+    user.id = Number(id)
+    isLoading.value = false
   }).catch((error) => {
     logError(error)
   })

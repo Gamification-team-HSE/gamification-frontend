@@ -19,6 +19,7 @@
           v-else
           :mode="mode"
           :users="filteredUsers"
+          :redirectable="canBeRedirected"
         />
       </template>
       <div
@@ -48,6 +49,7 @@ import { useUsersStore } from 'src/stores/usersStore'
 const mode = ref<Mode>('active')
 const isLoading = ref(true)
 const filter = ref('')
+const canBeRedirected = ref(true)
 
 const usersStore = useUsersStore()
 
@@ -102,14 +104,17 @@ const switchMode = (newMode: Mode): void => {
 
   if (newMode === 'active') {
     usersStore.tryLoadActiveUsers().then(() => {
+      canBeRedirected.value = true
       isLoading.value = false
     })
   } else if (newMode === 'admins') {
     usersStore.tryLoadAdminsUsers().then(() => {
+      canBeRedirected.value = false
       isLoading.value = false
     })
   } else if (newMode === 'deleted') {
     usersStore.tryLoadBannedUsers().then(() => {
+      canBeRedirected.value = false
       isLoading.value = false
     })
   }
