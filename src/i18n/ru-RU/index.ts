@@ -118,4 +118,7 @@ export default {
 
   // Edit stat modal
   editStatHeader: 'Изменение показателя',
+
+  // User page
+  userStatistics: '{count} из {total}',
 }

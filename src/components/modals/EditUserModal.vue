@@ -88,6 +88,7 @@
           @keyup.prevent.enter="editUser"
         />
         <q-input
+          v-if="userStore.isAdmin"
           v-model="emailRef"
           outlined
           class="full-width text-subtitle1"

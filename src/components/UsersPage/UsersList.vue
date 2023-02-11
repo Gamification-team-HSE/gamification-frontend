@@ -2,7 +2,8 @@
   <q-card
     v-for="user in users"
     :key="user.id"
-    class="g-shadow g-shadow-hover g-rounded cursor-pointer"
+    class="g-shadow g-shadow-hover g-rounded"
+    :class="{'cursor-pointer': redirectable}"
     @click="goToUserPage(user.id)"
   >
     <q-card-section class="text-subtitle1">
@@ -29,7 +30,7 @@ import { Mode } from './types'
 import UserCardActionsComponent from './UserCardActionsComponent.vue'
 import UserCardDataComponent from './UserCardDataComponent.vue'
 
-defineProps({
+const props = defineProps({
   users: {
     type: Array as PropType<Array<Partial<User>>>,
     required: true,
@@ -38,19 +39,24 @@ defineProps({
     type: String as PropType<Mode>,
     required: true,
   },
+  redirectable: {
+    type: Boolean,
+    required: true,
+  },
 })
 
 const router = useRouter()
 
 const goToUserPage = (userId?: User['id']): void => {
   if (!userId) throw new Error('User doesnt have an ID')
-
-  router.push({
-    name: 'user',
-    params: {
-      id: userId.toString(),
-    },
-  })
+  if (props.redirectable) {
+    router.push({
+      name: 'user',
+      params: {
+        id: userId.toString(),
+      },
+    })
+  }
 }
 
 </script>

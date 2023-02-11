@@ -118,4 +118,7 @@ export default {
 
   // Edit stat modal
   editStatHeader: 'Stat editing',
+
+  // User page
+  userStatistics: '{count} out of {total}',
 }
