@@ -1,5 +1,5 @@
 <template>
-  <q-card class=" g-shadow g-rounded">
+  <q-card class="g-shadow g-rounded">
     <q-card-section class=" text-h4">
       {{ $t('usersList') }}
     </q-card-section>
