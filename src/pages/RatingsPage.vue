@@ -170,8 +170,6 @@ const sortByAchievements = () => {
 
 const sortByStats = (stat: string) => {
   // здесь потом нужно будет по переданному показателю stat делать запрос чтобы узнать его значение для каждого пользователя
-  // eslint-disable-next-line no-console
-  console.log(stat)
   userslist.value.sort((a, b) => b.statAmount - a.statAmount)
 }
 
