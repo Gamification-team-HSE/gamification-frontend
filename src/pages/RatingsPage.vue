@@ -3,9 +3,7 @@
     class="row justify-evenly"
     padding
   >
-    <div
-      class="col-lg-6 col-xl-5 col-md-8 col-sm-8 col-11 q-gutter-y-lg q-mt-none"
-    >
+    <div class="col-lg-6 col-xl-5 col-md-8 col-sm-8 col-11 q-gutter-y-lg q-mt-none">
       <q-card class="g-shadow g-rounded">
         <q-card-section class=" text-h4">
           {{ $t('ratingTitle') }}
@@ -23,16 +21,17 @@
               @update:model-value="changeType"
             />
             <q-select
-              v-model="model2"
+              v-if="!isAchievementRating"
+              v-model="statName"
               outlined
               use-input
               input-debounce="0"
               :options="options"
               style="min-width: 300px; width: 47%"
               behavior="menu"
-              :label="selectModel"
-              :disable="disable"
+              :label="$t('ratingSortStat')"
               @filter="filterFn"
+              @update:model-value="getStatRating"
             >
               <template #no-option>
                 <q-item>
@@ -45,22 +44,28 @@
           </div>
         </div>
       </q-card>
-      <div class="full-width row justify-between q-pa-md">
+      <div class="full-width row justify-between q-pa-none">
         <div
-          style="width: 40%; text-align: center;"
+          style="width: 50%; text-align: center;"
           class="q-ma-none"
         >
           {{ $t('users') }}
         </div>
         <div
-          style="width: 60%;"
-          class="row justify-around"
+          style="width: 50%;"
+          class="row justify-around q-pr-lg"
         >
-          <p class="q-ma-none">
+          <p
+            v-if="isAchievementRating || statName === ''"
+            class="q-ma-none"
+          >
             {{ $t('achievements') }}
           </p>
-          <p class="q-ma-none">
-            {{ $t('events') }}
+          <p
+            v-else
+            class="q-ma-none"
+          >
+            {{ $t('stats') }}
           </p>
           <p class="q-ma-none">
             {{ $t('rating') }}
@@ -68,12 +73,13 @@
         </div>
       </div>
       <q-card
-        v-for="user in usersForRating"
-        :key="user.fullName"
+        v-for="user in userslist"
+        :key="user.id"
         class="g-shadow g-shadow-hover g-rounded"
       >
         <UserCardComponent
           :user="user"
+          :is-achievement="isAchievementRating"
         />
       </q-card>
     </div>
@@ -90,78 +96,116 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { User } from 'src/types'
 import { useUsersStore } from 'src/stores/usersStore'
 import UserCardComponent from 'src/components/RatingsPage/UserCardComponent.vue'
 
 const usersStore = useUsersStore()
 const $t = useI18n().t
 
-const model = ref(null)
-const model2 = ref(null)
-const disable = ref(true)
+const model = ref($t('achievements'))
+const statName = ref('')
+const isAchievementRating = ref(true)
 const selectModel = ref('')
-const changeType = () => {
-  if (model.value === $t('achievements')) {
-    selectModel.value = $t('ratingSortAchievement')
-    disable.value = false
-  } else {
-    selectModel.value = $t('ratingSortStat')
-    disable.value = false
-  }
+
+type RatingUser = {
+  fullName: string,
+  email: string,
+  avatar: string,
+  id: number,
+  achievements: number,
+  achievementsTotal: number,
+  ratingPlace: number,
+  ratingTotalPlaces: number,
+  statAmount: number,
 }
 
-const sortby = ref([$t('achievements'), $t('stats')])
-const stringOptions = ['achiev1', 'achievement 2', 'stat1', '...']
-const options = ref(stringOptions)
-
-const filterFn = (val: string, update) => {
-  if (val === '') {
-    update(() => {
-      options.value = stringOptions
-    })
-    return
-  }
-
-  update(() => {
-    const needle = val.toLowerCase()
-    options.value = stringOptions.filter((v) => v.toLowerCase().indexOf(needle) > -1)
-  })
-}
-
-const example: User = {
+const example: RatingUser = {
   fullName: 'Username',
   email: 'email@mail.ru',
+  avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+  id: 0,
   achievements: 5,
   achievementsTotal: 20,
-  events: 7,
   ratingPlace: 18,
   ratingTotalPlaces: 25,
+  statAmount: 0,
 }
 
-// const users = computed(() => usersStore.activeUsers)
+let achievementsNumber = 15
+let placeNumber = 1
+
 const usersForRating = computed(() => {
   const users = computed(() => usersStore.activeUsers)
   const userslist = [example]
   if (users.value.length > 0) {
     userslist.pop()
     users.value.forEach((user) => {
-      const state: User = {
+      const state: RatingUser = {
         fullName: user.name ?? '',
         email: user.email,
-        achievements: Math.floor(Math.random() * 20),
+        avatar: user.avatar ?? 'https://cdn.quasar.dev/img/boy-avatar.png',
+        id: user.id,
+        achievements: achievementsNumber,
         achievementsTotal: 20,
-        events: Math.floor(Math.random() * 10),
-        ratingPlace: Math.floor(Math.random() * 25),
-        ratingTotalPlaces: 25,
+        ratingPlace: placeNumber,
+        ratingTotalPlaces: users.value.length,
+        statAmount: Math.floor(Math.random() * 20),
       }
       userslist.push(state)
+      achievementsNumber -= 1
+      placeNumber += 1
     })
   }
   userslist.sort((a, b) => a.ratingPlace - b.ratingPlace)
   return userslist
 })
 
+const userslist = reactive(usersForRating)
+
+const sortByAchievements = () => {
+  userslist.value.sort((a, b) => b.achievements - a.achievements)
+}
+
+const sortByStats = (stat: string) => {
+  // здесь потом нужно будет по переданному показателю stat делать запрос чтобы узнать его значение для каждого пользователя
+  // eslint-disable-next-line no-console
+  console.log(stat)
+  userslist.value.sort((a, b) => b.statAmount - a.statAmount)
+}
+
+const changeType = () => {
+  if (model.value === $t('achievements')) {
+    isAchievementRating.value = true
+    sortByAchievements()
+  } else {
+    selectModel.value = $t('ratingSortStat')
+    isAchievementRating.value = false
+  }
+}
+
+const sortby = ref([$t('achievements'), $t('stats')])
+const statsList = ['количество сданных отчётов', 'количество входов в систему', 'дней с приема на работу', '...']
+const options = ref(statsList)
+
+const filterFn = (val: string, update) => {
+  if (val === '') {
+    update(() => {
+      options.value = statsList
+    })
+    return
+  }
+
+  update(() => {
+    const needle = val.toLowerCase()
+    options.value = statsList.filter((v) => v.toLowerCase().indexOf(needle) > -1)
+  })
+}
+
+const getStatRating = (val: string) => {
+  if (val !== '') {
+    sortByStats(val)
+  }
+}
 </script>

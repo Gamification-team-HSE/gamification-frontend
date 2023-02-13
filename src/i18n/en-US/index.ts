@@ -124,7 +124,6 @@ export default {
 
   // Ratings page
   ratingTitle: 'Users rating',
-  ratingSortAchievement: 'Name of achievement',
   ratingSortStat: 'Name of stat',
   sortBy: 'Sort by',
 }
