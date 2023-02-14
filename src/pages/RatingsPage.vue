@@ -89,7 +89,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive } from 'vue'
+import {
+  ref, computed, reactive, onMounted,
+} from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useUsersStore } from 'src/stores/usersStore'
 import UserCardComponent from 'src/components/RatingsPage/UserCardComponent.vue'
@@ -114,27 +116,14 @@ type RatingUser = {
   statAmount: number,
 }
 
-const example: RatingUser = {
-  fullName: 'Username',
-  email: 'email@mail.ru',
-  avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-  id: 0,
-  achievements: 5,
-  achievementsTotal: 20,
-  ratingPlace: 18,
-  ratingTotalPlaces: 25,
-  statAmount: 0,
-}
-
 let achievementsNumber = 15
 let placeNumber = 1
 
 const usersForRating = computed(() => {
-  const users = computed(() => usersStore.activeUsers)
-  const userslist = [example]
-  if (users.value.length > 0) {
-    userslist.pop()
-    users.value.forEach((user) => {
+  const users = usersStore.activeUsers
+  const userslist: Array<RatingUser> = []
+  if (users.length > 0) {
+    users.forEach((user) => {
       const state: RatingUser = {
         fullName: user.name ?? '',
         email: user.email,
@@ -143,7 +132,7 @@ const usersForRating = computed(() => {
         achievements: achievementsNumber,
         achievementsTotal: 20,
         ratingPlace: placeNumber,
-        ratingTotalPlaces: users.value.length,
+        ratingTotalPlaces: users.length,
         statAmount: Math.floor(Math.random() * 20),
       }
       userslist.push(state)
@@ -199,4 +188,8 @@ const getStatRating = (val: string) => {
     sortByStats()
   }
 }
+
+onMounted(() => {
+  usersStore.tryLoadActiveUsers(true)
+})
 </script>
