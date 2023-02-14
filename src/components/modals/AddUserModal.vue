@@ -184,8 +184,8 @@ const addUser = async () => {
   try {
     await graphqlSDK.CreateUser({
       user: {
-        Name: role === Role.User ? nameRef.value : '',
-        Role: role,
+        name: role === Role.User ? nameRef.value : '',
+        role,
         email: emailRef.value,
       },
     })
