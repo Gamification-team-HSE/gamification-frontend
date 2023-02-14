@@ -11,13 +11,16 @@
         <div
           class="q-pa-md"
         >
-          <div class="q-gutter-md row justify-between">
+          <div
+            class="q-gutter-md row justify-between"
+            :class="{'column': $q.platform.is.mobile}"
+          >
             <q-select
               v-model="model"
               outlined
+              class="col"
               :options="sortby"
               :label="$t('sortBy')"
-              style="min-width: 300px; width: 47%"
               @update:model-value="changeType"
             />
             <q-select
@@ -26,8 +29,8 @@
               outlined
               use-input
               input-debounce="0"
+              class="col"
               :options="options"
-              style="min-width: 300px; width: 47%"
               behavior="menu"
               :label="$t('ratingSortStat')"
               @filter="filterFn"
@@ -44,32 +47,22 @@
           </div>
         </div>
       </q-card>
-      <div class="full-width row justify-between q-pa-none">
+      <div
+        v-if="!$q.platform.is.mobile"
+        class="row text-subtitle1 text-bold justify-evenly q-pa-none"
+      >
         <div
-          style="width: 50%; text-align: center;"
-          class="q-ma-none"
+          class="col-7 q-pl-xl"
         >
           {{ $t('users') }}
         </div>
         <div
-          style="width: 50%;"
-          class="row justify-around q-pr-lg"
+          class="col-3"
         >
-          <p
-            v-if="isAchievementRating || statName === ''"
-            class="q-ma-none"
-          >
-            {{ $t('achievements') }}
-          </p>
-          <p
-            v-else
-            class="q-ma-none"
-          >
-            {{ $t('stats') }}
-          </p>
-          <p class="q-ma-none">
-            {{ $t('rating') }}
-          </p>
+          {{ isAchievementRating || statName === '' ? $t('achievements') : $t('stats') }}
+        </div>
+        <div class="col-2">
+          {{ $t('rating') }}
         </div>
       </div>
       <q-card

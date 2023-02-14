@@ -1,14 +1,19 @@
 <template>
-  <div class="row items-center justify-between q-gutter-x-md no-wrap full-width q-pa-md">
+  <q-card
+    class="row items-center justify-between no-wrap q-pa-md"
+    :class="{'column': $q.platform.is.mobile}"
+  >
     <div
-      class="row no-wrap"
-      style="width: 50%;"
+      class="col-6 items-start self-start row no-wrap q-gutter-x-md"
+      :class="{'col-12': $q.platform.is.mobile}"
     >
-      <q-avatar size="5em">
+      <q-avatar
+        size="5em"
+      >
         <img :src="user.avatar ?? `https://cdn.quasar.dev/img/boy-avatar.png`">
       </q-avatar>
       <div
-        class="column justify-start q-ml-lg justify-center"
+        class="column text-no-wrap ellipsis justify-start justify-center"
       >
         <div class="text-h6">
           {{ user.email }}
@@ -19,30 +24,38 @@
       </div>
     </div>
     <div
-      class="row justify-around content-end no-wrap items-center q-ma-none"
-      style="width: 50%;"
+      class="col-6 row  justify-around content-end no-wrap items-center q-ma-none"
+      :class="{'column q-mt-md': $q.platform.is.mobile}"
     >
-      <div>
-        <p
+      <div
+        class="row text-subtitle1 q-col-gutter-xs"
+      >
+        <div v-if="$q.platform.is.mobile">
+          {{ isAchievement ? 'Достижения:' : 'Показатель:' }}
+        </div>
+        <div
           v-if="isAchievement"
-          class="q-ma-none text-subtitle1"
-          style="text-align: center;"
+          class="q-ma-none"
         >
           {{ user.achievements }} / {{ user.achievementsTotal }}
-        </p>
-        <p
+        </div>
+        <div
           v-else
           class="q-ma-none text-subtitle1"
-          style="text-align: center;"
         >
           {{ user.statAmount }}
-        </p>
+        </div>
       </div>
-      <p class="q-ma-none text-subtitle1 text-weight-bold">
-        {{ user.ratingPlace }} / {{ user.ratingTotalPlaces }}
-      </p>
+      <div class="row text-subtitle1 q-col-gutter-xs">
+        <div v-if="$q.platform.is.mobile">
+          Рейтинг:
+        </div>
+        <div class="q-ma-none text-weight-bold">
+          {{ user.ratingPlace }} / {{ user.ratingTotalPlaces }}
+        </div>
+      </div>
     </div>
-  </div>
+  </q-card>
 </template>
 
 <script setup lang="ts">
