@@ -168,7 +168,7 @@ const sortByAchievements = () => {
   userslist.value.sort((a, b) => b.achievements - a.achievements)
 }
 
-const sortByStats = (stat: string) => {
+const sortByStats = () => {
   // здесь потом нужно будет по переданному показателю stat делать запрос чтобы узнать его значение для каждого пользователя
   userslist.value.sort((a, b) => b.statAmount - a.statAmount)
 }
@@ -187,7 +187,7 @@ const sortby = ref([$t('achievements'), $t('stats')])
 const statsList = ['количество сданных отчётов', 'количество входов в систему', 'дней с приема на работу', '...']
 const options = ref(statsList)
 
-const filterFn = (val: string, update) => {
+const filterFn = (val: string, update: (callback: () => void) => void) => {
   if (val === '') {
     update(() => {
       options.value = statsList
@@ -203,7 +203,7 @@ const filterFn = (val: string, update) => {
 
 const getStatRating = (val: string) => {
   if (val !== '') {
-    sortByStats(val)
+    sortByStats()
   }
 }
 </script>
