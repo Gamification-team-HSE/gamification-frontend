@@ -34,7 +34,6 @@
               behavior="menu"
               :label="$t('ratingSortStat')"
               @filter="filterFn"
-              @update:model-value="getStatRating"
             >
               <template #no-option>
                 <q-item>
@@ -116,7 +115,6 @@ type RatingUser = {
   statAmount: number,
 }
 
-let achievementsNumber = 15
 let placeNumber = 1
 
 const usersForRating = computed(() => {
@@ -129,44 +127,40 @@ const usersForRating = computed(() => {
         email: user.email,
         avatar: user.avatar ?? 'https://cdn.quasar.dev/img/boy-avatar.png',
         id: user.id,
-        achievements: achievementsNumber,
+        achievements: Math.floor(Math.random() * 20),
         achievementsTotal: 20,
-        ratingPlace: placeNumber,
+        ratingPlace: -1 * (users.length - placeNumber),
         ratingTotalPlaces: users.length,
         statAmount: Math.floor(Math.random() * 20),
       }
       userslist.push(state)
-      achievementsNumber -= 1
       placeNumber += 1
     })
   }
   userslist.sort((a, b) => a.ratingPlace - b.ratingPlace)
+
+  if (model.value === t('achievements')) {
+    userslist.sort((a, b) => b.achievements - a.achievements)
+  } else {
+    userslist.sort((a, b) => b.statAmount - a.statAmount)
+  }
+
   return userslist
 })
 
 const userslist = reactive(usersForRating)
 
-const sortByAchievements = () => {
-  userslist.value.sort((a, b) => b.achievements - a.achievements)
-}
-
-const sortByStats = () => {
-  // здесь потом нужно будет по переданному показателю stat делать запрос чтобы узнать его значение для каждого пользователя
-  userslist.value.sort((a, b) => b.statAmount - a.statAmount)
-}
-
 const changeType = () => {
   if (model.value === t('achievements')) {
     isAchievementRating.value = true
-    sortByAchievements()
   } else {
     selectModel.value = t('ratingSortStat')
     isAchievementRating.value = false
   }
 }
 
-const sortby = ref([t('achievements'), t('stats')])
-const statsList = ['количество сданных отчётов', 'количество входов в систему', 'дней с приема на работу', '...']
+const sortby = [t('achievements'), t('stats')]
+const statsList = ['количество сданных отчётов', 'количество входов в систему', 'дней с приема на работу']
 const options = ref(statsList)
 
 const filterFn = (val: string, update: (callback: () => void) => void) => {
@@ -181,12 +175,6 @@ const filterFn = (val: string, update: (callback: () => void) => void) => {
     const needle = val.toLowerCase()
     options.value = statsList.filter((v) => v.toLowerCase().indexOf(needle) > -1)
   })
-}
-
-const getStatRating = (val: string) => {
-  if (val !== '') {
-    sortByStats()
-  }
 }
 
 onMounted(() => {
