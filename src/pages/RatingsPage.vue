@@ -97,9 +97,9 @@ import { useUsersStore } from 'src/stores/usersStore'
 import UserCardComponent from 'src/components/RatingsPage/UserCardComponent.vue'
 
 const usersStore = useUsersStore()
-const $t = useI18n().t
+const { t } = useI18n()
 
-const model = ref($t('achievements'))
+const model = ref(t('achievements'))
 const statName = ref('')
 const isAchievementRating = ref(true)
 const selectModel = ref('')
@@ -156,16 +156,16 @@ const sortByStats = () => {
 }
 
 const changeType = () => {
-  if (model.value === $t('achievements')) {
+  if (model.value === t('achievements')) {
     isAchievementRating.value = true
     sortByAchievements()
   } else {
-    selectModel.value = $t('ratingSortStat')
+    selectModel.value = t('ratingSortStat')
     isAchievementRating.value = false
   }
 }
 
-const sortby = ref([$t('achievements'), $t('stats')])
+const sortby = ref([t('achievements'), t('stats')])
 const statsList = ['количество сданных отчётов', 'количество входов в систему', 'дней с приема на работу', '...']
 const options = ref(statsList)
 
