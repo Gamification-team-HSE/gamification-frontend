@@ -24,7 +24,7 @@
               color="primary"
               no-caps
               class="g-rounded justify-end"
-              @click.stop="editUser(id)"
+              @click.stop="id ? editUser(id) : () => {}"
             />
           </q-card-section>
           <q-card-section class="text-h5">
@@ -204,7 +204,7 @@ import EditUserModal from 'src/components/modals/EditUserModal.vue'
 const userStore = useUserStore()
 const { id, username, email } = userStore
 const {
-  editUser, recoverUser, deleteUser,
+  editUser,
   openEditModal,
   openIdForEditing,
   closeEditModal,
@@ -214,8 +214,8 @@ const showRatingTooltip = ref(false)
 const showFeed = ref(true)
 
 const state: User = {
-  fullName: username,
-  email,
+  fullName: username ?? '',
+  email: email ?? '',
   achievements: 5,
   achievementsTotal: 20,
   events: 7,

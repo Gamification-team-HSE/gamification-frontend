@@ -1,5 +1,8 @@
 <template>
-  <q-card-actions class="row no-wrap full-width">
+  <q-card-actions
+    class="row q-gutter-y-md no-wrap full-width"
+    :class="{'column ': $q.platform.is.mobile}"
+  >
     <template v-if="userStore.isAdmin">
       <template v-if="mode !== 'deleted'">
         <q-btn
@@ -10,7 +13,7 @@
           outline
           color="primary"
           no-caps
-          class="g-rounded full-width"
+          class="g-rounded  full-width"
           @click.stop="editUser(user.id)"
         >
           {{ $t('edit') }}
@@ -59,7 +62,7 @@ defineProps({
 })
 
 const {
-  editUser, recoverUser, deleteUser,
+  editUser, deleteUser,
   openEditModal,
   openIdForEditing,
   closeEditModal,

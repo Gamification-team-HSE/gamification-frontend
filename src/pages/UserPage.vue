@@ -4,20 +4,27 @@
       v-if="!isLoading"
       class="col-lg-6 col-xl-5 col-md-8 col-sm-8 col-11 q-gutter-y-lg q-mt-none"
     >
-      <q-card class="g-rounded g-shadow col-grow">
-        <div class="g-rounded g-shadow q-pa-md q-ma-none row items-center q-gutter-x-md bg-white q-mt-lg">
+      <q-card class="g-rounded g-shadow row q-mt-lg q-gutter-y-sm col-grow q-pa-md q-ma-none">
+        <div class="row items-center">
           <q-avatar
-            size="10em"
+            :size="$q.platform.is.mobile ? '7em' : '10em'"
+            :class="{'q-ml-auto q-mr-auto': $q.platform.is.mobile}"
           >
             <img
               :src="user.avatar ?? 'https://cdn.quasar.dev/img/boy-avatar.png'"
             >
           </q-avatar>
           <div class="column">
-            <q-card-section class="text-h2">
+            <q-card-section
+              class="text-center"
+              :class="$q.platform.is.mobile ? 'text-h4' : 'text-h2'"
+            >
               {{ user.name }}
             </q-card-section>
-            <q-card-section class="text-h5">
+            <q-card-section
+              class="row no-wrap text-center"
+              :class="$q.platform.is.mobile ? 'text-h6' : 'text-h5'"
+            >
               <q-icon
                 name="alternate_email"
                 color="primary"
@@ -27,12 +34,10 @@
             </q-card-section>
           </div>
         </div>
-        <div class="row full-width">
-          <UserActionsComponent
-            :user="user"
-            :mode="mode"
-          />
-        </div>
+        <UserActionsComponent
+          :user="user"
+          :mode="mode"
+        />
       </q-card>
       <div class="row justify-between q-mt-none q-gutter-lg no-wrap-md">
         <q-card
