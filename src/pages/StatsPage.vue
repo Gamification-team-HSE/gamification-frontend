@@ -43,7 +43,7 @@
         <q-card-section class="column">
           <div
             v-if="stat.period"
-            class="row items-center"
+            class="row items-center no-wrap"
           >
             <q-icon
               name="sym_o_restart_alt"
@@ -61,7 +61,7 @@
           />
           <div
             v-if="stat.seq_period"
-            class="row items-center"
+            class="row items-center no-wrap"
           >
             <q-icon
               name="sym_o_rotate_90_degrees_cw"

@@ -121,4 +121,9 @@ export default {
 
   // User page
   userStatistics: '{count} out of {total}',
+
+  // Ratings page
+  ratingTitle: 'Users rating',
+  ratingSortStat: 'Name of stat',
+  sortBy: 'Sort by',
 }

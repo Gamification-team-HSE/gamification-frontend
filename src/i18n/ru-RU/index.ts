@@ -121,4 +121,9 @@ export default {
 
   // User page
   userStatistics: '{count} из {total}',
+
+  // Ratings page
+  ratingTitle: 'Рейтинг пользователей',
+  ratingSortStat: 'Название показателя',
+  sortBy: 'Сортировать по',
 }

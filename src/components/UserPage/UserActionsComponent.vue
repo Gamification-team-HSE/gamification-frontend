@@ -43,8 +43,8 @@
 import { type User, Role } from 'src/api/generated'
 import { useUserStore } from 'src/stores/userStore'
 import { PropType } from 'vue'
-import { useUserActions } from './userActions'
-import { Mode } from './types'
+import { useUserActions } from '../UsersPage/userActions'
+import { Mode } from '../UsersPage/types'
 import EditUserModal from '../modals/EditUserModal.vue'
 
 defineProps({
