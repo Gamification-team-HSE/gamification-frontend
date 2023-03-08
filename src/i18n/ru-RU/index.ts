@@ -133,4 +133,12 @@ export default {
   achievementNamePlaceholder: 'Название достижения, например, Самый продуктивный программист',
   achievementDescPlaceholder: 'Описание достижения',
   addAchievement: 'Добавить достижение',
+
+  // Edit achievement modal
+  editAchievementHeader: 'Изменение достижения',
+
+  // Achievements page
+  deleteAchievementTitle: 'Удалить достижение',
+  deleteAchievementConfirm: 'Вы уверены, что хотите удалить достижение?',
+  deleteAchievementSuccess: 'Достижение удалено',
 }

@@ -133,4 +133,12 @@ export default {
   achievementNamePlaceholder: 'Achievement name, e.g. The fastest coder',
   achievementDescPlaceholder: 'Achievement description',
   addAchievement: 'Add achievement',
+
+  // Edit achievement modal
+  editAchievementHeader: 'Achievement editing',
+
+  // Achievements page
+  deleteAchievementTitle: 'Delete achievement',
+  deleteAchievementConfirm: 'Are you sure you want to delete achievement?',
+  deleteAchievementSuccess: 'Achievement deleted',
 }
