@@ -126,4 +126,11 @@ export default {
   ratingTitle: 'Users rating',
   ratingSortStat: 'Name of stat',
   sortBy: 'Sort by',
+
+  // Add achievement modal
+  addAchievementHeader: 'Creating achievement',
+  fillAchievementInfo: 'Fill achievement information, please',
+  achievementNamePlaceholder: 'Achievement name, e.g. The fastest coder',
+  achievementDescPlaceholder: 'Achievement description',
+  addAchievement: 'Add achievement',
 }
