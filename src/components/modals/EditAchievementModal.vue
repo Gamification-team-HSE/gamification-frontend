@@ -7,7 +7,7 @@
   >
     <q-card
       class="g-rounded"
-      :style="{'min-width': $q.platform.is.mobile ? 'auto': '500px'}"
+      :style="{'min-width': $q.platform.is.mobile ? 'auto': '700px'}"
     >
       <q-card-section class="row items-center no-wrap q-py-md">
         <q-icon
@@ -99,6 +99,114 @@
         />
       </q-card-section>
 
+      <q-card-section class="q-mt-none q-pt-none column q-gutter-y-md text-subtitle1">
+        <div class="text-h6">
+          Условия получения:
+        </div>
+
+        <div
+          v-for="(condition, index) in conditions"
+          :key="condition.value.id"
+          class="row"
+        >
+          <template v-if="condition.value.type === 'event'">
+            <q-select
+              v-model="condition.value.value"
+              class="col q-pr-sm  text-subtitle1"
+              :options="events"
+              label="Событие"
+            />
+            <q-select
+              v-model="condition.value.char"
+              :options="eventsConditions"
+              label="Условие"
+              class="col-4  text-subtitle1"
+            />
+          </template>
+          <template v-else-if="condition.value.type==='stats'">
+            <q-select
+              v-model="condition.value.value"
+              class="col q-pr-sm  text-subtitle1"
+              :options="stats"
+              label="Показатель"
+            />
+            <q-select
+              v-model="condition.value.char"
+              class="col-2  text-subtitle1"
+              :options="statsConditions"
+              label="Условие"
+            />
+            <q-input
+              v-model.number="condition.value.number"
+              class="col-2 text-center  text-subtitle1"
+              hide-bottom-space
+            >
+              Значение
+            </q-input>
+          </template>
+          <template v-else>
+            <q-btn
+              size="md"
+              outline
+              color="primary"
+              class="g-rounded  text-subtitle1 full-width"
+              no-caps
+              @click="deleteCondition(index)"
+            >
+              <strong class="q-mr-xs">ИЛИ</strong><span>(нажмите, чтобы убрать)</span>
+            </q-btn>
+          </template>
+
+          <q-btn
+            v-if="condition.value.type !=='or'"
+            flat
+            icon="sym_o_delete"
+            size="md"
+            outline
+            color="negative"
+            class="g-rounded q-ml-xs"
+            no-caps
+            @click="deleteCondition(index)"
+          />
+        </div>
+
+        <div class="row q-gutter-x-md items-center justify-center">
+          <q-btn
+            class="g-rounded col-3 text-subtitle1"
+            color="primary"
+            icon="sym_o_add"
+            no-caps
+            flat
+            dense
+            @click="addStat"
+          >
+            Показатель
+          </q-btn>
+          <q-btn
+            class="g-rounded col-3 text-subtitle1"
+            color="primary"
+            icon="sym_o_add"
+            no-caps
+            flat
+            dense
+            @click="addEvent"
+          >
+            Событие
+          </q-btn>
+          <q-btn
+            class="g-rounded col-3 text-subtitle1"
+            color="primary"
+            icon="sym_o_add"
+            no-caps
+            flat
+            dense
+            @click="addOr"
+          >
+            <span>Добавить</span><strong class="q-ml-xs">ИЛИ</strong>
+          </q-btn>
+        </div>
+      </q-card-section>
+
       <q-card-actions class="q-px-lg q-py-lg">
         <q-btn
           :label="$t('saveChanges')"
@@ -117,10 +225,12 @@
 <script setup lang="ts">
 import { QFile, useQuasar } from 'quasar'
 import {
-  computed, onMounted, PropType, ref,
+  computed, onMounted, PropType, reactive, Ref, ref,
 } from 'vue'
 import { logError } from 'src/utils/utils'
-import { useAchievementsStore, type Achievement } from 'src/stores/achievementsStore'
+import {
+  Condition, ConditionEvent, ConditionOr, ConditionStats, useAchievementsStore, type Achievement,
+} from 'src/stores/achievementsStore'
 
 const props = defineProps({
   openModal: Boolean,
@@ -147,6 +257,65 @@ const achievementNameRef = ref(props.achievement.name)
 const oldAchievementName = ref(props.achievement.name)
 const achievementDescRef = ref(props.achievement.description ?? '')
 const oldAchievementDesc = ref(props.achievement.description ?? '')
+
+const events = [{
+  label: 'Событие 1',
+  value: Math.random().toString(),
+}]
+
+const eventsConditions = [{
+  label: 'Участвовал',
+  value: '=',
+},
+{
+  label: 'Не участвовал',
+  value: '!=',
+}]
+
+const stats = [{
+  label: 'Показатель 1',
+  value: Math.random().toString(),
+}]
+
+const statsConditions = ['=', '>', '<', '!=']
+
+const conditions = ref<Array<Ref<Condition>>>([])
+
+const addEvent = (): void => {
+  const condition = ref<ConditionEvent>({
+    id: Math.random().toString(),
+    type: 'event',
+    value: null,
+    char: null,
+  })
+
+  conditions.value.push(condition)
+}
+
+const addStat = (): void => {
+  const condition = ref<ConditionStats>({
+    id: Math.random().toString(),
+    type: 'stats',
+    value: null,
+    char: '>',
+    number: 0,
+  })
+
+  conditions.value.push(condition)
+}
+
+const addOr = (): void => {
+  const condition = ref<ConditionOr>({
+    id: Math.random().toString(),
+    type: 'or',
+  })
+
+  conditions.value.push(condition)
+}
+
+const deleteCondition = (index: number): void => {
+  conditions.value.splice(index, 1)
+}
 
 const achievementNameError = ref(false)
 
@@ -200,6 +369,7 @@ const editAchievement = (): void => {
       imgUrl: 'https://cdn.quasar.dev/img/boy-avatar.png',
       created_at: props.achievement.created_at,
       id: props.achievement.id,
+      conditions: [],
     }
     achievementsStore.changeAchievement(newAchievement)
     emit('close')
