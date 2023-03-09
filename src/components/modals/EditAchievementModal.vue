@@ -145,14 +145,14 @@ const id = computed(() => props.achievementId)
 
 const achievementNameRef = ref(props.achievement.name)
 const oldAchievementName = ref(props.achievement.name)
-const achievementDescRef = ref(props.achievement.description)
-const oldAchievementDesc = ref(props.achievement.description)
+const achievementDescRef = ref(props.achievement.description ?? '')
+const oldAchievementDesc = ref(props.achievement.description ?? '')
 
 const achievementNameError = ref(false)
 
 const avatarRef = ref<HTMLImageElement>()
 const avatarInputRef = ref<QFile>()
-const avatarUrl = ref('')
+const avatarUrl = ref('https://cdn.quasar.dev/img/boy-avatar.png')
 const image = ref<File | null>(null)
 
 const readBlob = () => {

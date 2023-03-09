@@ -131,7 +131,7 @@ const achievementDescRef = ref('')
 
 const avatarRef = ref<HTMLImageElement>()
 const avatarInputRef = ref<QFile>()
-const avatarUrl = ref('')
+const avatarUrl = ref('https://cdn.quasar.dev/img/boy-avatar.png')
 const image = ref<File | null>(null)
 
 const readBlob = () => {
