@@ -24,7 +24,7 @@
         class="g-rounded"
         icon="sym_o_add"
         :label="$t('adminAddAchiev')"
-        @click="showNotImplemented"
+        @click="isAddModalOpen = true"
       />
       <q-btn
         no-caps
@@ -37,10 +37,16 @@
       />
     </q-card-actions>
   </q-card>
+  <AddAchievementModal
+    v-if="isAddModalOpen"
+    :is-open="isAddModalOpen"
+    @close="isAddModalOpen = false"
+  />
 </template>
 
 <script setup lang="ts">
-import { useUtils } from './utils'
+import { ref } from 'vue'
+import AddAchievementModal from '../modals/AddAchievementModal.vue'
 
-const { showNotImplemented } = useUtils()
+const isAddModalOpen = ref(false)
 </script>

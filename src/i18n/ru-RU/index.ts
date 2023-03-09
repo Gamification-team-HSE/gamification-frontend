@@ -126,4 +126,19 @@ export default {
   ratingTitle: 'Рейтинг пользователей',
   ratingSortStat: 'Название показателя',
   sortBy: 'Сортировать по',
+
+  // Add achievement modal
+  addAchievementHeader: 'Добавление достижения',
+  fillAchievementInfo: 'Заполните информацию о достижении',
+  achievementNamePlaceholder: 'Название достижения, например, Самый продуктивный программист',
+  achievementDescPlaceholder: 'Описание достижения',
+  addAchievement: 'Добавить достижение',
+
+  // Edit achievement modal
+  editAchievementHeader: 'Изменение достижения',
+
+  // Achievements page
+  deleteAchievementTitle: 'Удалить достижение',
+  deleteAchievementConfirm: 'Вы уверены, что хотите удалить достижение?',
+  deleteAchievementSuccess: 'Достижение удалено',
 }

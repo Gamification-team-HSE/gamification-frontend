@@ -37,7 +37,7 @@
       <q-card-section class="q-px-lg q-pt-lg column q-gutter-y-md q-pb-none text-subtitle1">
         <div class="row no-wrap text-subtitle1 items-center q-mt-md">
           <q-icon
-            name="sym_o_event"
+            name="sym_o_celebration"
             class="q-mr-sm"
             size="md"
           />
