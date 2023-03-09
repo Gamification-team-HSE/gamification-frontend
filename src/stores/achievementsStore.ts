@@ -77,12 +77,23 @@ const example2: Achievement = {
   ],
 }
 
+const example3: Achievement = {
+  name: 'Достижение3',
+  description: 'Описание достижения',
+  imgUrl: 'https://cdn.quasar.dev/img/boy-avatar.png',
+  created_at: Date.now(),
+  id: 3,
+  conditions: [
+
+  ],
+}
+
 type State = {
   achievements: Achievement[]
 }
 
 const defaultState: State = {
-  achievements: [example1, example2],
+  achievements: [example1, example2, example3],
 }
 
 export const useAchievementsStore = defineStore('achievements', {
