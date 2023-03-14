@@ -225,7 +225,7 @@
 <script setup lang="ts">
 import { QFile, useQuasar } from 'quasar'
 import {
-  computed, onMounted, PropType, reactive, Ref, ref,
+  computed, onMounted, PropType, Ref, ref,
 } from 'vue'
 import { logError } from 'src/utils/utils'
 import {

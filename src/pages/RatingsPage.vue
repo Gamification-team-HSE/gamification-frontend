@@ -67,7 +67,10 @@
       <q-card
         v-for="user in userslist"
         :key="user.id"
-        class="g-shadow g-shadow-hover g-rounded"
+        class="g-shadow g-shadow-hover g-rounded cursor-pointer"
+        @click="$router.push({'name': 'user', params: {
+          id: user.id.toString(),
+        },})"
       >
         <UserCardComponent
           :user="user"

@@ -73,11 +73,14 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/LoginPage.vue'),
       },
     ],
-    beforeEnter: () => {
+    beforeEnter: (to, from, next) => {
       const userStore = useUserStore()
-      if (userStore.isLoggedIn) return false
+      if (userStore.isLoggedIn) {
+        next(from)
+        return
+      }
 
-      return true
+      next(to)
     },
   },
   {

@@ -6,11 +6,11 @@
         size="lg"
         class=" q-mr-md"
       />
-      {{ $t('achievements') }} - 25
+      {{ $t('achievements') }} - {{ achievementsStore.achievements.length }}
     </q-card-section>
     <q-card-section class=" text-subtitle1">
       {{ $t('adminAchievText', {
-        count: 25,
+        count: achievementsStore.achievements.length,
       })
       }}
     </q-card-section>
@@ -45,8 +45,11 @@
 </template>
 
 <script setup lang="ts">
+import { useAchievementsStore } from 'src/stores/achievementsStore'
 import { ref } from 'vue'
 import AddAchievementModal from '../modals/AddAchievementModal.vue'
 
 const isAddModalOpen = ref(false)
+
+const achievementsStore = useAchievementsStore()
 </script>
