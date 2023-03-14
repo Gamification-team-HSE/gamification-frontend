@@ -1,0 +1,11 @@
+query GetStat($id: Int!) {
+  GetStat(id: $id) {
+    id
+    name
+    description
+    created_at
+    start_at
+    period
+    seq_period
+  }
+}

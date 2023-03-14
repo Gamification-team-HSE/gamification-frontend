@@ -1,0 +1,4 @@
+
+mutation CreateStat($stat: NewStat!) {
+  CreateStat(stat: $stat)
+}

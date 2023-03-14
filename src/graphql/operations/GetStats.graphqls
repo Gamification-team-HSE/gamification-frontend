@@ -1,0 +1,14 @@
+query GetStats($pagination: Pagination) {
+  GetStats(pagination: $pagination) {
+    total
+    stats {
+      id
+      name
+      description
+      created_at
+      start_at
+      period
+      seq_period
+    }
+  }
+}

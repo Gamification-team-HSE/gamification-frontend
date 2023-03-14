@@ -18,6 +18,71 @@ export type Scalars = {
   Upload: any;
 };
 
+export type Achievement = {
+  __typename?: 'Achievement';
+  created_at: Scalars['Time'];
+  description?: Maybe<Scalars['String']>;
+  end_at?: Maybe<Scalars['Time']>;
+  id: Scalars['Int'];
+  image?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  rules: Rules;
+};
+
+export enum Comparison {
+  Equals = 'Equals',
+  GreaterThan = 'GreaterThan',
+  InvalidComparison = 'InvalidComparison',
+  LesserThan = 'LesserThan',
+  NotEquals = 'NotEquals'
+}
+
+export enum ConnectionOperator {
+  And = 'And',
+  InvalidConnectionOperator = 'InvalidConnectionOperator',
+  Or = 'Or'
+}
+
+export type Event = {
+  __typename?: 'Event';
+  created_at: Scalars['Time'];
+  description?: Maybe<Scalars['String']>;
+  end_at?: Maybe<Scalars['Time']>;
+  id: Scalars['Int'];
+  image?: Maybe<Scalars['Upload']>;
+  name: Scalars['String'];
+  start_at: Scalars['Time'];
+};
+
+export type EventRule = {
+  __typename?: 'EventRule';
+  event_id: Scalars['Int'];
+  need_participate: Scalars['Boolean'];
+};
+
+export type GetEvent = {
+  __typename?: 'GetEvent';
+  created_at: Scalars['Time'];
+  description?: Maybe<Scalars['String']>;
+  end_at?: Maybe<Scalars['Time']>;
+  id: Scalars['Int'];
+  image?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  start_at: Scalars['Time'];
+};
+
+export type GetEventsResponse = {
+  __typename?: 'GetEventsResponse';
+  events: Array<GetEvent>;
+  total: Scalars['Int'];
+};
+
+export type GetStatsResponse = {
+  __typename?: 'GetStatsResponse';
+  stats: Array<Stat>;
+  total: Scalars['Int'];
+};
+
 export type GetUsersResponse = {
   __typename?: 'GetUsersResponse';
   total: UsersTotalInfo;
@@ -27,11 +92,16 @@ export type GetUsersResponse = {
 export type Mutation = {
   __typename?: 'Mutation';
   BanUser?: Maybe<Scalars['Any']>;
+  CreateEvent?: Maybe<Scalars['Any']>;
   CreateStat?: Maybe<Scalars['Any']>;
   CreateUser?: Maybe<Scalars['Any']>;
+  DeleteEvent?: Maybe<Scalars['Any']>;
+  DeleteStat?: Maybe<Scalars['Any']>;
   DeleteUser?: Maybe<Scalars['Any']>;
   RecoverUser?: Maybe<Scalars['Any']>;
   SendCode?: Maybe<Scalars['Any']>;
+  UpdateEvent?: Maybe<Scalars['Any']>;
+  UpdateStat?: Maybe<Scalars['Any']>;
   UpdateUser?: Maybe<Scalars['Any']>;
   VerifyCode: Scalars['String'];
 };
@@ -42,6 +112,11 @@ export type MutationBanUserArgs = {
 };
 
 
+export type MutationCreateEventArgs = {
+  event: NewEvent;
+};
+
+
 export type MutationCreateStatArgs = {
   stat: NewStat;
 };
@@ -49,6 +124,16 @@ export type MutationCreateStatArgs = {
 
 export type MutationCreateUserArgs = {
   user: NewUser;
+};
+
+
+export type MutationDeleteEventArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteStatArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -67,6 +152,16 @@ export type MutationSendCodeArgs = {
 };
 
 
+export type MutationUpdateEventArgs = {
+  event: UpdateEvent;
+};
+
+
+export type MutationUpdateStatArgs = {
+  stat: UpdateStat;
+};
+
+
 export type MutationUpdateUserArgs = {
   user?: InputMaybe<UpdateUser>;
 };
@@ -77,12 +172,20 @@ export type MutationVerifyCodeArgs = {
   email: Scalars['String'];
 };
 
+export type NewEvent = {
+  description?: InputMaybe<Scalars['String']>;
+  end_at?: InputMaybe<Scalars['Time']>;
+  image?: InputMaybe<Scalars['Upload']>;
+  name: Scalars['String'];
+  start_at: Scalars['Time'];
+};
+
 export type NewStat = {
   description?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
-  period?: InputMaybe<Scalars['String']>;
+  period: Scalars['String'];
   seq_period?: InputMaybe<Scalars['String']>;
-  start_at?: InputMaybe<Scalars['Time']>;
+  start_at: Scalars['Time'];
 };
 
 export type NewUser = {
@@ -100,8 +203,32 @@ export type Pagination = {
 export type Query = {
   __typename?: 'Query';
   GetCurrentUser: User;
+  GetEvent: GetEvent;
+  GetEvents: GetEventsResponse;
+  GetStat: Stat;
+  GetStats: GetStatsResponse;
   GetUser: User;
   GetUsers: GetUsersResponse;
+};
+
+
+export type QueryGetEventArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryGetEventsArgs = {
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+export type QueryGetStatArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryGetStatsArgs = {
+  pagination?: InputMaybe<Pagination>;
 };
 
 
@@ -121,6 +248,18 @@ export enum Role {
   User = 'user'
 }
 
+export type RuleBlock = {
+  __typename?: 'RuleBlock';
+  connection_operator?: Maybe<ConnectionOperator>;
+  eventsRules?: Maybe<Array<EventRule>>;
+  statRules?: Maybe<Array<StatRule>>;
+};
+
+export type Rules = {
+  __typename?: 'Rules';
+  blocks: Array<RuleBlock>;
+};
+
 export type Stat = {
   __typename?: 'Stat';
   created_at: Scalars['Time'];
@@ -130,6 +269,31 @@ export type Stat = {
   period: Scalars['String'];
   seq_period?: Maybe<Scalars['String']>;
   start_at: Scalars['Time'];
+};
+
+export type StatRule = {
+  __typename?: 'StatRule';
+  comparison_type: Comparison;
+  stat_id: Scalars['Int'];
+  target_value: Scalars['Int'];
+};
+
+export type UpdateEvent = {
+  description?: InputMaybe<Scalars['String']>;
+  end_at?: InputMaybe<Scalars['Time']>;
+  id: Scalars['Int'];
+  image?: InputMaybe<Scalars['Upload']>;
+  name?: InputMaybe<Scalars['String']>;
+  start_at?: InputMaybe<Scalars['Time']>;
+};
+
+export type UpdateStat = {
+  description?: InputMaybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name?: InputMaybe<Scalars['String']>;
+  period?: InputMaybe<Scalars['String']>;
+  seq_period?: InputMaybe<Scalars['String']>;
+  start_at?: InputMaybe<Scalars['Time']>;
 };
 
 export type UpdateUser = {
@@ -171,12 +335,40 @@ export type BanUserMutationVariables = Exact<{
 
 export type BanUserMutation = { __typename?: 'Mutation', BanUser?: any | null | undefined };
 
+export type CreateEventMutationVariables = Exact<{
+  event: NewEvent;
+}>;
+
+
+export type CreateEventMutation = { __typename?: 'Mutation', CreateEvent?: any | null | undefined };
+
+export type CreateStatMutationVariables = Exact<{
+  stat: NewStat;
+}>;
+
+
+export type CreateStatMutation = { __typename?: 'Mutation', CreateStat?: any | null | undefined };
+
 export type CreateUserMutationVariables = Exact<{
   user: NewUser;
 }>;
 
 
 export type CreateUserMutation = { __typename?: 'Mutation', CreateUser?: any | null | undefined };
+
+export type DeleteEventMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteEventMutation = { __typename?: 'Mutation', DeleteEvent?: any | null | undefined };
+
+export type DeleteStatMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteStatMutation = { __typename?: 'Mutation', DeleteStat?: any | null | undefined };
 
 export type DeleteUserMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -189,6 +381,34 @@ export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetCurrentUserQuery = { __typename?: 'Query', GetCurrentUser: { __typename?: 'User', email: string, id: number, role: Role, avatar?: string | null | undefined, name?: string | null | undefined } };
+
+export type GetEventQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetEventQuery = { __typename?: 'Query', GetEvent: { __typename?: 'GetEvent', id: number, name: string, description?: string | null | undefined, image?: string | null | undefined, created_at: any, start_at: any, end_at?: any | null | undefined } };
+
+export type GetEventsQueryVariables = Exact<{
+  pagination?: InputMaybe<Pagination>;
+}>;
+
+
+export type GetEventsQuery = { __typename?: 'Query', GetEvents: { __typename?: 'GetEventsResponse', total: number, events: Array<{ __typename?: 'GetEvent', id: number, name: string, description?: string | null | undefined, image?: string | null | undefined, created_at: any, start_at: any, end_at?: any | null | undefined }> } };
+
+export type GetStatQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetStatQuery = { __typename?: 'Query', GetStat: { __typename?: 'Stat', id: number, name: string, description?: string | null | undefined, created_at: any, start_at: any, period: string, seq_period?: string | null | undefined } };
+
+export type GetStatsQueryVariables = Exact<{
+  pagination?: InputMaybe<Pagination>;
+}>;
+
+
+export type GetStatsQuery = { __typename?: 'Query', GetStats: { __typename?: 'GetStatsResponse', total: number, stats: Array<{ __typename?: 'Stat', id: number, name: string, description?: string | null | undefined, created_at: any, start_at: any, period: string, seq_period?: string | null | undefined }> } };
 
 export type GetUserQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -219,8 +439,22 @@ export type SendCodeMutationVariables = Exact<{
 
 export type SendCodeMutation = { __typename?: 'Mutation', SendCode?: any | null | undefined };
 
+export type UpdateEventMutationVariables = Exact<{
+  event: UpdateEvent;
+}>;
+
+
+export type UpdateEventMutation = { __typename?: 'Mutation', UpdateEvent?: any | null | undefined };
+
+export type UpdateStatMutationVariables = Exact<{
+  stat: UpdateStat;
+}>;
+
+
+export type UpdateStatMutation = { __typename?: 'Mutation', UpdateStat?: any | null | undefined };
+
 export type UpdateUserMutationVariables = Exact<{
-  user?: InputMaybe<UpdateUser>;
+  user: UpdateUser;
 }>;
 
 
@@ -240,9 +474,29 @@ export const BanUserDocument = gql`
   BanUser(id: $id)
 }
     `;
+export const CreateEventDocument = gql`
+    mutation CreateEvent($event: NewEvent!) {
+  CreateEvent(event: $event)
+}
+    `;
+export const CreateStatDocument = gql`
+    mutation CreateStat($stat: NewStat!) {
+  CreateStat(stat: $stat)
+}
+    `;
 export const CreateUserDocument = gql`
     mutation CreateUser($user: NewUser!) {
   CreateUser(user: $user)
+}
+    `;
+export const DeleteEventDocument = gql`
+    mutation DeleteEvent($id: Int!) {
+  DeleteEvent(id: $id)
+}
+    `;
+export const DeleteStatDocument = gql`
+    mutation DeleteStat($id: Int!) {
+  DeleteStat(id: $id)
 }
     `;
 export const DeleteUserDocument = gql`
@@ -258,6 +512,64 @@ export const GetCurrentUserDocument = gql`
     role
     avatar
     name
+  }
+}
+    `;
+export const GetEventDocument = gql`
+    query GetEvent($id: Int!) {
+  GetEvent(id: $id) {
+    id
+    name
+    description
+    image
+    created_at
+    start_at
+    end_at
+  }
+}
+    `;
+export const GetEventsDocument = gql`
+    query GetEvents($pagination: Pagination) {
+  GetEvents(pagination: $pagination) {
+    total
+    events {
+      id
+      name
+      description
+      image
+      created_at
+      start_at
+      end_at
+    }
+  }
+}
+    `;
+export const GetStatDocument = gql`
+    query GetStat($id: Int!) {
+  GetStat(id: $id) {
+    id
+    name
+    description
+    created_at
+    start_at
+    period
+    seq_period
+  }
+}
+    `;
+export const GetStatsDocument = gql`
+    query GetStats($pagination: Pagination) {
+  GetStats(pagination: $pagination) {
+    total
+    stats {
+      id
+      name
+      description
+      created_at
+      start_at
+      period
+      seq_period
+    }
   }
 }
     `;
@@ -303,8 +615,18 @@ export const SendCodeDocument = gql`
   SendCode(email: $email)
 }
     `;
+export const UpdateEventDocument = gql`
+    mutation UpdateEvent($event: UpdateEvent!) {
+  UpdateEvent(event: $event)
+}
+    `;
+export const UpdateStatDocument = gql`
+    mutation UpdateStat($stat: UpdateStat!) {
+  UpdateStat(stat: $stat)
+}
+    `;
 export const UpdateUserDocument = gql`
-    mutation UpdateUser($user: UpdateUser) {
+    mutation UpdateUser($user: UpdateUser!) {
   UpdateUser(user: $user)
 }
     `;
@@ -324,14 +646,38 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     BanUser(variables: BanUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BanUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BanUserMutation>(BanUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'BanUser', 'mutation');
     },
+    CreateEvent(variables: CreateEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateEventMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateEventMutation>(CreateEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateEvent', 'mutation');
+    },
+    CreateStat(variables: CreateStatMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateStatMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateStatMutation>(CreateStatDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateStat', 'mutation');
+    },
     CreateUser(variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateUserMutation>(CreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateUser', 'mutation');
+    },
+    DeleteEvent(variables: DeleteEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteEventMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteEventMutation>(DeleteEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DeleteEvent', 'mutation');
+    },
+    DeleteStat(variables: DeleteStatMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteStatMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteStatMutation>(DeleteStatDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DeleteStat', 'mutation');
     },
     DeleteUser(variables: DeleteUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteUserMutation>(DeleteUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DeleteUser', 'mutation');
     },
     GetCurrentUser(variables?: GetCurrentUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCurrentUserQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetCurrentUserQuery>(GetCurrentUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetCurrentUser', 'query');
+    },
+    GetEvent(variables: GetEventQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetEventQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetEventQuery>(GetEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetEvent', 'query');
+    },
+    GetEvents(variables?: GetEventsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetEventsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetEventsQuery>(GetEventsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetEvents', 'query');
+    },
+    GetStat(variables: GetStatQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetStatQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetStatQuery>(GetStatDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetStat', 'query');
+    },
+    GetStats(variables?: GetStatsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetStatsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetStatsQuery>(GetStatsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetStats', 'query');
     },
     GetUser(variables: GetUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetUserQuery>(GetUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetUser', 'query');
@@ -345,7 +691,13 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     SendCode(variables: SendCodeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<SendCodeMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<SendCodeMutation>(SendCodeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'SendCode', 'mutation');
     },
-    UpdateUser(variables?: UpdateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserMutation> {
+    UpdateEvent(variables: UpdateEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateEventMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateEventMutation>(UpdateEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateEvent', 'mutation');
+    },
+    UpdateStat(variables: UpdateStatMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateStatMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateStatMutation>(UpdateStatDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateStat', 'mutation');
+    },
+    UpdateUser(variables: UpdateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserMutation>(UpdateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateUser', 'mutation');
     },
     VerifyCode(variables: VerifyCodeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<VerifyCodeMutation> {

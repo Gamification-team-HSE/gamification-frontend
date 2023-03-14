@@ -1,0 +1,3 @@
+mutation UpdateEvent($event: UpdateEvent!) {
+  UpdateEvent(event: $event)
+}

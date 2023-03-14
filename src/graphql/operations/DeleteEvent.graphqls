@@ -1,0 +1,4 @@
+
+mutation DeleteEvent($id: Int!) {
+  DeleteEvent(id: $id)
+}

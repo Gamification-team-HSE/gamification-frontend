@@ -1,0 +1,3 @@
+mutation UpdateStat($stat: UpdateStat!) {
+  UpdateStat(stat: $stat)
+}
