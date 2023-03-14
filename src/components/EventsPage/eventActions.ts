@@ -1,16 +1,8 @@
 import { useQuasar } from 'quasar'
+import { Event } from 'src/api/generated'
 import { useEventsStore } from 'src/stores/eventsStore'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-
-type Event = {
-  name: string,
-  description: string,
-  imgUrl: string,
-  dateRange: { from: number, to: number },
-  created_at: number,
-  id: number,
-}
 
 export const useEventActions = () => {
   const i18n = useI18n()

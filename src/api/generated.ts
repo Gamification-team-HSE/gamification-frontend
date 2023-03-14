@@ -43,15 +43,23 @@ export enum ConnectionOperator {
   Or = 'Or'
 }
 
+export type CreateAchievement = {
+  description?: InputMaybe<Scalars['String']>;
+  end_at?: InputMaybe<Scalars['Time']>;
+  image?: InputMaybe<Scalars['Upload']>;
+  name: Scalars['String'];
+  rules: InputRules;
+};
+
 export type Event = {
   __typename?: 'Event';
-  created_at: Scalars['Time'];
+  created_at: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
-  end_at?: Maybe<Scalars['Time']>;
+  end_at?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
   image?: Maybe<Scalars['Upload']>;
   name: Scalars['String'];
-  start_at: Scalars['Time'];
+  start_at: Scalars['Int'];
 };
 
 export type EventRule = {
@@ -60,15 +68,21 @@ export type EventRule = {
   need_participate: Scalars['Boolean'];
 };
 
+export type GetAchievementsResponse = {
+  __typename?: 'GetAchievementsResponse';
+  achievements: Array<Achievement>;
+  total: Scalars['Int'];
+};
+
 export type GetEvent = {
   __typename?: 'GetEvent';
-  created_at: Scalars['Time'];
+  created_at: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
-  end_at?: Maybe<Scalars['Time']>;
+  end_at?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
   image?: Maybe<Scalars['String']>;
   name: Scalars['String'];
-  start_at: Scalars['Time'];
+  start_at: Scalars['Int'];
 };
 
 export type GetEventsResponse = {
@@ -89,17 +103,41 @@ export type GetUsersResponse = {
   users: Array<User>;
 };
 
+export type InputEventRule = {
+  event_id: Scalars['Int'];
+  need_participate: Scalars['Boolean'];
+};
+
+export type InputRuleBlock = {
+  connection_operator?: InputMaybe<ConnectionOperator>;
+  eventsRules?: InputMaybe<Array<InputStatRule>>;
+  statRules?: InputMaybe<Array<InputRuleBlock>>;
+};
+
+export type InputRules = {
+  blocks: Array<InputRuleBlock>;
+};
+
+export type InputStatRule = {
+  comparison_type: Comparison;
+  stat_id: Scalars['Int'];
+  target_value: Scalars['Int'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   BanUser?: Maybe<Scalars['Any']>;
+  CreateAchievement?: Maybe<Scalars['Any']>;
   CreateEvent?: Maybe<Scalars['Any']>;
   CreateStat?: Maybe<Scalars['Any']>;
   CreateUser?: Maybe<Scalars['Any']>;
+  DeleteAchievement?: Maybe<Scalars['Any']>;
   DeleteEvent?: Maybe<Scalars['Any']>;
   DeleteStat?: Maybe<Scalars['Any']>;
   DeleteUser?: Maybe<Scalars['Any']>;
   RecoverUser?: Maybe<Scalars['Any']>;
   SendCode?: Maybe<Scalars['Any']>;
+  UpdateAchievement?: Maybe<Scalars['Any']>;
   UpdateEvent?: Maybe<Scalars['Any']>;
   UpdateStat?: Maybe<Scalars['Any']>;
   UpdateUser?: Maybe<Scalars['Any']>;
@@ -109,6 +147,11 @@ export type Mutation = {
 
 export type MutationBanUserArgs = {
   id: Scalars['Int'];
+};
+
+
+export type MutationCreateAchievementArgs = {
+  achievement: CreateAchievement;
 };
 
 
@@ -124,6 +167,11 @@ export type MutationCreateStatArgs = {
 
 export type MutationCreateUserArgs = {
   user: NewUser;
+};
+
+
+export type MutationDeleteAchievementArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -152,6 +200,11 @@ export type MutationSendCodeArgs = {
 };
 
 
+export type MutationUpdateAchievementArgs = {
+  achievement: UpdateAchievement;
+};
+
+
 export type MutationUpdateEventArgs = {
   event: UpdateEvent;
 };
@@ -174,10 +227,10 @@ export type MutationVerifyCodeArgs = {
 
 export type NewEvent = {
   description?: InputMaybe<Scalars['String']>;
-  end_at?: InputMaybe<Scalars['Time']>;
+  end_at?: InputMaybe<Scalars['Int']>;
   image?: InputMaybe<Scalars['Upload']>;
   name: Scalars['String'];
-  start_at: Scalars['Time'];
+  start_at: Scalars['Int'];
 };
 
 export type NewStat = {
@@ -185,7 +238,7 @@ export type NewStat = {
   name: Scalars['String'];
   period: Scalars['String'];
   seq_period?: InputMaybe<Scalars['String']>;
-  start_at: Scalars['Time'];
+  start_at: Scalars['Int'];
 };
 
 export type NewUser = {
@@ -202,6 +255,8 @@ export type Pagination = {
 
 export type Query = {
   __typename?: 'Query';
+  GetAchievement?: Maybe<Achievement>;
+  GetAchievements?: Maybe<GetAchievementsResponse>;
   GetCurrentUser: User;
   GetEvent: GetEvent;
   GetEvents: GetEventsResponse;
@@ -209,6 +264,16 @@ export type Query = {
   GetStats: GetStatsResponse;
   GetUser: User;
   GetUsers: GetUsersResponse;
+};
+
+
+export type QueryGetAchievementArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryGetAchievementsArgs = {
+  pagination?: InputMaybe<Pagination>;
 };
 
 
@@ -262,13 +327,13 @@ export type Rules = {
 
 export type Stat = {
   __typename?: 'Stat';
-  created_at: Scalars['Time'];
+  created_at: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   name: Scalars['String'];
   period: Scalars['String'];
   seq_period?: Maybe<Scalars['String']>;
-  start_at: Scalars['Time'];
+  start_at: Scalars['Int'];
 };
 
 export type StatRule = {
@@ -278,13 +343,21 @@ export type StatRule = {
   target_value: Scalars['Int'];
 };
 
-export type UpdateEvent = {
-  description?: InputMaybe<Scalars['String']>;
+export type UpdateAchievement = {
   end_at?: InputMaybe<Scalars['Time']>;
   id: Scalars['Int'];
   image?: InputMaybe<Scalars['Upload']>;
   name?: InputMaybe<Scalars['String']>;
-  start_at?: InputMaybe<Scalars['Time']>;
+  rules?: InputMaybe<InputRules>;
+};
+
+export type UpdateEvent = {
+  description?: InputMaybe<Scalars['String']>;
+  end_at?: InputMaybe<Scalars['Int']>;
+  id: Scalars['Int'];
+  image?: InputMaybe<Scalars['Upload']>;
+  name?: InputMaybe<Scalars['String']>;
+  start_at?: InputMaybe<Scalars['Int']>;
 };
 
 export type UpdateStat = {
@@ -293,7 +366,7 @@ export type UpdateStat = {
   name?: InputMaybe<Scalars['String']>;
   period?: InputMaybe<Scalars['String']>;
   seq_period?: InputMaybe<Scalars['String']>;
-  start_at?: InputMaybe<Scalars['Time']>;
+  start_at?: InputMaybe<Scalars['Int']>;
 };
 
 export type UpdateUser = {
@@ -306,8 +379,8 @@ export type UpdateUser = {
 export type User = {
   __typename?: 'User';
   avatar?: Maybe<Scalars['String']>;
-  created_at: Scalars['Time'];
-  deleted_at?: Maybe<Scalars['Time']>;
+  created_at: Scalars['Int'];
+  deleted_at?: Maybe<Scalars['Int']>;
   email: Scalars['String'];
   foreign_id?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
@@ -387,35 +460,35 @@ export type GetEventQueryVariables = Exact<{
 }>;
 
 
-export type GetEventQuery = { __typename?: 'Query', GetEvent: { __typename?: 'GetEvent', id: number, name: string, description?: string | null | undefined, image?: string | null | undefined, created_at: any, start_at: any, end_at?: any | null | undefined } };
+export type GetEventQuery = { __typename?: 'Query', GetEvent: { __typename?: 'GetEvent', id: number, name: string, description?: string | null | undefined, image?: string | null | undefined, created_at: number, start_at: number, end_at?: number | null | undefined } };
 
 export type GetEventsQueryVariables = Exact<{
   pagination?: InputMaybe<Pagination>;
 }>;
 
 
-export type GetEventsQuery = { __typename?: 'Query', GetEvents: { __typename?: 'GetEventsResponse', total: number, events: Array<{ __typename?: 'GetEvent', id: number, name: string, description?: string | null | undefined, image?: string | null | undefined, created_at: any, start_at: any, end_at?: any | null | undefined }> } };
+export type GetEventsQuery = { __typename?: 'Query', GetEvents: { __typename?: 'GetEventsResponse', total: number, events: Array<{ __typename?: 'GetEvent', id: number, name: string, description?: string | null | undefined, image?: string | null | undefined, created_at: number, start_at: number, end_at?: number | null | undefined }> } };
 
 export type GetStatQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type GetStatQuery = { __typename?: 'Query', GetStat: { __typename?: 'Stat', id: number, name: string, description?: string | null | undefined, created_at: any, start_at: any, period: string, seq_period?: string | null | undefined } };
+export type GetStatQuery = { __typename?: 'Query', GetStat: { __typename?: 'Stat', id: number, name: string, description?: string | null | undefined, created_at: number, start_at: number, period: string, seq_period?: string | null | undefined } };
 
 export type GetStatsQueryVariables = Exact<{
   pagination?: InputMaybe<Pagination>;
 }>;
 
 
-export type GetStatsQuery = { __typename?: 'Query', GetStats: { __typename?: 'GetStatsResponse', total: number, stats: Array<{ __typename?: 'Stat', id: number, name: string, description?: string | null | undefined, created_at: any, start_at: any, period: string, seq_period?: string | null | undefined }> } };
+export type GetStatsQuery = { __typename?: 'Query', GetStats: { __typename?: 'GetStatsResponse', total: number, stats: Array<{ __typename?: 'Stat', id: number, name: string, description?: string | null | undefined, created_at: number, start_at: number, period: string, seq_period?: string | null | undefined }> } };
 
 export type GetUserQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', GetUser: { __typename?: 'User', email: string, name?: string | null | undefined, created_at: any, id: number, avatar?: string | null | undefined } };
+export type GetUserQuery = { __typename?: 'Query', GetUser: { __typename?: 'User', email: string, name?: string | null | undefined, created_at: number, id: number, avatar?: string | null | undefined } };
 
 export type GetUsersQueryVariables = Exact<{
   pagination?: InputMaybe<Pagination>;
@@ -423,7 +496,7 @@ export type GetUsersQueryVariables = Exact<{
 }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', GetUsers: { __typename?: 'GetUsersResponse', total: { __typename?: 'UsersTotalInfo', admins: number, active: number, banned: number }, users: Array<{ __typename?: 'User', id: number, foreign_id?: string | null | undefined, email: string, name?: string | null | undefined, created_at: any, deleted_at?: any | null | undefined, role: Role, avatar?: string | null | undefined }> } };
+export type GetUsersQuery = { __typename?: 'Query', GetUsers: { __typename?: 'GetUsersResponse', total: { __typename?: 'UsersTotalInfo', admins: number, active: number, banned: number }, users: Array<{ __typename?: 'User', id: number, foreign_id?: string | null | undefined, email: string, name?: string | null | undefined, created_at: number, deleted_at?: number | null | undefined, role: Role, avatar?: string | null | undefined }> } };
 
 export type RecoverUserMutationVariables = Exact<{
   id: Scalars['Int'];

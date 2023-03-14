@@ -108,7 +108,7 @@
           bottom-slots
           hint="Дата первого сброса"
           autofocus
-          :clearable="!startAt || startAt !== oldStartAt"
+          :clearable="!startAt || new Date(startAt).getTime() !== oldStartAt"
           tabindex="4"
           readonly
           @clear="restoreStatStartAt"
@@ -169,8 +169,8 @@
 </template>
 
 <script setup lang="ts">
-import { useQuasar } from 'quasar'
-import { Stat } from 'src/api/generated'
+import { date, useQuasar } from 'quasar'
+import { Stat, UpdateStat } from 'src/api/generated'
 import {
   computed, onMounted, PropType, ref,
 } from 'vue'
@@ -183,10 +183,6 @@ const props = defineProps({
     type: Number as PropType<Stat['id']> | undefined,
     default: undefined,
   },
-  stat: {
-    type: Object as PropType<Stat>,
-    required: true,
-  },
 })
 
 const emit = defineEmits<{(e: 'close'): void,
@@ -196,20 +192,22 @@ const emit = defineEmits<{(e: 'close'): void,
 const $q = useQuasar()
 const statsStore = useStatsStore()
 
+const stat = statsStore.stats.find((item) => item.id === props.statId) as Stat
+
 const defaultDate = new Date().toLocaleDateString('ru-RU')
 
 const id = computed(() => props.statId)
-const name = ref(props.stat.name)
-const description = ref(props.stat.description)
-const period = ref(props.stat.period)
-const seqPeriod = ref(props.stat.seq_period)
-const startAt = ref(new Date(props.stat.start_at).toLocaleDateString('ru-RU'))
+const name = ref(stat.name)
+const description = ref(stat.description)
+const period = ref(stat.period)
+const seqPeriod = ref(stat.seq_period)
+const startAt = ref(new Date(stat.start_at * 1000).toLocaleDateString('ru-RU'))
 
-const oldName = ref(props.stat.name)
-const oldDescription = ref(props.stat.description)
-const oldPeriod = ref(props.stat.period)
-const oldSeqPeriod = ref(props.stat.seq_period)
-const oldStartAt = ref(props.stat.start_at)
+const oldName = ref(stat.name)
+const oldDescription = ref(stat.description)
+const oldPeriod = ref(stat.period)
+const oldSeqPeriod = ref(stat.seq_period)
+const oldStartAt = ref(stat.start_at * 1000)
 
 const statNameError = ref(false)
 
@@ -230,19 +228,24 @@ const restoreStatSeqPeriod = (): void => {
 }
 
 const restoreStatStartAt = (): void => {
-  startAt.value = oldStartAt.value
+  startAt.value = new Date(oldStartAt.value).toLocaleDateString('ru-RU')
 }
 
-const dateValidator = (date: string): boolean => {
-  const [years, months, days] = date.split('/')
+const dateValidator = (dateToValidate: string): boolean => {
+  const [years, months, days] = dateToValidate.split('/')
 
   const dateToCompare = new Date()
   dateToCompare.setFullYear(Number(years), Number(months) - 1, Number(days))
 
-  return dateToCompare.getTime() >= Date.now()
+  const validateDate = new Date()
+  validateDate.setDate(validateDate.getDate() + 1)
+
+  return dateToCompare.getTime() >= validateDate.getTime()
 }
 
 const editStat = (): void => {
+  if (!props.statId) return
+
   name.value = name.value.trim()
   if (!name.value.length) {
     statNameError.value = true
@@ -258,14 +261,15 @@ const editStat = (): void => {
       color: 'warning',
     })
   } else {
-    const newStat: Stat = {
+    const startAtDate = date.extractDate(startAt.value, 'DD.MM.YYYY')
+
+    const newStat: UpdateStat = {
       name: name.value,
       description: description.value,
       period: period.value,
       seq_period: seqPeriod.value,
-      created_at: props.stat.created_at,
-      id: props.stat.id,
-      start_at: props.stat.start_at,
+      id: props.statId,
+      start_at: startAtDate.getTime() / 1000,
     }
     statsStore.changeStat(newStat)
     emit('close')

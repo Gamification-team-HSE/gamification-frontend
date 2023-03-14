@@ -1,38 +1,15 @@
 import { defineStore } from 'pinia'
-
-export type Event = {
-  name: string,
-  description: string | null,
-  imgUrl: string,
-  dateRange: { from: number, to: number },
-  created_at: number,
-  id: number,
-}
-
-const example1: Event = {
-  name: 'Новый год 2023',
-  description: 'Войти в аккаунт в новогодние каникулы 2023',
-  imgUrl: 'https://cdn.quasar.dev/img/boy-avatar.png',
-  dateRange: { from: Date.now(), to: Date.now() + 24 * 60 * 60 * 1000 },
-  created_at: Date.now(),
-  id: 1,
-}
-
-const example2: Event = {
-  name: 'Событие2',
-  description: 'Описание события',
-  imgUrl: 'https://cdn.quasar.dev/img/boy-avatar.png',
-  dateRange: { from: Date.now(), to: Date.now() + 24 * 60 * 60 * 1000 },
-  created_at: Date.now(),
-  id: 2,
-}
+import { Event, NewEvent, UpdateEvent } from 'src/api/generated'
+import { graphqlSDK } from 'src/boot/grapqhl'
 
 type State = {
   events: Event[]
+  total: number
 }
 
 const defaultState: State = {
-  events: [example1, example2],
+  events: [],
+  total: 0,
 }
 
 export const useEventsStore = defineStore('events', {
@@ -43,16 +20,34 @@ export const useEventsStore = defineStore('events', {
 
   },
   actions: {
-    deleteEvent(eventId: Event['id']) {
-      this.events = this.events.filter((ev) => ev.id !== eventId)
+    async load() {
+      const response = await graphqlSDK.GetEvents()
+      this.events = response.GetEvents.events as Event[]
+      this.total = response.GetEvents.total
     },
 
-    changeEvent(newEvent: Event) {
-      const oldEvent = this.events.find(({ id }) => id === newEvent.id)
-      if (oldEvent !== undefined) {
-        const oldEventIndex = this.events.indexOf(oldEvent)
-        this.events[oldEventIndex] = newEvent
-      }
+    async addEvent(event: NewEvent) {
+      await graphqlSDK.CreateEvent({
+        event,
+      })
+
+      this.load()
+    },
+
+    async deleteEvent(eventId: Event['id']) {
+      await graphqlSDK.DeleteEvent({
+        id: eventId,
+      })
+
+      this.load()
+    },
+
+    async changeEvent(event: UpdateEvent) {
+      await graphqlSDK.UpdateEvent({
+        event,
+      })
+
+      this.load()
     },
   },
 })

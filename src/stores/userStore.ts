@@ -2,6 +2,9 @@ import { defineStore } from 'pinia'
 import { Role } from 'src/api/generated'
 import { client, graphqlSDK } from 'src/boot/grapqhl'
 import { LocalStorageService } from 'src/services/LocalStorageService'
+import { useEventsStore } from './eventsStore'
+import { useStatsStore } from './statsStore'
+import { useUsersStore } from './usersStore'
 
 type State = {
   isLoggedIn: boolean
@@ -49,6 +52,14 @@ export const useUserStore = defineStore('user', {
       this.username = user.name ?? null
       this.role = user.role
       this.id = user.id
+
+      const usersStore = useUsersStore()
+      const statsStore = useStatsStore()
+      const eventsStore = useEventsStore()
+
+      usersStore.tryLoadActiveUsers()
+      statsStore.load()
+      eventsStore.load()
     },
     pushToProfile() {
       this.router.push({

@@ -35,6 +35,35 @@
       <q-separator />
 
       <q-card-section class="q-px-lg q-pt-lg column q-gutter-y-md q-pb-none text-subtitle1">
+        <div class="row justify-center">
+          <q-avatar
+            size="150px"
+            class="cursor-pointer"
+            @click="avatarInputRef?.pickFiles()"
+          >
+            <img
+              ref="avatarRef"
+              :src="avatarUrl"
+            >
+          </q-avatar>
+        </div>
+        <q-file
+          ref="avatarInputRef"
+          v-model="eventImage"
+          class=" hidden"
+          :label="$t('fileUpload')"
+          counter
+          outlined
+          accept=".jpg, .jpeg, .png, image/*"
+          max-files="1"
+          dense
+          :max-file-size="200000"
+          @update:model-value="readBlob"
+        >
+          <template #prepend>
+            <q-icon name="sym_o_attach_file" />
+          </template>
+        </q-file>
         <q-input
           v-model="eventNameRef"
           class="full-width text-subtitle1"
@@ -70,29 +99,13 @@
         />
 
         <div class="row no-wrap justify-between q-mt-md">
-          <q-file
-            v-model="eventImage"
-            :label="$t('fileUpload')"
-            class="self-start"
-            counter
-            outlined
-            tabindex="3"
-            accept=".jpg, image/*"
-            max-files="1"
-            style="max-width: 43%"
-          >
-            <template #prepend>
-              <q-icon name="sym_o_attach_file" />
-            </template>
-          </q-file>
-
           <q-input
             outlined
             :placeholder="$t('eventDatePlaceholder')"
-            :model-value="`${dateRange.from}` == `${dateRange.to}` ? `${dateRange}` : `${dateRange.from} - ${dateRange.to}`"
+            :model-value="dateRange.from === dateRange.to ? `${dateRange.from}` : `${dateRange.from} - ${dateRange.to}`"
             :clearable="!dateRange || dateRange !== oldDateRange"
-            style="max-width: 55%"
             tabindex="4"
+            class="full-width"
             @clear="restoreDateRange"
           >
             <template #append>
@@ -108,6 +121,7 @@
                   <q-date
                     v-model="dateRange"
                     range
+                    :options="dateValidator"
                   >
                     <div class="row items-center justify-end">
                       <q-btn
@@ -140,17 +154,18 @@
 </template>
 
 <script setup lang="ts">
-import { useQuasar } from 'quasar'
+import { date, QFile, useQuasar } from 'quasar'
 import {
   computed, onMounted, ref, PropType,
 } from 'vue'
 import { logError } from 'src/utils/utils'
-import { useEventsStore, type Event } from 'src/stores/eventsStore'
+import { useEventsStore } from 'src/stores/eventsStore'
+import type { Event, UpdateEvent } from 'src/api/generated'
 
 const props = defineProps({
   openModal: Boolean,
   eventId: {
-    type: Number, // TODO
+    type: Number,
     default: undefined,
   },
   event: {
@@ -164,8 +179,8 @@ const emit = defineEmits<{(e: 'close'): void}>()
 const $q = useQuasar()
 const eventsStore = useEventsStore()
 
-const newDateFrom = () => new Date(props.event.dateRange.from).toLocaleDateString('ru-RU')
-const newDateTo = () => new Date(props.event.dateRange.to).toLocaleDateString('ru-RU')
+const newDateFrom = () => new Date(props.event.start_at * 1000).toLocaleDateString('ru-RU')
+const newDateTo = () => new Date((props.event.end_at ? props.event.end_at : props.event.start_at) * 1000).toLocaleDateString('ru-RU')
 
 const id = computed(() => props.eventId)
 const eventNameRef = ref(props.event.name)
@@ -176,6 +191,33 @@ const eventImage = ref(null)
 const oldEventImage = ref(null)
 const dateRange = ref({ from: newDateFrom(), to: newDateTo() })
 const oldDateRange = ref({ from: newDateFrom(), to: newDateTo() })
+
+const avatarRef = ref<HTMLImageElement>()
+const avatarInputRef = ref<QFile>()
+const avatarUrl = ref(props.event.image ?? 'https://cdn.quasar.dev/img/boy-avatar.png')
+
+const readBlob = () => {
+  if (!eventImage.value) return
+
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    if (!avatarRef.value || !e.target) return
+    avatarRef.value.src = e.target.result as string
+  }
+  reader.readAsDataURL(eventImage.value)
+}
+
+const dateValidator = (dateToValidate: string): boolean => {
+  const [years, months, days] = dateToValidate.split('/')
+
+  const dateToCompare = new Date()
+  dateToCompare.setFullYear(Number(years), Number(months) - 1, Number(days))
+
+  const validateDate = new Date()
+  validateDate.setDate(validateDate.getDate() + 1)
+
+  return dateToCompare.getTime() >= validateDate.getTime()
+}
 
 const eventNameError = ref(false)
 
@@ -207,13 +249,12 @@ const editEvent = (): void => {
       color: 'warning',
     })
   } else {
-    const newEvent: Event = {
+    const newEvent: UpdateEvent = {
       name: eventNameRef.value,
       description: eventDescRef.value,
-      imgUrl: 'https://cdn.quasar.dev/img/boy-avatar.png',
-      dateRange: { from: new Date(dateRange.value.from).getTime(), to: new Date(dateRange.value.to).getTime() },
-      created_at: props.event.created_at,
       id: props.event.id,
+      image: eventImage.value,
+      // TODO
     }
     eventsStore.changeEvent(newEvent)
     emit('close')

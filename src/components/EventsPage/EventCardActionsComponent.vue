@@ -37,9 +37,9 @@
 
 <script setup lang="ts">
 import { PropType } from 'vue'
+import { Event } from 'src/api/generated'
 import { useEventActions } from './eventActions'
 import EditEventModal from '../modals/EditEventModal.vue'
-import { Event } from '../../stores/eventsStore'
 
 defineProps({
   event: {

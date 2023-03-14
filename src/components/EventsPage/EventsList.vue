@@ -2,7 +2,7 @@
   <q-card
     v-for="event in events"
     :key="event.id"
-    class="g-shadow g-shadow-hover g-rounded cursor-pointer"
+    class="g-shadow g-shadow-hover g-rounded"
   >
     <q-card-section class="text-subtitle1">
       <EventCardDataComponent
@@ -17,10 +17,10 @@
 </template>
 
 <script lang="ts" setup>
+import { Event } from 'src/api/generated'
 import { PropType } from 'vue'
 import EventCardActionsComponent from './EventCardActionsComponent.vue'
 import EventCardDataComponent from './EventCardDataComponent.vue'
-import { Event } from '../../stores/eventsStore'
 
 defineProps({
   events: {

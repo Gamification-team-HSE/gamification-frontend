@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import { Stat } from 'src/api/generated'
+import { NewStat, Stat, UpdateStat } from 'src/api/generated'
+import { graphqlSDK } from 'src/boot/grapqhl'
 
 const example: Stat = {
   __typename: 'Stat',
@@ -25,10 +26,12 @@ const example2: Stat = {
 
 type State = {
   stats: Stat[]
+  total: number
 }
 
 const defaultState: State = {
-  stats: [example, example2],
+  stats: [],
+  total: 0,
 }
 
 export const useStatsStore = defineStore('stats', {
@@ -39,16 +42,34 @@ export const useStatsStore = defineStore('stats', {
 
   },
   actions: {
-    deleteStat(statId: Stat['id']) {
-      this.stats = this.stats.filter((stat) => stat.id !== statId)
+    async load() {
+      const response = await graphqlSDK.GetStats()
+      this.stats = response.GetStats.stats
+      this.total = response.GetStats.total
     },
 
-    changeStat(newStat: Stat) {
-      const oldStat = this.stats.find(({ id }) => id === newStat.id)
-      if (oldStat !== undefined) {
-        const oldStatIndex = this.stats.indexOf(oldStat)
-        this.stats[oldStatIndex] = newStat
-      }
+    async addStat(stat: NewStat) {
+      await graphqlSDK.CreateStat({
+        stat,
+      })
+
+      this.load()
+    },
+
+    async deleteStat(statId: Stat['id']) {
+      await graphqlSDK.DeleteStat({
+        id: statId,
+      })
+
+      this.load()
+    },
+
+    async changeStat(stat: UpdateStat) {
+      await graphqlSDK.UpdateStat({
+        stat,
+      })
+
+      this.load()
     },
   },
 })

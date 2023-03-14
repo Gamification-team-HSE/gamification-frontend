@@ -43,6 +43,35 @@
           />
           <span>{{ $t('fillEventInfo') }}</span>
         </div>
+        <div class="row justify-center">
+          <q-avatar
+            size="150px"
+            class="cursor-pointer"
+            @click="avatarInputRef?.pickFiles()"
+          >
+            <img
+              ref="avatarRef"
+              :src="avatarUrl"
+            >
+          </q-avatar>
+        </div>
+        <q-file
+          ref="avatarInputRef"
+          v-model="eventImage"
+          class=" hidden"
+          :label="$t('fileUpload')"
+          counter
+          outlined
+          accept=".jpg, .jpeg, .png, image/*"
+          max-files="1"
+          dense
+          :max-file-size="200000"
+          @update:model-value="readBlob"
+        >
+          <template #prepend>
+            <q-icon name="sym_o_attach_file" />
+          </template>
+        </q-file>
         <q-input
           v-model="eventNameRef"
           outlined
@@ -69,28 +98,12 @@
         />
 
         <div class="row no-wrap justify-between q-mt-md">
-          <q-file
-            v-model="eventImage"
-            :label="$t('fileUpload')"
-            class="self-start"
-            counter
-            outlined
-            tabindex="3"
-            accept=".jpg, image/*"
-            max-files="1"
-            style="max-width: 43%"
-          >
-            <template #prepend>
-              <q-icon name="sym_o_attach_file" />
-            </template>
-          </q-file>
-
           <q-input
             outlined
             :placeholder="$t('eventDatePlaceholder')"
             :model-value="dateStringComputed"
-            style="max-width: 55%"
             tabindex="4"
+            class="full-width"
           >
             <template #append>
               <q-icon
@@ -106,6 +119,7 @@
                     v-model="dateRange"
                     range
                     mask="DD.MM.YYYY"
+                    :options="dateValidator"
                   >
                     <div class="row items-center justify-end">
                       <q-btn
@@ -138,7 +152,8 @@
 </template>
 
 <script setup lang="ts">
-import { useQuasar } from 'quasar'
+import { date, QFile, useQuasar } from 'quasar'
+import { useEventsStore } from 'src/stores/eventsStore'
 import { computed, ref } from 'vue'
 
 const props = defineProps({
@@ -149,8 +164,10 @@ const emit = defineEmits<{(e: 'close'): void,
 }>()
 
 const $q = useQuasar()
+const eventsStore = useEventsStore()
 
 const today = new Date()
+today.setDate(today.getDate() + 1)
 const currentDate = today.toLocaleDateString('ru-RU')
 
 today.setDate(today.getDate() + 1)
@@ -161,6 +178,33 @@ const eventDescRef = ref('')
 const eventImage = ref(null)
 const dateRange = ref<string | {from: string, to: string}>({ from: currentDate, to: nextDate })
 
+const avatarRef = ref<HTMLImageElement>()
+const avatarInputRef = ref<QFile>()
+const avatarUrl = ref('https://cdn.quasar.dev/img/boy-avatar.png')
+
+const readBlob = () => {
+  if (!eventImage.value) return
+
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    if (!avatarRef.value || !e.target) return
+    avatarRef.value.src = e.target.result as string
+  }
+  reader.readAsDataURL(eventImage.value)
+}
+
+const dateValidator = (dateToValidate: string): boolean => {
+  const [years, months, days] = dateToValidate.split('/')
+
+  const dateToCompare = new Date()
+  dateToCompare.setFullYear(Number(years), Number(months) - 1, Number(days))
+
+  const validateDate = new Date()
+  validateDate.setDate(validateDate.getDate() + 1)
+
+  return dateToCompare.getTime() >= validateDate.getTime()
+}
+
 const dateStringComputed = computed<string>(() => {
   if (!dateRange.value) return ''
 
@@ -170,33 +214,36 @@ const dateStringComputed = computed<string>(() => {
 })
 
 const addEvent = async () => {
+  eventNameRef.value = eventNameRef.value.trim()
+  if (!eventNameRef.value.length) {
+    // eventNameError.value = true
+    return
+  }
 
-  // eventNameRef.value = eventNameRef.value.trim()
-  // if (!eventNameRef.value.length) {
-  //   eventNameError.value = true
-  //   return
-  // }
+  const endAt = typeof dateRange.value === 'string' ? undefined : date.extractDate(dateRange.value.to, 'DD.MM.YYYY')
+  const startAt = typeof dateRange.value === 'string' ? date.extractDate(dateRange.value, 'DD.MM.YYYY') : date.extractDate(dateRange.value.from, 'DD.MM.YYYY')
 
-  // try {
-  //   await graphqlSDK.CreateEvent({
-  //     event: {
-  //       Name: eventNameRef.value,
-  //       Description: eventDescRef.value,
-  //     },
-  //   })
+  try {
+    await eventsStore.addEvent({
+      name: eventNameRef.value,
+      description: eventDescRef.value,
+      end_at: endAt ? endAt.getTime() / 1000 : endAt,
+      start_at: startAt.getTime() / 1000,
+      image: eventImage.value,
+    })
 
-  //   $q.notify({
-  //     icon: 'sym_o_calendar_add_on',
-  //     message: i18n.t('eventAdded'),
-  //     timeout: 2000,
-  //     position: 'top-right',
-  //     color: 'primary',
-  //   })
+    $q.notify({
+      icon: 'sym_o_calendar_add_on',
+      message: 'Ивент добавлен',
+      timeout: 2000,
+      position: 'top-right',
+      color: 'primary',
+    })
 
-  //   emit('close')
-  // } catch (error) {
-  //   emailError.value = true
-  //   logError('Creating event error', (error as any).response)
-  // }
+    emit('close')
+  } catch (error) {
+    console.error('ASD 123', error)
+    // emailError.value = true
+  }
 }
 </script>

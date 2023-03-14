@@ -127,7 +127,7 @@
         </q-input>
 
         <q-input
-          v-model="seqPeriod"
+          v-model.number="seqPeriod"
           outlined
           class="full-width text-subtitle1"
           bottom-slots
@@ -156,6 +156,8 @@
 </template>
 
 <script lang="ts" setup>
+import { date } from 'quasar'
+import { useStatsStore } from 'src/stores/statsStore'
 import { ref } from 'vue'
 
 const emit = defineEmits<{(e: 'close'): void,
@@ -165,24 +167,46 @@ const props = defineProps({
   isOpen: Boolean,
 })
 
+const statsStore = useStatsStore()
+
 const defaultDate = new Date().toLocaleDateString('ru-RU')
 
 const name = ref('')
 const description = ref('')
-const period = ref<number | undefined>()
+const period = ref<number | undefined>(undefined)
 const seqPeriod = ref('')
 const startAt = ref(defaultDate)
 
-const dateValidator = (date: string): boolean => {
-  const [years, months, days] = date.split('/')
+const dateValidator = (dateToValidate: string): boolean => {
+  const [years, months, days] = dateToValidate.split('/')
 
   const dateToCompare = new Date()
   dateToCompare.setFullYear(Number(years), Number(months) - 1, Number(days))
 
-  return dateToCompare.getTime() >= Date.now()
+  const validateDate = new Date()
+  validateDate.setDate(validateDate.getDate() + 1)
+
+  return dateToCompare.getTime() >= validateDate.getTime()
 }
 
-const handleAddStats = (): void => {
-  emit('close')
+const handleAddStats = async (): Promise<void> => {
+  const startDate = date.extractDate(startAt.value, 'DD.MM.YYYY')
+  const periodFinal = period.value ? `${period.value}d` : ''
+  const setPeriodFinal = seqPeriod.value ? `${seqPeriod.value}d` : ''
+
+  const timestamp = startDate.getTime() / 1000
+
+  try {
+    await statsStore.addStat({
+      name: name.value,
+      description: description.value,
+      seq_period: setPeriodFinal,
+      start_at: timestamp,
+      period: periodFinal,
+    })
+    emit('close')
+  } catch (error) {
+    console.error(error)
+  }
 }
 </script>

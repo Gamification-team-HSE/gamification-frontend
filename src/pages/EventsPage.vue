@@ -35,7 +35,8 @@ import { computed, ref } from 'vue'
 import SearchNotFoundComponent from 'src/components/SearchNotFoundComponent.vue'
 import EventsList from 'src/components/EventsPage/EventsList.vue'
 import HeaderCardComponent from 'src/components/EventsPage/HeaderCardComponent.vue'
-import { useEventsStore, type Event } from 'src/stores/eventsStore'
+import { useEventsStore } from 'src/stores/eventsStore'
+import { Event } from 'src/api/generated'
 
 const eventsStore = useEventsStore()
 

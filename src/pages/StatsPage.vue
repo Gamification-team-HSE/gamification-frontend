@@ -30,14 +30,17 @@
         class="g-shadow g-shadow-hover g-rounded"
       >
         <q-card-section class="column q-pb-none">
-          <div class="text-h6">
-            {{ stat.name }}
+          <div class="text-h6 row">
+            <div>{{ stat.name }}</div>
           </div>
           <div class="text-caption">
-            Создан: {{ new Date(stat.created_at).toLocaleDateString('ru-RU') }}
+            Создан: {{ new Date(stat.created_at * 1000).toLocaleDateString('ru-RU') }}
           </div>
           <div class="text-subtitle1 q-mt-sm">
             {{ stat.description || 'Описания нет' }}
+          </div>
+          <div class="text-subtitle2">
+            API key: <kbd class=" text-h6 text-primary">{{ stat.id }}</kbd>
           </div>
         </q-card-section>
         <q-card-section class="column">
@@ -52,7 +55,7 @@
             />
             <div class="column q-ml-md text-subtitle2">
               <span>Показатель сбрасывается раз в {{ stat.period }}.</span>
-              <span>Начало периода: {{ new Date(stat.start_at).toLocaleDateString('ru-RU') }}.</span>
+              <span>Начало периода: {{ new Date(stat.start_at * 1000).toLocaleDateString('ru-RU') }}.</span>
             </div>
           </div>
           <q-separator
@@ -99,17 +102,16 @@
           >
             Удалить
           </q-btn>
-          <EditStatModal
-            v-if="openEditModal"
-            :open-modal="openEditModal"
-            :stat-id="openIdForEditing"
-            :stat="stat"
-            @close="closeEditModal"
-          />
         </q-card-actions>
       </q-card>
       <SearchNotFoundComponent v-if="!filteredAndSortedArray.length" />
     </div>
+    <EditStatModal
+      v-if="openEditModal"
+      :open-modal="openEditModal"
+      :stat-id="openIdForEditing"
+      @close="closeEditModal"
+    />
   </q-page>
 </template>
 
@@ -165,15 +167,18 @@ const deleteStat = (id: Stat['id']): void => {
     class: 'g-rounded',
     position: $q.platform.is.mobile ? 'bottom' : 'standard',
   }).onOk(() => {
-    $q.notify({
-      icon: 'sym_o_delete',
-      message: 'Показатель удален',
-      timeout: 2000,
-      position: 'top-right',
-      color: 'primary',
-    })
-
-    statsStore.stats = statsStore.stats.filter((stat) => stat.id !== id)
+    try {
+      statsStore.deleteStat(id)
+      $q.notify({
+        icon: 'sym_o_delete',
+        message: 'Показатель удален',
+        timeout: 2000,
+        position: 'top-right',
+        color: 'primary',
+      })
+    } catch (error) {
+      console.error(error)
+    }
   })
 }
 

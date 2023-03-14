@@ -8,7 +8,7 @@ export default boot(async ({ redirect, urlPath }) => {
   const authToken = LocalStorageService.get('authToken')
 
   if (!authToken) {
-  // Redirect to login but not in loop reloads
+    // Redirect to login but not in loop reloads
     if (urlPath.includes('login')) return
     redirect({ name: 'login' })
     return
