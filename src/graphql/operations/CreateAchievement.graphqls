@@ -1,0 +1,4 @@
+
+mutation CreateAchievement($achievement: CreateAchievement!) {
+  CreateAchievement(achievement: $achievement)
+}

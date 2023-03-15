@@ -1,15 +1,8 @@
 import { useQuasar } from 'quasar'
+import { Achievement } from 'src/api/generated'
 import { useAchievementsStore } from 'src/stores/achievementsStore'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-
-type Achievement = {
-  name: string,
-  description: string,
-  imgUrl: string,
-  created_at: number,
-  id: number,
-}
 
 export const useAchievementActions = () => {
   const i18n = useI18n()

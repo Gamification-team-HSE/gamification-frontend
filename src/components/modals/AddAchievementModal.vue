@@ -115,6 +115,7 @@
 
 <script setup lang="ts">
 import { QFile, useQuasar } from 'quasar'
+import { useAchievementsStore } from 'src/stores/achievementsStore'
 import { ref } from 'vue'
 
 const props = defineProps({
@@ -125,6 +126,7 @@ const emit = defineEmits<{(e: 'close'): void,
 }>()
 
 const $q = useQuasar()
+const achievementsStore = useAchievementsStore()
 
 const achievementNameRef = ref('')
 const achievementDescRef = ref('')
@@ -146,6 +148,19 @@ const readBlob = () => {
 }
 
 const addAchievement = (): void => {
-  emit('close')
+  try {
+    achievementsStore.addAchievement({
+      image: image.value ? image.value : undefined,
+      name: achievementNameRef.value,
+      description: achievementDescRef.value,
+      rules: {
+        blocks: [],
+      },
+    })
+
+    emit('close')
+  } catch (error) {
+    console.error(error)
+  }
 }
 </script>

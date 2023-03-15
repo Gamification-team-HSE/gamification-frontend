@@ -20,9 +20,9 @@ export type Scalars = {
 
 export type Achievement = {
   __typename?: 'Achievement';
-  created_at: Scalars['Time'];
+  created_at: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
-  end_at?: Maybe<Scalars['Time']>;
+  end_at?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
   image?: Maybe<Scalars['String']>;
   name: Scalars['String'];
@@ -45,7 +45,7 @@ export enum ConnectionOperator {
 
 export type CreateAchievement = {
   description?: InputMaybe<Scalars['String']>;
-  end_at?: InputMaybe<Scalars['Time']>;
+  end_at?: InputMaybe<Scalars['Int']>;
   image?: InputMaybe<Scalars['Upload']>;
   name: Scalars['String'];
   rules: InputRules;
@@ -110,8 +110,8 @@ export type InputEventRule = {
 
 export type InputRuleBlock = {
   connection_operator?: InputMaybe<ConnectionOperator>;
-  eventsRules?: InputMaybe<Array<InputStatRule>>;
-  statRules?: InputMaybe<Array<InputRuleBlock>>;
+  eventsRules?: InputMaybe<Array<InputEventRule>>;
+  statRules?: InputMaybe<Array<InputStatRule>>;
 };
 
 export type InputRules = {
@@ -344,7 +344,8 @@ export type StatRule = {
 };
 
 export type UpdateAchievement = {
-  end_at?: InputMaybe<Scalars['Time']>;
+  description?: InputMaybe<Scalars['String']>;
+  end_at?: InputMaybe<Scalars['Int']>;
   id: Scalars['Int'];
   image?: InputMaybe<Scalars['Upload']>;
   name?: InputMaybe<Scalars['String']>;
@@ -408,6 +409,13 @@ export type BanUserMutationVariables = Exact<{
 
 export type BanUserMutation = { __typename?: 'Mutation', BanUser?: any | null | undefined };
 
+export type CreateAchievementMutationVariables = Exact<{
+  achievement: CreateAchievement;
+}>;
+
+
+export type CreateAchievementMutation = { __typename?: 'Mutation', CreateAchievement?: any | null | undefined };
+
 export type CreateEventMutationVariables = Exact<{
   event: NewEvent;
 }>;
@@ -429,6 +437,13 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { __typename?: 'Mutation', CreateUser?: any | null | undefined };
 
+export type DeleteAchievementMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteAchievementMutation = { __typename?: 'Mutation', DeleteAchievement?: any | null | undefined };
+
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -449,6 +464,20 @@ export type DeleteUserMutationVariables = Exact<{
 
 
 export type DeleteUserMutation = { __typename?: 'Mutation', DeleteUser?: any | null | undefined };
+
+export type GetAchievementQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetAchievementQuery = { __typename?: 'Query', GetAchievement?: { __typename?: 'Achievement', id: number, name: string, description?: string | null | undefined, image?: string | null | undefined, end_at?: number | null | undefined, created_at: number, rules: { __typename?: 'Rules', blocks: Array<{ __typename?: 'RuleBlock', connection_operator?: ConnectionOperator | null | undefined, eventsRules?: Array<{ __typename?: 'EventRule', event_id: number, need_participate: boolean }> | null | undefined, statRules?: Array<{ __typename?: 'StatRule', stat_id: number, target_value: number, comparison_type: Comparison }> | null | undefined }> } } | null | undefined };
+
+export type GetAchievementsQueryVariables = Exact<{
+  pagination?: InputMaybe<Pagination>;
+}>;
+
+
+export type GetAchievementsQuery = { __typename?: 'Query', GetAchievements?: { __typename?: 'GetAchievementsResponse', total: number, achievements: Array<{ __typename?: 'Achievement', id: number, name: string, description?: string | null | undefined, image?: string | null | undefined, end_at?: number | null | undefined, created_at: number, rules: { __typename?: 'Rules', blocks: Array<{ __typename?: 'RuleBlock', connection_operator?: ConnectionOperator | null | undefined, eventsRules?: Array<{ __typename?: 'EventRule', event_id: number, need_participate: boolean }> | null | undefined, statRules?: Array<{ __typename?: 'StatRule', stat_id: number, target_value: number, comparison_type: Comparison }> | null | undefined }> } }> } | null | undefined };
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -512,6 +541,13 @@ export type SendCodeMutationVariables = Exact<{
 
 export type SendCodeMutation = { __typename?: 'Mutation', SendCode?: any | null | undefined };
 
+export type UpdateAchievementMutationVariables = Exact<{
+  achievement: UpdateAchievement;
+}>;
+
+
+export type UpdateAchievementMutation = { __typename?: 'Mutation', UpdateAchievement?: any | null | undefined };
+
 export type UpdateEventMutationVariables = Exact<{
   event: UpdateEvent;
 }>;
@@ -547,6 +583,11 @@ export const BanUserDocument = gql`
   BanUser(id: $id)
 }
     `;
+export const CreateAchievementDocument = gql`
+    mutation CreateAchievement($achievement: CreateAchievement!) {
+  CreateAchievement(achievement: $achievement)
+}
+    `;
 export const CreateEventDocument = gql`
     mutation CreateEvent($event: NewEvent!) {
   CreateEvent(event: $event)
@@ -562,6 +603,11 @@ export const CreateUserDocument = gql`
   CreateUser(user: $user)
 }
     `;
+export const DeleteAchievementDocument = gql`
+    mutation DeleteAchievement($id: Int!) {
+  DeleteAchievement(id: $id)
+}
+    `;
 export const DeleteEventDocument = gql`
     mutation DeleteEvent($id: Int!) {
   DeleteEvent(id: $id)
@@ -575,6 +621,61 @@ export const DeleteStatDocument = gql`
 export const DeleteUserDocument = gql`
     mutation DeleteUser($id: Int!) {
   DeleteUser(id: $id)
+}
+    `;
+export const GetAchievementDocument = gql`
+    query GetAchievement($id: Int!) {
+  GetAchievement(id: $id) {
+    id
+    name
+    description
+    image
+    rules {
+      blocks {
+        eventsRules {
+          event_id
+          need_participate
+        }
+        statRules {
+          stat_id
+          target_value
+          comparison_type
+        }
+        connection_operator
+      }
+    }
+    end_at
+    created_at
+  }
+}
+    `;
+export const GetAchievementsDocument = gql`
+    query GetAchievements($pagination: Pagination) {
+  GetAchievements(pagination: $pagination) {
+    total
+    achievements {
+      id
+      name
+      description
+      image
+      rules {
+        blocks {
+          eventsRules {
+            event_id
+            need_participate
+          }
+          statRules {
+            stat_id
+            target_value
+            comparison_type
+          }
+          connection_operator
+        }
+      }
+      end_at
+      created_at
+    }
+  }
 }
     `;
 export const GetCurrentUserDocument = gql`
@@ -688,6 +789,11 @@ export const SendCodeDocument = gql`
   SendCode(email: $email)
 }
     `;
+export const UpdateAchievementDocument = gql`
+    mutation UpdateAchievement($achievement: UpdateAchievement!) {
+  UpdateAchievement(achievement: $achievement)
+}
+    `;
 export const UpdateEventDocument = gql`
     mutation UpdateEvent($event: UpdateEvent!) {
   UpdateEvent(event: $event)
@@ -719,6 +825,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     BanUser(variables: BanUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<BanUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<BanUserMutation>(BanUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'BanUser', 'mutation');
     },
+    CreateAchievement(variables: CreateAchievementMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateAchievementMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateAchievementMutation>(CreateAchievementDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateAchievement', 'mutation');
+    },
     CreateEvent(variables: CreateEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateEventMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateEventMutation>(CreateEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateEvent', 'mutation');
     },
@@ -728,6 +837,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     CreateUser(variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateUserMutation>(CreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateUser', 'mutation');
     },
+    DeleteAchievement(variables: DeleteAchievementMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteAchievementMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteAchievementMutation>(DeleteAchievementDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DeleteAchievement', 'mutation');
+    },
     DeleteEvent(variables: DeleteEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteEventMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteEventMutation>(DeleteEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DeleteEvent', 'mutation');
     },
@@ -736,6 +848,12 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     DeleteUser(variables: DeleteUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteUserMutation>(DeleteUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DeleteUser', 'mutation');
+    },
+    GetAchievement(variables: GetAchievementQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetAchievementQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetAchievementQuery>(GetAchievementDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetAchievement', 'query');
+    },
+    GetAchievements(variables?: GetAchievementsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetAchievementsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetAchievementsQuery>(GetAchievementsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetAchievements', 'query');
     },
     GetCurrentUser(variables?: GetCurrentUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCurrentUserQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetCurrentUserQuery>(GetCurrentUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetCurrentUser', 'query');
@@ -763,6 +881,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     SendCode(variables: SendCodeMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<SendCodeMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<SendCodeMutation>(SendCodeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'SendCode', 'mutation');
+    },
+    UpdateAchievement(variables: UpdateAchievementMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateAchievementMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateAchievementMutation>(UpdateAchievementDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateAchievement', 'mutation');
     },
     UpdateEvent(variables: UpdateEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateEventMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateEventMutation>(UpdateEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateEvent', 'mutation');

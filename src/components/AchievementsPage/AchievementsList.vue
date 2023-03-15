@@ -17,10 +17,10 @@
 </template>
 
 <script lang="ts" setup>
+import { Achievement } from 'src/api/generated'
 import { PropType } from 'vue'
 import AchievementCardActionsComponent from './AchievementCardActionsComponent.vue'
 import AchievementCardDataComponent from './AchievementCardDataComponent.vue'
-import { Achievement } from '../../stores/achievementsStore'
 
 defineProps({
   achievements: {

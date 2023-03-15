@@ -1,0 +1,4 @@
+
+mutation DeleteAchievement($id: Int!) {
+  DeleteAchievement(id: $id)
+}

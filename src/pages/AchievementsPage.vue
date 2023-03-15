@@ -35,7 +35,8 @@ import { computed, ref } from 'vue'
 import SearchNotFoundComponent from 'src/components/SearchNotFoundComponent.vue'
 import AchievementsList from 'src/components/AchievementsPage/AchievementsList.vue'
 import HeaderCardComponent from 'src/components/AchievementsPage/HeaderCardComponent.vue'
-import { useAchievementsStore, type Achievement } from 'src/stores/achievementsStore'
+import { useAchievementsStore } from 'src/stores/achievementsStore'
+import { Achievement } from 'src/api/generated'
 
 const achievementsStore = useAchievementsStore()
 

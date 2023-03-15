@@ -1,39 +1,6 @@
 import { defineStore } from 'pinia'
-import { Achievement } from 'src/api/generated'
-
-// type Uuid = string
-// type ID = string
-
-// export type ConditionEvent = {
-//   id: Uuid,
-//   type: 'event',
-//   value: ID | null,
-//   char: '=' | '!=' | null
-// }
-
-// export type ConditionStats = {
-//   id: Uuid,
-//   type: 'stats',
-//   value: ID | null,
-//   char: '=' | '>' | '<' | '!=' | null,
-//   number: number
-// }
-
-// export type ConditionOr = {
-//   id: Uuid,
-//   type: 'or',
-// }
-
-// export type Condition = ConditionEvent | ConditionStats | ConditionOr
-
-// export type Achievement = {
-//   name: string,
-//   description: string | null,
-//   imgUrl: string,
-//   created_at: number,
-//   id: number,
-//   conditions: Condition[]
-// }
+import { Achievement, CreateAchievement, UpdateAchievement } from 'src/api/generated'
+import { graphqlSDK } from 'src/boot/grapqhl'
 
 type State = {
   achievements: Achievement[]
@@ -53,16 +20,35 @@ export const useAchievementsStore = defineStore('achievements', {
 
   },
   actions: {
-    deleteAchievement(achievementId: Achievement['id']) {
-      this.achievements = this.achievements.filter((a) => a.id !== achievementId)
+    async load() {
+      const response = await graphqlSDK.GetAchievements()
+      this.achievements = (response.GetAchievements?.achievements ?? []) as Achievement[]
+      this.total = response.GetAchievements?.total ?? 0
     },
 
-    changeAchievement(newAchievement: Achievement) {
-      const oldAchievement = this.achievements.find(({ id }) => id === newAchievement.id)
-      if (oldAchievement !== undefined) {
-        const oldEventIndex = this.achievements.indexOf(oldAchievement)
-        this.achievements[oldEventIndex] = newAchievement
-      }
+    async addAchievement(achievement: CreateAchievement) {
+      await graphqlSDK.CreateAchievement({
+        achievement,
+      })
+
+      this.load()
     },
+
+    async deleteAchievement(id: Achievement['id']) {
+      await graphqlSDK.DeleteAchievement({
+        id,
+      })
+
+      this.load()
+    },
+
+    async changeAchievement(achievement: UpdateAchievement) {
+      await graphqlSDK.UpdateAchievement({
+        achievement,
+      })
+
+      this.load()
+    },
+
   },
 })

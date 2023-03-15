@@ -1,8 +1,7 @@
 <template>
   <div class="row items-center q-gutter-x-md">
     <q-avatar size="5em">
-      <img src="https://cdn.quasar.dev/img/boy-avatar.png">
-      <!-- тут потом будет картинка достижения -->
+      <img :src="achievement.image ?? 'https://cdn.quasar.dev/img/boy-avatar.png'">
     </q-avatar>
     <div class="column">
       <div class="text-h6">
@@ -22,7 +21,7 @@
       />
       <div>Как получить?</div>
     </div>
-    <div
+    <!-- <div
       v-for="condition in achievement.conditions"
       :key="condition.id"
       class="row items-center text-subtitle1"
@@ -40,13 +39,13 @@
         <span class="q-mx-sm text-h5">{{ condition.char }}</span>
         <strong>{{ condition.number }}</strong>
       </template>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
+import { Achievement } from 'src/api/generated'
 import { PropType } from 'vue'
-import { Achievement } from '../../stores/achievementsStore'
 
 defineProps({
   achievement: {

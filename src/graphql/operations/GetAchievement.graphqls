@@ -1,0 +1,24 @@
+query GetAchievement($id: Int!) {
+  GetAchievement(id: $id) {
+      id
+      name
+      description
+      image
+      rules {
+        blocks {
+          eventsRules {
+            event_id
+            need_participate
+          }
+          statRules {
+            stat_id
+            target_value
+            comparison_type
+          }
+          connection_operator
+        }
+      }
+      end_at
+      created_at
+  }
+}

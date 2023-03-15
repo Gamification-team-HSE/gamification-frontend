@@ -37,9 +37,9 @@
 
 <script setup lang="ts">
 import { PropType } from 'vue'
+import { Achievement } from 'src/api/generated'
 import { useAchievementActions } from './achievementActions'
 import EditAchievementModal from '../modals/EditAchievementModal.vue'
-import { Achievement } from '../../stores/achievementsStore'
 
 defineProps({
   achievement: {
