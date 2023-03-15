@@ -104,47 +104,82 @@
           Условия получения:
         </div>
 
-        <div
-          v-for="(condition, index) in conditions"
-          :key="condition.value.id"
-          class="row"
+        <template
+          v-for="(block, index) in blocks"
+          :key="index"
         >
-          <template v-if="condition.value.type === 'event'">
+          <div
+            v-for="(eventRule, eventRuleIndex) in block.eventsRules"
+            :key="eventRuleIndex"
+            class="row"
+          >
             <q-select
-              v-model="condition.value.value"
-              class="col q-pr-sm  text-subtitle1"
-              :options="events"
+              v-model="eventRule.event_id"
+              class="col q-pr-sm text-subtitle1"
+              :options="getEventsForBlock(block)"
               label="Событие"
+              option-value="id"
+              :option-label="(obj) => obj.name ?? eventsStore.events.find(item => item.id === obj)?.name"
             />
             <q-select
-              v-model="condition.value.char"
+              v-model="eventRule.need_participate"
               :options="eventsConditions"
               label="Условие"
               class="col-4  text-subtitle1"
+              :option-label="(obj) => obj.label ?? eventsConditions.find(item => item.value === obj)?.label"
             />
-          </template>
-          <template v-else-if="condition.value.type==='stats'">
+            <q-btn
+              flat
+              icon="sym_o_delete"
+              size="md"
+              outline
+              color="negative"
+              class="g-rounded q-ml-xs"
+              no-caps
+              @click="deleteEvent(index, eventRuleIndex)"
+            />
+          </div>
+
+          <div
+            v-for="(statRule, statRuleIndex) in block.statRules"
+            :key="statRuleIndex"
+            class="row"
+          >
             <q-select
-              v-model="condition.value.value"
+              v-model="statRule.stat_id"
               class="col q-pr-sm  text-subtitle1"
-              :options="stats"
+              :options="statsStore.stats"
               label="Показатель"
+              option-value="id"
+              :option-label="(obj) => obj.name ?? statsStore.stats.find(item => item.id === obj)?.name"
             />
             <q-select
-              v-model="condition.value.char"
+              v-model="statRule.comparison_type"
               class="col-2  text-subtitle1"
               :options="statsConditions"
               label="Условие"
+              :option-label="(obj) => obj.label ?? statsConditions.find(item => item.value === obj)?.label"
             />
             <q-input
-              v-model.number="condition.value.number"
+              v-model.number="statRule.target_value"
               class="col-2 text-center  text-subtitle1"
               hide-bottom-space
             >
               Значение
             </q-input>
-          </template>
-          <template v-else>
+            <q-btn
+              flat
+              icon="sym_o_delete"
+              size="md"
+              outline
+              color="negative"
+              class="g-rounded q-ml-xs"
+              no-caps
+              @click="deleteStat(index, statRuleIndex)"
+            />
+          </div>
+
+          <template v-if="block.connection_operator === ConnectionOperator.Or && blocks[index+1]">
             <q-btn
               size="md"
               outline
@@ -156,19 +191,7 @@
               <strong class="q-mr-xs">ИЛИ</strong><span>(нажмите, чтобы убрать)</span>
             </q-btn>
           </template>
-
-          <q-btn
-            v-if="condition.value.type !=='or'"
-            flat
-            icon="sym_o_delete"
-            size="md"
-            outline
-            color="negative"
-            class="g-rounded q-ml-xs"
-            no-caps
-            @click="deleteCondition(index)"
-          />
-        </div>
+        </template>
 
         <div class="row q-gutter-x-md items-center justify-center">
           <q-btn
@@ -194,6 +217,7 @@
             Событие
           </q-btn>
           <q-btn
+            v-if="canAddOrCondition"
             class="g-rounded col-3 text-subtitle1"
             color="primary"
             icon="sym_o_add"
@@ -225,12 +249,16 @@
 <script setup lang="ts">
 import { QFile, useQuasar } from 'quasar'
 import {
-  computed, onMounted, PropType, Ref, ref,
+  computed, onMounted, PropType, ref, toRaw,
 } from 'vue'
 import { logError } from 'src/utils/utils'
 import {
-  Condition, ConditionEvent, ConditionOr, ConditionStats, useAchievementsStore, type Achievement,
-} from 'src/stores/achievementsStore'
+  Achievement, ConnectionOperator, InputRuleBlock, RuleBlock, UpdateAchievement,
+  Comparison, Event,
+} from 'src/api/generated'
+import { useAchievementsStore } from 'src/stores/achievementsStore'
+import { useEventsStore } from 'src/stores/eventsStore'
+import { useStatsStore } from 'src/stores/statsStore'
 
 const props = defineProps({
   openModal: Boolean,
@@ -250,6 +278,8 @@ const emit = defineEmits<{(e: 'close'): void,
 const $q = useQuasar()
 
 const achievementsStore = useAchievementsStore()
+const eventsStore = useEventsStore()
+const statsStore = useStatsStore()
 
 const id = computed(() => props.achievementId)
 
@@ -258,71 +288,112 @@ const oldAchievementName = ref(props.achievement.name)
 const achievementDescRef = ref(props.achievement.description ?? '')
 const oldAchievementDesc = ref(props.achievement.description ?? '')
 
-const events = [{
-  label: 'Событие 1',
-  value: Math.random().toString(),
-}]
-
 const eventsConditions = [{
   label: 'Участвовал',
-  value: '=',
+  value: true,
 },
 {
   label: 'Не участвовал',
-  value: '!=',
+  value: false,
 }]
 
-const stats = [{
-  label: 'Показатель 1',
-  value: Math.random().toString(),
+const statsConditions = [{
+  label: '=',
+  value: Comparison.Equals,
+},
+{
+  label: '>',
+  value: Comparison.GreaterThan,
+},
+{
+  label: '<',
+  value: Comparison.LesserThan,
+},
+{
+  label: '!=',
+  value: Comparison.NotEquals,
 }]
 
-const statsConditions = ['=', '>', '<', '!=']
+const blocks = ref<Array<InputRuleBlock>>(props.achievement.rules.blocks)
 
-const conditions = ref<Array<Ref<Condition>>>([])
+const getLastBlockOrAddNew = (): RuleBlock => {
+  const lastBlock = blocks.value[blocks.value.length - 1]
+  if (lastBlock) return lastBlock
 
-const addEvent = (): void => {
-  const condition = ref<ConditionEvent>({
-    id: Math.random().toString(),
-    type: 'event',
-    value: null,
-    char: null,
+  blocks.value.push({
+    connection_operator: ConnectionOperator.Or,
+    eventsRules: [],
+    statRules: [],
   })
 
-  conditions.value.push(condition)
+  return blocks.value[blocks.value.length - 1] as RuleBlock
+}
+
+const getEventsForBlock = (block: RuleBlock): Event[] => eventsStore.events.filter((event) => {
+  if (block.eventsRules?.find((item) => event.id === item.event_id)) return false
+
+  return true
+})
+
+const addEvent = (): void => {
+  const lastBlock = getLastBlockOrAddNew()
+
+  const firstEvent = eventsStore.events[0]
+  if (!firstEvent) return
+
+  lastBlock.eventsRules?.push({
+    event_id: firstEvent.id,
+    need_participate: true,
+  })
 }
 
 const addStat = (): void => {
-  const condition = ref<ConditionStats>({
-    id: Math.random().toString(),
-    type: 'stats',
-    value: null,
-    char: '>',
-    number: 0,
-  })
+  const lastBlock = getLastBlockOrAddNew()
 
-  conditions.value.push(condition)
+  const firstStat = statsStore.stats[0]
+  if (!firstStat) return
+
+  lastBlock.statRules?.push({
+    comparison_type: Comparison.GreaterThan,
+    stat_id: firstStat.id,
+    target_value: 0,
+  })
 }
 
 const addOr = (): void => {
-  const condition = ref<ConditionOr>({
-    id: Math.random().toString(),
-    type: 'or',
+  blocks.value.push({
+    connection_operator: ConnectionOperator.Or,
+    eventsRules: [],
+    statRules: [],
   })
-
-  conditions.value.push(condition)
 }
 
 const deleteCondition = (index: number): void => {
-  conditions.value.splice(index, 1)
+  blocks.value[index].connection_operator = ConnectionOperator.And
 }
+
+const deleteEvent = (blockIndex: number, eventIndex: number): void => {
+  blocks.value[blockIndex].eventsRules?.splice(eventIndex, 1)
+}
+
+const deleteStat = (blockIndex: number, statIndex: number): void => {
+  blocks.value[blockIndex].statRules?.splice(statIndex, 1)
+}
+
+const canAddOrCondition = computed<boolean>(() => {
+  if (!blocks.value.length) return false
+
+  const lastBlock = blocks.value[blocks.value.length - 1]
+  return Boolean(lastBlock.eventsRules?.length || lastBlock.statRules?.length)
+})
 
 const achievementNameError = ref(false)
 
+const image = ref<File | null>(null)
+
 const avatarRef = ref<HTMLImageElement>()
 const avatarInputRef = ref<QFile>()
-const avatarUrl = ref('https://cdn.quasar.dev/img/boy-avatar.png')
-const image = ref<File | null>(null)
+const avatarUrl = ref(props.achievement.image ?? 'https://cdn.quasar.dev/img/boy-avatar.png')
 
 const readBlob = () => {
   if (!image.value) return
@@ -343,7 +414,7 @@ const restoreAchievementDesc = (): void => {
   achievementDescRef.value = oldAchievementDesc.value
 }
 
-const editAchievement = (): void => {
+const editAchievement = async (): Promise<void> => {
   if (!props.achievementId) return
 
   achievementDescRef.value = achievementDescRef.value.trim()
@@ -354,25 +425,18 @@ const editAchievement = (): void => {
     return
   }
 
-  if (achievementNameRef.value === oldAchievementName.value && achievementDescRef.value === oldAchievementDesc.value && !image.value) {
-    $q.notify({
-      icon: 'sym_o_close',
-      message: 'Nothing changed',
-      timeout: 2000,
-      position: 'top-right',
-      color: 'warning',
-    })
-  } else {
-    const newAchievement: Achievement = {
-      name: achievementNameRef.value,
-      description: achievementDescRef.value,
-      imgUrl: 'https://cdn.quasar.dev/img/boy-avatar.png',
-      created_at: props.achievement.created_at,
-      id: props.achievement.id,
-      conditions: [],
-    }
-    achievementsStore.changeAchievement(newAchievement)
-    emit('close')
+  const newAchievement: UpdateAchievement = {
+    name: achievementNameRef.value,
+    description: achievementDescRef.value,
+    image: image.value ? image.value : undefined,
+    id: props.achievement.id,
+    rules: {
+      blocks: toRaw(blocks.value),
+    },
+  }
+
+  try {
+    await achievementsStore.changeAchievement(newAchievement)
     $q.notify({
       icon: 'sym_o_edit',
       message: 'Success editing',
@@ -380,8 +444,10 @@ const editAchievement = (): void => {
       position: 'top-right',
       color: 'primary',
     })
+    emit('close')
+  } catch (error) {
+    console.error(error)
   }
-  emit('close')
 }
 
 onMounted(() => {

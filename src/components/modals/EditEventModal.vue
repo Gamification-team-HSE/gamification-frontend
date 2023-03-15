@@ -154,7 +154,7 @@
 </template>
 
 <script setup lang="ts">
-import { date, QFile, useQuasar } from 'quasar'
+import { QFile, useQuasar } from 'quasar'
 import {
   computed, onMounted, ref, PropType,
 } from 'vue'
@@ -187,10 +187,10 @@ const eventNameRef = ref(props.event.name)
 const oldEventName = ref(props.event.name)
 const eventDescRef = ref(props.event.description)
 const oldEventDesc = ref(props.event.description)
-const eventImage = ref(null)
-const oldEventImage = ref(null)
 const dateRange = ref({ from: newDateFrom(), to: newDateTo() })
 const oldDateRange = ref({ from: newDateFrom(), to: newDateTo() })
+
+const eventImage = ref<File | null>(null)
 
 const avatarRef = ref<HTMLImageElement>()
 const avatarInputRef = ref<QFile>()
@@ -240,7 +240,7 @@ const editEvent = (): void => {
     return
   }
 
-  if (eventNameRef.value === oldEventName.value && eventDescRef.value === oldEventDesc.value && eventImage.value === oldEventImage.value && dateRange.value === oldDateRange.value) {
+  if (eventNameRef.value === oldEventName.value && eventDescRef.value === oldEventDesc.value && eventImage.value === null && dateRange.value === oldDateRange.value) {
     $q.notify({
       icon: 'sym_o_close',
       message: 'Nothing changed',
@@ -253,7 +253,7 @@ const editEvent = (): void => {
       name: eventNameRef.value,
       description: eventDescRef.value,
       id: props.event.id,
-      image: eventImage.value,
+      image: eventImage.value ? eventImage.value : undefined,
       // TODO
     }
     eventsStore.changeEvent(newEvent)

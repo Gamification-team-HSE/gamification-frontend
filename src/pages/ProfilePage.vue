@@ -10,7 +10,7 @@
         <q-avatar
           size="10em"
         >
-          <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+          <img :src="`https://cdn.quasar.dev/img/boy-avatar.png`">
         </q-avatar>
         <div class="column">
           <q-card-section class="text-h2 row no-wrap">

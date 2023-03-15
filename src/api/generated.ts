@@ -68,6 +68,14 @@ export type EventRule = {
   need_participate: Scalars['Boolean'];
 };
 
+export type FullUser = {
+  __typename?: 'FullUser';
+  achievements: Array<UserAch>;
+  events: Array<Maybe<UserEvent>>;
+  stats: Array<Maybe<UserStat>>;
+  user: User;
+};
+
 export type GetAchievementsResponse = {
   __typename?: 'GetAchievementsResponse';
   achievements: Array<Achievement>;
@@ -260,6 +268,7 @@ export type Query = {
   GetCurrentUser: User;
   GetEvent: GetEvent;
   GetEvents: GetEventsResponse;
+  GetFullUser: FullUser;
   GetStat: Stat;
   GetStats: GetStatsResponse;
   GetUser: User;
@@ -284,6 +293,11 @@ export type QueryGetEventArgs = {
 
 export type QueryGetEventsArgs = {
   pagination?: InputMaybe<Pagination>;
+};
+
+
+export type QueryGetFullUserArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -389,10 +403,36 @@ export type User = {
   role: Role;
 };
 
+export type UserAch = {
+  __typename?: 'UserAch';
+  ach_id: Scalars['Int'];
+  created_at: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
+export type UserEvent = {
+  __typename?: 'UserEvent';
+  created_at: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
+  event_id: Scalars['Int'];
+  image?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
 export type UserFilter = {
   active?: InputMaybe<Scalars['Boolean']>;
   admins?: InputMaybe<Scalars['Boolean']>;
   banned?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type UserStat = {
+  __typename?: 'UserStat';
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  stat_id: Scalars['Int'];
+  value: Scalars['Int'];
 };
 
 export type UsersTotalInfo = {
@@ -497,6 +537,13 @@ export type GetEventsQueryVariables = Exact<{
 
 
 export type GetEventsQuery = { __typename?: 'Query', GetEvents: { __typename?: 'GetEventsResponse', total: number, events: Array<{ __typename?: 'GetEvent', id: number, name: string, description?: string | null | undefined, image?: string | null | undefined, created_at: number, start_at: number, end_at?: number | null | undefined }> } };
+
+export type GetFullUserQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetFullUserQuery = { __typename?: 'Query', GetFullUser: { __typename?: 'FullUser', user: { __typename?: 'User', email: string, id: number, role: Role, avatar?: string | null | undefined, name?: string | null | undefined }, stats: Array<{ __typename?: 'UserStat', stat_id: number, name: string, description?: string | null | undefined, value: number } | null | undefined>, events: Array<{ __typename?: 'UserEvent', event_id: number, name: string, image?: string | null | undefined, description?: string | null | undefined, created_at: number } | null | undefined>, achievements: Array<{ __typename?: 'UserAch', ach_id: number, name: string, description?: string | null | undefined, created_at: number, image?: string | null | undefined }> } };
 
 export type GetStatQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -718,6 +765,39 @@ export const GetEventsDocument = gql`
   }
 }
     `;
+export const GetFullUserDocument = gql`
+    query GetFullUser($id: Int!) {
+  GetFullUser(id: $id) {
+    user {
+      email
+      id
+      role
+      avatar
+      name
+    }
+    stats {
+      stat_id
+      name
+      description
+      value
+    }
+    events {
+      event_id
+      name
+      image
+      description
+      created_at
+    }
+    achievements {
+      ach_id
+      name
+      description
+      created_at
+      image
+    }
+  }
+}
+    `;
 export const GetStatDocument = gql`
     query GetStat($id: Int!) {
   GetStat(id: $id) {
@@ -863,6 +943,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     GetEvents(variables?: GetEventsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetEventsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetEventsQuery>(GetEventsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetEvents', 'query');
+    },
+    GetFullUser(variables: GetFullUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetFullUserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetFullUserQuery>(GetFullUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetFullUser', 'query');
     },
     GetStat(variables: GetStatQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetStatQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetStatQuery>(GetStatDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetStat', 'query');

@@ -1,0 +1,31 @@
+query GetFullUser($id: Int!) {
+  GetFullUser(id: $id) {
+    user {
+      email,
+      id,
+      role,
+      avatar,
+      name
+    }
+    stats {
+      stat_id
+      name
+      description
+      value
+    }
+    events {
+      event_id
+      name
+      image
+      description
+      created_at
+    }
+    achievements {
+      ach_id
+      name
+      description
+      created_at
+      image
+    }
+  }
+}
