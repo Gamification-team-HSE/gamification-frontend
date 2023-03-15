@@ -114,19 +114,21 @@
             class="row"
           >
             <q-select
-              v-model="eventRule.event_id"
+              :model-value="eventRule.event_id"
               class="col q-pr-sm text-subtitle1"
               :options="getEventsForBlock(block)"
               label="Событие"
               option-value="id"
               :option-label="(obj) => obj.name ?? eventsStore.events.find(item => item.id === obj)?.name"
+              @update:model-value="option => eventRule.event_id = option.id"
             />
             <q-select
-              v-model="eventRule.need_participate"
+              :model-value="eventRule.need_participate"
               :options="eventsConditions"
               label="Условие"
               class="col-4  text-subtitle1"
               :option-label="(obj) => obj.label ?? eventsConditions.find(item => item.value === obj)?.label"
+              @update:model-value="option => eventRule.need_participate = option.value"
             />
             <q-btn
               flat
@@ -146,19 +148,21 @@
             class="row"
           >
             <q-select
-              v-model="statRule.stat_id"
+              :model-value="statRule.stat_id"
               class="col q-pr-sm  text-subtitle1"
               :options="statsStore.stats"
               label="Показатель"
               option-value="id"
               :option-label="(obj) => obj.name ?? statsStore.stats.find(item => item.id === obj)?.name"
+              @update:model-value="option => statRule.stat_id = option.id"
             />
             <q-select
-              v-model="statRule.comparison_type"
+              :model-value="statRule.comparison_type"
               class="col-2  text-subtitle1"
               :options="statsConditions"
               label="Условие"
               :option-label="(obj) => obj.label ?? statsConditions.find(item => item.value === obj)?.label"
+              @update:model-value="option => statRule.comparison_type = option.value"
             />
             <q-input
               v-model.number="statRule.target_value"

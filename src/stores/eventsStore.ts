@@ -17,7 +17,7 @@ export const useEventsStore = defineStore('events', {
     ...defaultState,
   }),
   getters: {
-
+    getById: (state) => (id: number) => state.events.find((event) => event.id === id),
   },
   actions: {
     async load() {

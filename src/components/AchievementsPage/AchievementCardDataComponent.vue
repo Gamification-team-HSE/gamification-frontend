@@ -21,30 +21,56 @@
       />
       <div>Как получить?</div>
     </div>
-    <!-- <div
-      v-for="condition in achievement.conditions"
-      :key="condition.id"
-      class="row items-center text-subtitle1"
+
+    <div
+      v-if="!achievement.rules.blocks.length"
+      class=" text-subtitle1"
     >
-      <template v-if="condition.type === 'or'">
-        <span class="text-h5">ИЛИ</span>
-      </template>
-      <template v-else-if="condition.type === 'event'">
-        <strong>{{ textByChar[condition.char ?? '!='] }}</strong>
+      Сейчас достижение невозможно получить
+    </div>
+
+    <template
+      v-for="(block, index) in achievement.rules.blocks"
+      :key="index"
+    >
+      <div
+        v-for="(eventRule, eventRuleIndex) in block.eventsRules"
+        :key="eventRuleIndex"
+        class="row items-center text-subtitle1"
+      >
+        <strong>{{ eventRule.need_participate ? 'Участвовал' : 'Не участвовал' }}</strong>
         <span class="q-mx-sm">в</span>
-        <strong class="text-primary">{{ condition.value }}</strong>
-      </template>
-      <template v-else>
-        <strong class="text-primary">{{ condition.value }}</strong>
-        <span class="q-mx-sm text-h5">{{ condition.char }}</span>
-        <strong>{{ condition.number }}</strong>
-      </template>
-    </div> -->
+        <strong class="text-primary">{{
+          eventsStore.getById(eventRule.event_id)?.name
+        }}</strong>
+      </div>
+
+      <div
+        v-for="(statRule, statRuleIndex) in block.statRules"
+        :key="statRuleIndex"
+        class="row items-center text-subtitle1"
+      >
+        <strong class="text-primary">{{
+          statsStore.getById(statRule.stat_id)?.name
+        }}</strong>
+        <span class="q-mx-sm text-h5">{{ conditions[statRule.comparison_type] }}</span>
+        <strong>{{ statRule.target_value }}</strong>
+      </div>
+
+      <span
+        v-if="block.connection_operator === ConnectionOperator.Or && index !== achievement.rules.blocks.length - 1"
+        class="text-h5"
+      >
+        ИЛИ
+      </span>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Achievement } from 'src/api/generated'
+import { Achievement, Comparison, ConnectionOperator } from 'src/api/generated'
+import { useEventsStore } from 'src/stores/eventsStore'
+import { useStatsStore } from 'src/stores/statsStore'
 import { PropType } from 'vue'
 
 defineProps({
@@ -54,9 +80,16 @@ defineProps({
   },
 })
 
-const textByChar = {
-  '=': 'Участвовал',
-  '!=': 'не участвовал',
+const statsStore = useStatsStore()
+const eventsStore = useEventsStore()
+
+const conditions = {
+  [Comparison.Equals]: '=',
+  [Comparison.GreaterThan]: '>',
+  [Comparison.LesserThan]: '<',
+  [Comparison.NotEquals]: '!=',
+  [Comparison.InvalidComparison]: '~',
+
 }
 
 </script>

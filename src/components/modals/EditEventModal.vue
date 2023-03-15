@@ -121,6 +121,7 @@
                   <q-date
                     v-model="dateRange"
                     range
+                    mask="DD.MM.YYYY"
                     :options="dateValidator"
                   >
                     <div class="row items-center justify-end">
@@ -154,7 +155,7 @@
 </template>
 
 <script setup lang="ts">
-import { QFile, useQuasar } from 'quasar'
+import { date, QFile, useQuasar } from 'quasar'
 import {
   computed, onMounted, ref, PropType,
 } from 'vue'
@@ -240,6 +241,9 @@ const editEvent = (): void => {
     return
   }
 
+  const endAt = typeof dateRange.value === 'string' ? undefined : date.extractDate(dateRange.value.to, 'DD.MM.YYYY')
+  const startAt = typeof dateRange.value === 'string' ? date.extractDate(dateRange.value, 'DD.MM.YYYY') : date.extractDate(dateRange.value.from, 'DD.MM.YYYY')
+
   if (eventNameRef.value === oldEventName.value && eventDescRef.value === oldEventDesc.value && eventImage.value === null && dateRange.value === oldDateRange.value) {
     $q.notify({
       icon: 'sym_o_close',
@@ -254,7 +258,8 @@ const editEvent = (): void => {
       description: eventDescRef.value,
       id: props.event.id,
       image: eventImage.value ? eventImage.value : undefined,
-      // TODO
+      end_at: endAt ? endAt.getTime() / 1000 : endAt,
+      start_at: startAt.getTime() / 1000,
     }
     eventsStore.changeEvent(newEvent)
     emit('close')
