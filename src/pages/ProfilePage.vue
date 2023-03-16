@@ -14,7 +14,7 @@
         </q-avatar>
         <div class="column">
           <q-card-section class="text-h2 row no-wrap">
-            {{ state.fullName }}
+            {{ username }}
             <q-btn
               flat
               icon="sym_o_edit"
@@ -33,7 +33,7 @@
               color="primary"
               size="lg"
               class="q-mr-sm"
-            />{{ state.email }}
+            />{{ email }}
           </q-card-section>
         </div>
       </div>
@@ -47,14 +47,14 @@
                 {{ $t('achievements') }}
               </div>
               <div class="text-subtitle1">
-                {{ $t('youHaveAchivs', {count: state.achievements, total: state.achievementsTotal}) }}
+                {{ $t('youHaveAchivs', {count: achievements.length, total: achievementsStore.total}) }}
               </div>
             </div>
             <div class="column">
               <q-circular-progress
                 :min="0"
-                :max="state.achievementsTotal"
-                :value="state.achievements"
+                :max="achievementsStore.total"
+                :value="achievements.length"
                 size="100px"
                 :thickness="0.22"
                 color="green-5"
@@ -63,7 +63,7 @@
                 show-value
               >
                 <span class="text-h4 text-green-5"> {{
-                  state.achievements
+                  achievements.length
                 }}</span>
               </q-circular-progress>
             </div>
@@ -120,67 +120,140 @@
         <div class="row q-gutter-x-lg">
           <q-btn
             flat
-            :color="showFeed ? 'primary' : ''"
-            no-caps
-            class="text-h5 g-rounded"
-            dense
-            padding="sm xl"
-            :label="$t('feed')"
-            @click="showFeed = true"
-          />
-          <q-btn
-            flat
-            :color="!showFeed ? 'primary' : ''"
+            :color="feedMode === 'ach' ? 'primary' : ''"
             no-caps
             class="text-h5 g-rounded"
             dense
             padding="sm xl"
             :label="$t('achievements')"
-            @click="showFeed = false"
+            @click="feedMode = 'ach'"
+          />
+          <q-btn
+            flat
+            :color="feedMode === 'events' ? 'primary' : ''"
+            no-caps
+            class="text-h5 g-rounded"
+            dense
+            padding="sm xl"
+            :label="$t('events')"
+            @click="feedMode = 'events'"
+          />
+          <q-btn
+            flat
+            :color="feedMode === 'stats' ? 'primary' : ''"
+            no-caps
+            class="text-h5 g-rounded"
+            dense
+            padding="sm xl"
+            :label="$t('stats')"
+            @click="feedMode = 'stats'"
           />
         </div>
 
         <q-separator />
 
-        <!-- TODO показатели -->
-
         <div class="column">
           <q-list class=" q-gutter-y-sm">
-            <q-item
-              v-for="_, index in [0, 1, 2, 3]"
-              :key="index"
-              clickable
-              class="g-rounded"
-            >
-              <q-item-section
-                top
-                avatar
+            <template v-if="feedMode === 'ach'">
+              <q-item
+                v-for="ach, index in achievements"
+                :key="index"
+                clickable
+                class="g-rounded cursor-inherit"
               >
-                <q-avatar
-                  size="66px"
-                  rounded
+                <q-item-section
+                  top
+                  avatar
                 >
-                  <img src="https://cdn-icons-png.flaticon.com/512/5968/5968923.png">
-                </q-avatar>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label class=" text-h6">
-                  What a good sprint
-                </q-item-label>
-                <q-item-label
-                  lines="2"
-                  class=" text-subtitle1"
+                  <q-avatar
+                    size="66px"
+                    rounded
+                  >
+                    <img :src="ach.image ?? 'https://cdn-icons-png.flaticon.com/512/5968/5968923.png'">
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label class=" text-h6">
+                    {{ ach.name }}
+                  </q-item-label>
+                  <q-item-label
+                    lines="2"
+                    class=" text-subtitle1"
+                  >
+                    {{ ach.description }}
+                  </q-item-label>
+                </q-item-section>
+                <q-item-section
+                  side
+                  top
                 >
-                  Done 10 tasks in one sprint
-                </q-item-label>
-              </q-item-section>
-              <q-item-section
-                side
-                top
+                  {{ new Date(ach.created_at * 1000).toLocaleDateString('ru-RU') }}
+                </q-item-section>
+              </q-item>
+            </template>
+            <template v-else-if="feedMode === 'events'">
+              <q-item
+                v-for="event, index in events"
+                :key="index"
+                clickable
+                class="g-rounded cursor-inherit"
               >
-                {{ $t('minsAgo', {count: 5}) }}
-              </q-item-section>
-            </q-item>
+                <q-item-section
+                  top
+                  avatar
+                >
+                  <q-avatar
+                    size="66px"
+                    rounded
+                  >
+                    <img :src="event.image ?? 'https://cdn-icons-png.flaticon.com/512/5968/5968923.png'">
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label class=" text-h6">
+                    {{ event.name }}
+                  </q-item-label>
+                  <q-item-label
+                    lines="2"
+                    class=" text-subtitle1"
+                  >
+                    {{ event.description }}
+                  </q-item-label>
+                </q-item-section>
+                <q-item-section
+                  side
+                  top
+                >
+                  {{ new Date(event.created_at * 1000).toLocaleDateString('ru-RU') }}
+                </q-item-section>
+              </q-item>
+            </template>
+            <template v-else>
+              <q-item
+                v-for="stat, index in stats"
+                :key="index"
+                clickable
+                class="g-rounded cursor-inherit"
+              >
+                <q-item-section>
+                  <q-item-label class=" text-h6">
+                    {{ `${index+1}. ${stat.name}` }}
+                  </q-item-label>
+                  <q-item-label
+                    lines="2"
+                    class=" text-subtitle1"
+                  >
+                    {{ stat.description }}
+                  </q-item-label>
+                </q-item-section>
+                <q-item-section
+                  side
+                  class="text-h4"
+                >
+                  {{ stat.value }}
+                </q-item-section>
+              </q-item>
+            </template>
           </q-list>
         </div>
       </q-card>
@@ -195,13 +268,20 @@
 </template>
 
 <script setup lang="ts">
-import { User } from 'src/types'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useUserStore } from 'src/stores/userStore'
 import { useUserActions } from 'src/components/UsersPage/userActions'
 import EditUserModal from 'src/components/modals/EditUserModal.vue'
+import { graphqlSDK } from 'src/boot/grapqhl'
+import {
+  UserAch, UserEvent, UserStat,
+} from 'src/api/generated'
+import { logError } from 'src/utils/utils'
+import { useAchievementsStore } from 'src/stores/achievementsStore'
 
 const userStore = useUserStore()
+const achievementsStore = useAchievementsStore()
+
 const { id, username, email } = userStore
 const {
   editUser,
@@ -211,15 +291,30 @@ const {
 } = useUserActions()
 const showRatingTooltip = ref(false)
 
-const showFeed = ref(true)
+type FeedMode = 'ach' | 'events' | 'stats'
+const feedMode = ref<FeedMode>('ach')
 
-const state: User = {
-  fullName: username ?? '',
-  email: email ?? '',
-  achievements: 5,
-  achievementsTotal: 20,
-  events: 7,
+const state = {
   ratingPlace: 18,
   ratingTotalPlaces: 25,
 }
+
+const events = ref<Array<UserEvent>>([])
+const achievements = ref<Array<UserAch>>([])
+const stats = ref<Array<UserStat>>([])
+
+onMounted(() => {
+  if (!id) {
+    logError('No user id')
+    return
+  }
+
+  graphqlSDK.GetFullUser({ id: Number(id) }).then((res) => {
+    events.value = res.GetFullUser.events as UserEvent[]
+    achievements.value = res.GetFullUser.achievements
+    stats.value = res.GetFullUser.stats as UserStat[]
+  }).catch((error) => {
+    logError(error)
+  })
+})
 </script>
