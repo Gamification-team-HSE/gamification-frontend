@@ -118,6 +118,8 @@ export default {
   deleteEventConfirm: 'Are you sure you want to delete event?',
   deleteEventSuccess: 'Event deleted',
 
+  in: 'in',
+
   // Add stat modal
   addStatHeader: 'Creating stat',
   statInfo: 'Information about stat',

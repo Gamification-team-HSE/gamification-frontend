@@ -39,7 +39,7 @@
         class="row items-center text-subtitle1"
       >
         <strong>{{ eventRule.need_participate ? $t('participated') : $t('notParticipated') }}</strong>
-        <span class="q-mx-sm">в</span>
+        <span class="q-mx-sm">{{ $t('in') }}</span>
         <strong class="text-primary">{{
           eventsStore.getById(eventRule.event_id)?.name
         }}</strong>
@@ -61,7 +61,7 @@
         v-if="block.connection_operator === ConnectionOperator.Or && index !== achievement.rules.blocks.length - 1"
         class="text-h5"
       >
-        $t('or')
+        {{ $t('or') }}
       </span>
     </template>
   </div>

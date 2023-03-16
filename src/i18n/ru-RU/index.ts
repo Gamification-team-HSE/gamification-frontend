@@ -95,6 +95,8 @@ export default {
   recoverUserConfirmTitle: 'Разблокировка пользователя',
   recoverUserConfirmMessage: 'Восстановить пользователя в систему. Вы всегда можете заблокировать его снова.',
 
+  in: 'в',
+
   // Add event modal
   addEventHeader: 'Добавление события',
   fillEventInfo: 'Заполните информацию о событии',
