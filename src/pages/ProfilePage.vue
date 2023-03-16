@@ -318,7 +318,7 @@ const feedMode = ref<FeedMode>('ach')
 const events = ref<Array<UserEvent>>([])
 const achievements = ref<Array<UserAch>>([])
 const stats = ref<Array<UserStat>>([])
-const place = ref(-1)
+const place = ref<string | number>(-1)
 
 onMounted(() => {
   if (!id) {
@@ -331,6 +331,10 @@ onMounted(() => {
     achievements.value = res.GetFullUser.achievements
     stats.value = res.GetFullUser.stats as UserStat[]
     place.value = res.GetFullUser.place_by_achs
+
+    if (place.value === -1) {
+      place.value = '~'
+    }
   }).catch((error) => {
     logError(error)
   })
