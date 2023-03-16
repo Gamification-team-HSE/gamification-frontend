@@ -45,13 +45,7 @@ export const useUserStore = defineStore('user', {
       client.setHeader('authorization', `Bearer ${authToken}`)
       LocalStorageService.set('authToken', authToken)
 
-      const { GetCurrentUser: user } = await graphqlSDK.GetCurrentUser()
-
-      this.email = user.email
-      this.avatarUrl = user.avatar ?? null
-      this.username = user.name ?? null
-      this.role = user.role
-      this.id = user.id
+      await this.loadUser()
 
       const usersStore = useUsersStore()
       const statsStore = useStatsStore()
@@ -60,6 +54,15 @@ export const useUserStore = defineStore('user', {
       usersStore.tryLoadActiveUsers()
       statsStore.load()
       eventsStore.load()
+    },
+    async loadUser() {
+      const { GetCurrentUser: user } = await graphqlSDK.GetCurrentUser()
+
+      this.email = user.email
+      this.avatarUrl = user.avatar ?? null
+      this.username = user.name ?? null
+      this.role = user.role
+      this.id = user.id
     },
     pushToProfile() {
       this.router.push({

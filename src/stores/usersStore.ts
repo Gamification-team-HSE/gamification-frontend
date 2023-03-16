@@ -3,6 +3,7 @@ import {
   NewUser, Role, UpdateUser, User,
 } from 'src/api/generated'
 import { graphqlSDK } from 'src/boot/grapqhl'
+import { useUserStore } from './userStore'
 
 export type Total = {
   active: number
@@ -123,6 +124,12 @@ export const useUsersStore = defineStore('users', {
       this.tryLoadBannedUsers(true)
       this.tryLoadActiveUsers(true)
       this.tryLoadAdminsUsers(true)
+
+      const userStore = useUserStore()
+
+      if (userStore.id === user.id) {
+        userStore.loadUser()
+      }
     },
   },
 })

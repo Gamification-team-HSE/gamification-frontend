@@ -10,7 +10,7 @@
         <q-avatar
           size="10em"
         >
-          <img :src="`https://cdn.quasar.dev/img/boy-avatar.png`">
+          <img :src="avatarUrl ?? `https://cdn.quasar.dev/img/boy-avatar.png`">
         </q-avatar>
         <div class="column">
           <q-card-section class="text-h2 row no-wrap">
@@ -306,7 +306,9 @@ const userStore = useUserStore()
 const achievementsStore = useAchievementsStore()
 const usersStore = useUsersStore()
 
-const { id, username, email } = userStore
+const {
+  id, username, email, avatarUrl,
+} = userStore
 const {
   editUser,
   openEditModal,
