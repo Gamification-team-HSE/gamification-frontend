@@ -193,6 +193,12 @@
                   {{ new Date(ach.created_at * 1000).toLocaleDateString('ru-RU') }}
                 </q-item-section>
               </q-item>
+              <div
+                v-if="!achievements.length"
+                class="text-center text-h6"
+              >
+                Тут пока ничего нет
+              </div>
             </template>
             <template v-else-if="feedMode === 'events'">
               <q-item
@@ -230,6 +236,12 @@
                   {{ new Date(event.created_at * 1000).toLocaleDateString('ru-RU') }}
                 </q-item-section>
               </q-item>
+              <div
+                v-if="!events.length"
+                class="text-center text-h6"
+              >
+                Тут пока ничего нет
+              </div>
             </template>
             <template v-else>
               <q-item
@@ -256,6 +268,12 @@
                   {{ stat.value }}
                 </q-item-section>
               </q-item>
+              <div
+                v-if="!stats.length"
+                class="text-center text-h6"
+              >
+                Тут пока ничего нет
+              </div>
             </template>
           </q-list>
         </div>

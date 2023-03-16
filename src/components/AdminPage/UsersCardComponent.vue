@@ -31,15 +31,6 @@
         no-caps
         color="primary"
         class="g-rounded"
-        icon="sym_o_table"
-        outline
-        :label="$t('adminAddUserViaExcel')"
-        @click="showNotImplemented"
-      />
-      <q-btn
-        no-caps
-        color="primary"
-        class="g-rounded"
         icon="sym_o_turn_right"
         flat
         :label="$t('adminGoToUsers')"
@@ -60,9 +51,6 @@
 import { useUsersStore } from 'src/stores/usersStore'
 import { ref } from 'vue'
 import AddUserModal from '../modals/AddUserModal.vue'
-import { useUtils } from './utils'
-
-const { showNotImplemented } = useUtils()
 
 const openCreateUser = ref(false)
 
