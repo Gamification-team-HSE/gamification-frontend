@@ -5,7 +5,7 @@
   >
     <div class=" col-lg-6 col-xl-5 col-md-8 col-sm-8 col-11 q-gutter-y-lg">
       <div
-        class="g-rounded g-shadow q-pa-md row items-center bg-white"
+        class="g-rounded g-shadow q-pa-md row items-center bg-header"
       >
         <q-avatar
           size="10em"
