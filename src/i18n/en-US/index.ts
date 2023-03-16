@@ -43,7 +43,7 @@ export default {
   adminAchievText: 'There are now {count} achievements in the system, you can add them here, and delete and change them in the list of achievements.',
   adminEventsText: 'There are now {count} events in the system, you can add them here, and delete and change them in the list of events.',
   adminStatsText: 'There are now {count} indicators in the system, you can add them here, and delete and change them in the list of indicators.',
-  adminAddUserViaForm: 'Add manually',
+  adminAddUserViaForm: 'Add user',
   adminAddUserViaExcel: 'Import from Excel',
   adminGoToUsers: 'Go to all users',
   adminGoToRating: 'Go to ratings',
