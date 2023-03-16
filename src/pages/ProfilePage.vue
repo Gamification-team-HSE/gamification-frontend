@@ -10,11 +10,11 @@
         <q-avatar
           size="10em"
         >
-          <img :src="avatarUrl ?? `https://cdn.quasar.dev/img/boy-avatar.png`">
+          <img :src="userStore.avatarUrl ?? `https://cdn.quasar.dev/img/boy-avatar.png`">
         </q-avatar>
         <div class="column">
           <q-card-section class="text-h2 row no-wrap">
-            {{ username }}
+            {{ userStore.username }}
             <q-btn
               flat
               icon="sym_o_edit"
@@ -24,7 +24,7 @@
               color="primary"
               no-caps
               class="g-rounded justify-end"
-              @click.stop="id ? editUser(id) : () => {}"
+              @click.stop="userStore.id ? editUser(userStore.id) : () => {}"
             />
           </q-card-section>
           <q-card-section class="text-h5">
@@ -33,7 +33,7 @@
               color="primary"
               size="lg"
               class="q-mr-sm"
-            />{{ email }}
+            />{{ userStore.email }}
           </q-card-section>
         </div>
       </div>
@@ -307,9 +307,6 @@ const achievementsStore = useAchievementsStore()
 const usersStore = useUsersStore()
 
 const {
-  id, username, email, avatarUrl,
-} = userStore
-const {
   editUser,
   openEditModal,
   openIdForEditing,
@@ -326,12 +323,12 @@ const stats = ref<Array<UserStat>>([])
 const place = ref<string | number>(-1)
 
 onMounted(() => {
-  if (!id) {
+  if (!userStore.id) {
     logError('No user id')
     return
   }
 
-  graphqlSDK.GetFullUser({ id: Number(id) }).then((res) => {
+  graphqlSDK.GetFullUser({ id: Number(userStore.id) }).then((res) => {
     events.value = res.GetFullUser.events as UserEvent[]
     achievements.value = res.GetFullUser.achievements
     stats.value = res.GetFullUser.stats as UserStat[]
