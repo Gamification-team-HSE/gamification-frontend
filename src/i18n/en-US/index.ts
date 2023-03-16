@@ -13,7 +13,9 @@ export default {
   youAreInRating: 'You are {count} out of {total}',
   whatIsThis: 'What is this?',
   aboutRating: 'Rating based on total achievements count between other users.',
+  aboutRating2: 'Rating shows only after first achievement',
   minsAgo: '{count} mins ago',
+  nothingHere: 'Nothing here',
 
   // Login v2 page
   loginIntoSystemHeader: 'Sign In',

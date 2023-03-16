@@ -96,6 +96,9 @@
                     max-width="350px"
                   >
                     {{ $t('aboutRating') }}
+                    <div v-if="place === '~'">
+                      {{ $t('aboutRating2') }}
+                    </div>
                   </q-tooltip>
                 </q-btn>
               </div>
@@ -195,7 +198,7 @@
                 v-if="!achievements.length"
                 class="text-center text-h6"
               >
-                Тут пока ничего нет
+                {{ $t('nothingHere') }}
               </div>
             </template>
             <template v-else-if="feedMode === 'events'">
@@ -238,7 +241,7 @@
                 v-if="!events.length"
                 class="text-center text-h6"
               >
-                Тут пока ничего нет
+                {{ $t('nothingHere') }}
               </div>
             </template>
             <template v-else>
@@ -270,7 +273,7 @@
                 v-if="!stats.length"
                 class="text-center text-h6"
               >
-                Тут пока ничего нет
+                {{ $t('nothingHere') }}
               </div>
             </template>
           </q-list>

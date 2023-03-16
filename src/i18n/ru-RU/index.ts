@@ -13,7 +13,9 @@ export default {
   youAreInRating: 'Вы {count} из {total}',
   whatIsThis: 'Что это?',
   aboutRating: 'Рейтинг рассчитывает на основе всех достижений у всех пользователей.',
+  aboutRating2: 'Рейтинг появится после появления первого достижения',
   minsAgo: '{count} минут назад',
+  nothingHere: 'Тут пока ничего нет',
 
   // New login v2,
   loginIntoSystemHeader: 'Войти в систему',

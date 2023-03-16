@@ -3,12 +3,14 @@ import { User } from 'src/api/generated'
 import { useUsersStore } from 'src/stores/usersStore'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 import { Mode } from './types'
 
 export const useUserActions = () => {
   const i18n = useI18n()
   const $q = useQuasar()
   const usersStore = useUsersStore()
+  const router = useRouter()
 
   const openEditModal = ref(false)
   const openIdForEditing = ref<number | undefined>(undefined)
@@ -72,6 +74,10 @@ export const useUserActions = () => {
         usersStore.banUser(userId)
         usersStore.tryLoadBannedUsers(true)
         usersStore.tryLoadActiveUsers(true)
+      }
+
+      if (router.currentRoute.value.name !== 'users') {
+        router.push({ name: 'users' })
       }
 
       $q.notify({
