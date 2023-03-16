@@ -143,7 +143,7 @@
           class="full-width text-subtitle1"
           bottom-slots
           :placeholder="$t('seqPeriod')"
-          :hint="$t(seqPeriodHint'')"
+          :hint="$t('seqPeriodHint')"
           autofocus
           :clearable="!seqPeriod || seqPeriod !== oldSeqPeriod"
           :suffix="seqPeriod ? $t('days') : ''"
