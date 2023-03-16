@@ -20,13 +20,13 @@
       </div>
       <div class="row q-gutter-x-sm">
         <div class="text-caption">
-          {{ $t('added') }}: {{ new Date(user.created_at).toLocaleDateString('ru-RU') }}
+          {{ $t('added') }}: {{ new Date((user.created_at ?? 0) * 1000).toLocaleDateString('ru-RU') }}
         </div>
         <div
           v-if="user.deleted_at"
           class="text-caption text-negative"
         >
-          {{ $t('blocked') }}: {{ new Date(user.deleted_at).toLocaleDateString('ru-RU') }}
+          {{ $t('blocked') }}: {{ new Date(user.deleted_at * 1000).toLocaleDateString('ru-RU') }}
         </div>
       </div>
     </div>
