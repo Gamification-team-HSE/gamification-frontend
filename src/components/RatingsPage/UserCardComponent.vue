@@ -19,7 +19,7 @@
           {{ user.email }}
         </div>
         <div class="text-subtitle1">
-          {{ user.fullName }}
+          {{ user.name }}
         </div>
       </div>
     </div>
@@ -37,13 +37,13 @@
           v-if="isAchievement"
           class="q-ma-none"
         >
-          {{ user.achievements }} / {{ user.achievementsTotal }}
+          {{ user.place }} / {{ totalAchs }}
         </div>
         <div
           v-else
           class="q-ma-none text-subtitle1"
         >
-          {{ user.statAmount }}
+          {{ statValue }}
         </div>
       </div>
       <div class="row text-subtitle1 q-col-gutter-xs">
@@ -51,7 +51,7 @@
           Рейтинг:
         </div>
         <div class="q-ma-none text-weight-bold">
-          {{ user.ratingPlace }} / {{ user.ratingTotalPlaces }}
+          {{ user.place }} / {{ total }}
         </div>
       </div>
     </div>
@@ -59,29 +59,25 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue'
+import { UserRatingByAch, UserRatingByStat } from 'src/api/generated'
+import { computed, PropType } from 'vue'
 
-type RatingUser = {
-  fullName: string,
-  email: string,
-  avatar: string,
-  id: number,
-  achievements: number,
-  achievementsTotal: number,
-  ratingPlace: number,
-  ratingTotalPlaces: number,
-  statAmount: number
-}
-
-defineProps({
+const props = defineProps({
   user: {
-    type: Object as PropType<RatingUser>,
+    type: Object as PropType<UserRatingByAch | UserRatingByStat>,
     required: true,
   },
   isAchievement: {
     type: Boolean,
     required: true,
   },
+  total: {
+    type: Number,
+    required: true,
+  },
 })
+
+const totalAchs = computed(() => (props.user as UserRatingByAch).total_achs)
+const statValue = computed(() => (props.user as UserRatingByStat).value)
 
 </script>

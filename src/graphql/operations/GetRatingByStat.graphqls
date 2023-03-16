@@ -1,0 +1,14 @@
+query GetRatingByStat($id: Int!) {
+  GetRatingByStat(id: $id) {
+    stat_id
+    total
+    users {
+      user_id
+      name
+      email
+      avatar
+      place
+      value
+    }
+  }
+}

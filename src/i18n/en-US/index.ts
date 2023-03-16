@@ -12,7 +12,7 @@ export default {
   youHaveAchivs: 'You have {count} out of {total}',
   youAreInRating: 'You are {count} out of {total}',
   whatIsThis: 'What is this?',
-  aboutRating: 'Rating based on total achievements count between other users. It`s okay if you are not in the top.',
+  aboutRating: 'Rating based on total achievements count between other users.',
   minsAgo: '{count} mins ago',
 
   // Login v2 page

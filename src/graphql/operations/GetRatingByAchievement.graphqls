@@ -1,0 +1,13 @@
+query GetRatingByAchs {
+  GetRatingByAchs {
+    total
+    users {
+      user_id
+      name
+      email
+      avatar
+      place
+      total_achs
+    }
+  }
+}

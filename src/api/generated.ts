@@ -72,6 +72,7 @@ export type FullUser = {
   __typename?: 'FullUser';
   achievements: Array<UserAch>;
   events: Array<Maybe<UserEvent>>;
+  place_by_achs: Scalars['Int'];
   stats: Array<Maybe<UserStat>>;
   user: User;
 };
@@ -269,6 +270,8 @@ export type Query = {
   GetEvent: GetEvent;
   GetEvents: GetEventsResponse;
   GetFullUser: FullUser;
+  GetRatingByAchs: RatingByAch;
+  GetRatingByStat?: Maybe<RatingByStat>;
   GetStat: Stat;
   GetStats: GetStatsResponse;
   GetUser: User;
@@ -301,6 +304,11 @@ export type QueryGetFullUserArgs = {
 };
 
 
+export type QueryGetRatingByStatArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type QueryGetStatArgs = {
   id: Scalars['Int'];
 };
@@ -319,6 +327,19 @@ export type QueryGetUserArgs = {
 export type QueryGetUsersArgs = {
   filter?: InputMaybe<UserFilter>;
   pagination?: InputMaybe<Pagination>;
+};
+
+export type RatingByAch = {
+  __typename?: 'RatingByAch';
+  total: Scalars['Int'];
+  users: Array<UserRatingByAch>;
+};
+
+export type RatingByStat = {
+  __typename?: 'RatingByStat';
+  stat_id: Scalars['Int'];
+  total: Scalars['Int'];
+  users: Array<UserRatingByStat>;
 };
 
 export enum Role {
@@ -425,6 +446,26 @@ export type UserFilter = {
   active?: InputMaybe<Scalars['Boolean']>;
   admins?: InputMaybe<Scalars['Boolean']>;
   banned?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type UserRatingByAch = {
+  __typename?: 'UserRatingByAch';
+  avatar?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
+  place: Scalars['Int'];
+  total_achs: Scalars['Int'];
+  user_id: Scalars['Int'];
+};
+
+export type UserRatingByStat = {
+  __typename?: 'UserRatingByStat';
+  avatar?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
+  place: Scalars['Int'];
+  user_id: Scalars['Int'];
+  value: Scalars['Int'];
 };
 
 export type UserStat = {
@@ -543,7 +584,19 @@ export type GetFullUserQueryVariables = Exact<{
 }>;
 
 
-export type GetFullUserQuery = { __typename?: 'Query', GetFullUser: { __typename?: 'FullUser', user: { __typename?: 'User', email: string, id: number, role: Role, avatar?: string | null | undefined, name?: string | null | undefined }, stats: Array<{ __typename?: 'UserStat', stat_id: number, name: string, description?: string | null | undefined, value: number } | null | undefined>, events: Array<{ __typename?: 'UserEvent', event_id: number, name: string, image?: string | null | undefined, description?: string | null | undefined, created_at: number } | null | undefined>, achievements: Array<{ __typename?: 'UserAch', ach_id: number, name: string, description?: string | null | undefined, created_at: number, image?: string | null | undefined }> } };
+export type GetFullUserQuery = { __typename?: 'Query', GetFullUser: { __typename?: 'FullUser', place_by_achs: number, user: { __typename?: 'User', email: string, id: number, role: Role, avatar?: string | null | undefined, name?: string | null | undefined }, stats: Array<{ __typename?: 'UserStat', stat_id: number, name: string, description?: string | null | undefined, value: number } | null | undefined>, events: Array<{ __typename?: 'UserEvent', event_id: number, name: string, image?: string | null | undefined, description?: string | null | undefined, created_at: number } | null | undefined>, achievements: Array<{ __typename?: 'UserAch', ach_id: number, name: string, description?: string | null | undefined, created_at: number, image?: string | null | undefined }> } };
+
+export type GetRatingByAchsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetRatingByAchsQuery = { __typename?: 'Query', GetRatingByAchs: { __typename?: 'RatingByAch', total: number, users: Array<{ __typename?: 'UserRatingByAch', user_id: number, name?: string | null | undefined, email: string, avatar?: string | null | undefined, place: number, total_achs: number }> } };
+
+export type GetRatingByStatQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetRatingByStatQuery = { __typename?: 'Query', GetRatingByStat?: { __typename?: 'RatingByStat', stat_id: number, total: number, users: Array<{ __typename?: 'UserRatingByStat', user_id: number, name?: string | null | undefined, email: string, avatar?: string | null | undefined, place: number, value: number }> } | null | undefined };
 
 export type GetStatQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -795,6 +848,38 @@ export const GetFullUserDocument = gql`
       created_at
       image
     }
+    place_by_achs
+  }
+}
+    `;
+export const GetRatingByAchsDocument = gql`
+    query GetRatingByAchs {
+  GetRatingByAchs {
+    total
+    users {
+      user_id
+      name
+      email
+      avatar
+      place
+      total_achs
+    }
+  }
+}
+    `;
+export const GetRatingByStatDocument = gql`
+    query GetRatingByStat($id: Int!) {
+  GetRatingByStat(id: $id) {
+    stat_id
+    total
+    users {
+      user_id
+      name
+      email
+      avatar
+      place
+      value
+    }
   }
 }
     `;
@@ -946,6 +1031,12 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     GetFullUser(variables: GetFullUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetFullUserQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetFullUserQuery>(GetFullUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetFullUser', 'query');
+    },
+    GetRatingByAchs(variables?: GetRatingByAchsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetRatingByAchsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetRatingByAchsQuery>(GetRatingByAchsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetRatingByAchs', 'query');
+    },
+    GetRatingByStat(variables: GetRatingByStatQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetRatingByStatQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetRatingByStatQuery>(GetRatingByStatDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetRatingByStat', 'query');
     },
     GetStat(variables: GetStatQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetStatQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetStatQuery>(GetStatDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetStat', 'query');

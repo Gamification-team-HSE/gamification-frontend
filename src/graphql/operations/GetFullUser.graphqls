@@ -27,5 +27,6 @@ query GetFullUser($id: Int!) {
       created_at
       image
     }
+    place_by_achs
   }
 }

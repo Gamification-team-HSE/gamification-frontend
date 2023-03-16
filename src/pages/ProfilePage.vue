@@ -79,7 +79,7 @@
               </div>
 
               <div class="text-subtitle1">
-                {{ $t('youAreInRating', {count: state.ratingPlace, total: state.ratingTotalPlaces}) }}
+                {{ $t('youAreInRating', {count: place, total: usersStore.activeUsers.length}) }}
               </div>
               <div>
                 <q-btn
@@ -107,7 +107,7 @@
                   size="50px"
                   color="primary"
                 />
-                <span>{{ state.ratingPlace }}
+                <span>{{ place }}
                 </span>
               </div>
             </div>
@@ -297,9 +297,11 @@ import {
 } from 'src/api/generated'
 import { logError } from 'src/utils/utils'
 import { useAchievementsStore } from 'src/stores/achievementsStore'
+import { useUsersStore } from 'src/stores/usersStore'
 
 const userStore = useUserStore()
 const achievementsStore = useAchievementsStore()
+const usersStore = useUsersStore()
 
 const { id, username, email } = userStore
 const {
@@ -313,14 +315,10 @@ const showRatingTooltip = ref(false)
 type FeedMode = 'ach' | 'events' | 'stats'
 const feedMode = ref<FeedMode>('ach')
 
-const state = {
-  ratingPlace: 18,
-  ratingTotalPlaces: 25,
-}
-
 const events = ref<Array<UserEvent>>([])
 const achievements = ref<Array<UserAch>>([])
 const stats = ref<Array<UserStat>>([])
+const place = ref(-1)
 
 onMounted(() => {
   if (!id) {
@@ -332,6 +330,7 @@ onMounted(() => {
     events.value = res.GetFullUser.events as UserEvent[]
     achievements.value = res.GetFullUser.achievements
     stats.value = res.GetFullUser.stats as UserStat[]
+    place.value = res.GetFullUser.place_by_achs
   }).catch((error) => {
     logError(error)
   })

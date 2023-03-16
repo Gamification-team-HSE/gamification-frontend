@@ -17,7 +17,7 @@
           <div class="column">
             <q-card-section
               class="text-center"
-              :class="$q.platform.is.mobile ? 'text-h4' : 'text-h2'"
+              :class="$q.platform.is.mobile ? 'text-h4' : 'text-h3'"
             >
               {{ user.name }}
             </q-card-section>
@@ -81,7 +81,7 @@
               </div>
 
               <div class="text-subtitle1">
-                {{ $t('userStatistics', {count: state.ratingPlace, total: state.ratingTotalPlaces}) }}
+                {{ $t('userStatistics', {count: place, total: usersStore.activeUsers.length}) }}
               </div>
               <div>
                 <q-btn
@@ -98,6 +98,9 @@
                     max-width="350px"
                   >
                     {{ $t('aboutRating') }}
+                    <div v-if="place === '~'">
+                      Рейтинг появится после появления первого достижения
+                    </div>
                   </q-tooltip>
                 </q-btn>
               </div>
@@ -109,7 +112,7 @@
                   size="50px"
                   color="primary"
                 />
-                <span>{{ state.ratingPlace }}
+                <span>{{ place }}
                 </span>
               </div>
             </div>
@@ -303,6 +306,7 @@ import {
 import UserActionsComponent from 'src/components/UserPage/UserActionsComponent.vue'
 import { useAchievementsStore } from 'src/stores/achievementsStore'
 import { useUserStore } from 'src/stores/userStore'
+import { useUsersStore } from 'src/stores/usersStore'
 
 const isLoading = ref(true)
 const showRatingTooltip = ref(false)
@@ -314,6 +318,7 @@ const router = useRoute()
 const { id } = router.params
 
 const achievementsStore = useAchievementsStore()
+const usersStore = useUsersStore()
 const userStore = useUserStore()
 
 const user: User = reactive<User>({
@@ -324,16 +329,12 @@ const user: User = reactive<User>({
   role: Role.User,
 })
 
-const state = {
-  ratingPlace: 18,
-  ratingTotalPlaces: 25,
-}
-
 const mode = ref<Mode>('active')
 
 const events = ref<Array<UserEvent>>([])
 const achievements = ref<Array<UserAch>>([])
 const stats = ref<Array<UserStat>>([])
+const place = ref<number | string>(-1)
 
 onMounted(() => {
   if (!id) {
@@ -350,6 +351,11 @@ onMounted(() => {
     events.value = res.GetFullUser.events as UserEvent[]
     achievements.value = res.GetFullUser.achievements
     stats.value = res.GetFullUser.stats as UserStat[]
+    place.value = res.GetFullUser.place_by_achs
+
+    if (place.value === -1) {
+      place.value = '~'
+    }
   }).catch((error) => {
     logError(error)
   })

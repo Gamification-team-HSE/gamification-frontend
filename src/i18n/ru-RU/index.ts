@@ -12,7 +12,7 @@ export default {
   youHaveAchivs: 'У вас {count} из {total}',
   youAreInRating: 'Вы {count} из {total}',
   whatIsThis: 'Что это?',
-  aboutRating: 'Рейтинг рассчитывает на основе всех достижений у всех пользователей. Ничего страшного, если вы не впереди всех.',
+  aboutRating: 'Рейтинг рассчитывает на основе всех достижений у всех пользователей.',
   minsAgo: '{count} минут назад',
 
   // New login v2,

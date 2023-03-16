@@ -25,15 +25,17 @@
             />
             <q-select
               v-if="!isAchievementRating"
-              v-model="statName"
+              :model-value="statId"
               outlined
               use-input
               input-debounce="0"
               class="col"
-              :options="options"
+              :options="statsStore.stats"
               behavior="menu"
               :label="$t('ratingSortStat')"
-              @filter="filterFn"
+              option-value="id"
+              :option-label="(obj) => obj.name ?? statsStore.stats.find(item => item.id === obj)?.name"
+              @update:model-value="option => fetchStats(option.id)"
             >
               <template #no-option>
                 <q-item>
@@ -58,23 +60,24 @@
         <div
           class="col-3"
         >
-          {{ isAchievementRating || statName === '' ? $t('achievements') : $t('stats') }}
+          {{ isAchievementRating || statId === -1 ? $t('achievements') : $t('stats') }}
         </div>
         <div class="col-2">
           {{ $t('rating') }}
         </div>
       </div>
       <q-card
-        v-for="user in userslist"
-        :key="user.id"
+        v-for="user in users"
+        :key="user.user_id"
         class="g-shadow g-shadow-hover g-rounded cursor-pointer"
         @click="$router.push({'name': 'user', params: {
-          id: user.id.toString(),
+          id: user.user_id.toString(),
         },})"
       >
         <UserCardComponent
           :user="user"
           :is-achievement="isAchievementRating"
+          :total="usersStore.activeUsers.length"
         />
       </q-card>
     </div>
@@ -92,70 +95,46 @@
 
 <script setup lang="ts">
 import {
-  ref, computed, reactive, onMounted,
+  ref, onMounted,
 } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useUsersStore } from 'src/stores/usersStore'
 import UserCardComponent from 'src/components/RatingsPage/UserCardComponent.vue'
+import { graphqlSDK } from 'src/boot/grapqhl'
+import { UserRatingByAch, UserRatingByStat } from 'src/api/generated'
+import { useUsersStore } from 'src/stores/usersStore'
+import { useStatsStore } from 'src/stores/statsStore'
 
-const usersStore = useUsersStore()
 const { t } = useI18n()
+const usersStore = useUsersStore()
+const statsStore = useStatsStore()
 
 const model = ref(t('achievements'))
-const statName = ref('')
 const isAchievementRating = ref(true)
 const selectModel = ref('')
+const statId = ref(-1)
 
-type RatingUser = {
-  fullName: string,
-  email: string,
-  avatar: string,
-  id: number,
-  achievements: number,
-  achievementsTotal: number,
-  ratingPlace: number,
-  ratingTotalPlaces: number,
-  statAmount: number,
+const users = ref<Array<UserRatingByAch | UserRatingByStat>>([])
+const total = ref(0)
+
+const fetchAchives = () => {
+  graphqlSDK.GetRatingByAchs().then((res) => {
+    users.value = res.GetRatingByAchs.users
+    total.value = res.GetRatingByAchs.total
+  })
 }
 
-let placeNumber = 1
-
-const usersForRating = computed(() => {
-  const users = usersStore.activeUsers
-  const userslist: Array<RatingUser> = []
-  if (users.length > 0) {
-    users.forEach((user) => {
-      const state: RatingUser = {
-        fullName: user.name ?? '',
-        email: user.email,
-        avatar: user.avatar ?? 'https://cdn.quasar.dev/img/boy-avatar.png',
-        id: user.id,
-        achievements: Math.floor(Math.random() * 20),
-        achievementsTotal: 20,
-        ratingPlace: -1 * (users.length - placeNumber),
-        ratingTotalPlaces: users.length,
-        statAmount: Math.floor(Math.random() * 20),
-      }
-      userslist.push(state)
-      placeNumber += 1
-    })
-  }
-  userslist.sort((a, b) => a.ratingPlace - b.ratingPlace)
-
-  if (model.value === t('achievements')) {
-    userslist.sort((a, b) => b.achievements - a.achievements)
-  } else {
-    userslist.sort((a, b) => b.statAmount - a.statAmount)
-  }
-
-  return userslist
-})
-
-const userslist = reactive(usersForRating)
+const fetchStats = (id: number) => {
+  statId.value = id
+  graphqlSDK.GetRatingByStat({ id }).then((res) => {
+    users.value = res.GetRatingByStat?.users ?? []
+    total.value = res.GetRatingByStat?.total ?? 0
+  })
+}
 
 const changeType = () => {
   if (model.value === t('achievements')) {
     isAchievementRating.value = true
+    fetchAchives()
   } else {
     selectModel.value = t('ratingSortStat')
     isAchievementRating.value = false
@@ -163,24 +142,8 @@ const changeType = () => {
 }
 
 const sortby = [t('achievements'), t('stats')]
-const statsList = ['количество сданных отчётов', 'количество входов в систему', 'дней с приема на работу']
-const options = ref(statsList)
-
-const filterFn = (val: string, update: (callback: () => void) => void) => {
-  if (val === '') {
-    update(() => {
-      options.value = statsList
-    })
-    return
-  }
-
-  update(() => {
-    const needle = val.toLowerCase()
-    options.value = statsList.filter((v) => v.toLowerCase().indexOf(needle) > -1)
-  })
-}
 
 onMounted(() => {
-  usersStore.tryLoadActiveUsers(true)
+  fetchAchives()
 })
 </script>
