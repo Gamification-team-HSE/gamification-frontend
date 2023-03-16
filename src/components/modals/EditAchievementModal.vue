@@ -264,6 +264,7 @@ import { useAchievementsStore } from 'src/stores/achievementsStore'
 import { useEventsStore } from 'src/stores/eventsStore'
 import { useStatsStore } from 'src/stores/statsStore'
 import { useI18n } from 'vue-i18n'
+import { rule } from 'postcss'
 
 const props = defineProps({
   openModal: Boolean,
@@ -320,7 +321,11 @@ const statsConditions = [{
   value: Comparison.NotEquals,
 }]
 
-const blocks = ref<Array<InputRuleBlock>>(props.achievement.rules.blocks)
+const blocks = ref<Array<InputRuleBlock>>(props.achievement.rules.blocks.map((block) => ({
+  connection_operator: block.connection_operator,
+  eventsRules: block.eventsRules?.map((item) => ({ ...item })),
+  statRules: block.statRules?.map((item) => ({ ...item })),
+})))
 
 const getLastBlockOrAddNew = (): RuleBlock => {
   const lastBlock = blocks.value[blocks.value.length - 1]

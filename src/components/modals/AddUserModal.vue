@@ -35,7 +35,7 @@
       <q-separator />
 
       <q-card-section class="q-pa-lg column q-gutter-y-md text-subtitle1">
-        <q-card
+        <!-- <q-card
           class="bg-body g-rounded text-secondary q-my-md"
           flat
         >
@@ -57,7 +57,7 @@
               class="g-rounded text-subtitle1 text-bold full-width items-start"
             />
           </q-card-actions>
-        </q-card>
+        </q-card> -->
         <div class="row no-wrap items-center q-mt-md">
           <q-icon
             name="sym_o_badge"
