@@ -155,6 +155,7 @@
 import { date, QFile, useQuasar } from 'quasar'
 import { useEventsStore } from 'src/stores/eventsStore'
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   openCreateEvent: Boolean,
@@ -164,6 +165,7 @@ const emit = defineEmits<{(e: 'close'): void,
 }>()
 
 const $q = useQuasar()
+const i18n = useI18n()
 const eventsStore = useEventsStore()
 
 const today = new Date()
@@ -234,7 +236,7 @@ const addEvent = async () => {
 
     $q.notify({
       icon: 'sym_o_calendar_add_on',
-      message: 'Ивент добавлен',
+      message: i18n.t('eventAdded'),
       timeout: 2000,
       position: 'top-right',
       color: 'primary',
@@ -242,7 +244,7 @@ const addEvent = async () => {
 
     emit('close')
   } catch (error) {
-    console.error('ASD 123', error)
+    console.error('event creating error', error)
     // emailError.value = true
   }
 }

@@ -19,14 +19,14 @@
         class="q-mr-sm"
         size="md"
       />
-      <div>Как получить?</div>
+      <div>{{ $t('howToGet') }}</div>
     </div>
 
     <div
       v-if="!achievement.rules.blocks.length"
       class=" text-subtitle1"
     >
-      Сейчас достижение невозможно получить
+      {{ $t('unableToGet') }}
     </div>
 
     <template
@@ -38,7 +38,7 @@
         :key="eventRuleIndex"
         class="row items-center text-subtitle1"
       >
-        <strong>{{ eventRule.need_participate ? 'Участвовал' : 'Не участвовал' }}</strong>
+        <strong>{{ eventRule.need_participate ? $t('participated') : $t('notParticipated') }}</strong>
         <span class="q-mx-sm">в</span>
         <strong class="text-primary">{{
           eventsStore.getById(eventRule.event_id)?.name
@@ -61,7 +61,7 @@
         v-if="block.connection_operator === ConnectionOperator.Or && index !== achievement.rules.blocks.length - 1"
         class="text-h5"
       >
-        ИЛИ
+        $t('or')
       </span>
     </template>
   </div>

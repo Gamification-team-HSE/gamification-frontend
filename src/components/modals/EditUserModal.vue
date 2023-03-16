@@ -137,6 +137,7 @@ import { logError, validateEmail } from 'src/utils/utils'
 import {
   computed, onMounted, PropType, ref,
 } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   openModal: Boolean,
@@ -152,6 +153,7 @@ const emit = defineEmits<{(e: 'close'): void,
 const userStore = useUserStore()
 const usersStore = useUsersStore()
 const $q = useQuasar()
+const i18n = useI18n()
 
 const avatarRef = ref<HTMLImageElement>()
 const avatarInputRef = ref<QFile>()
@@ -214,7 +216,7 @@ const editUser = async (): Promise<void> => {
   if (nameRef.value === oldName.value && emailRef.value === oldEmail.value && !image.value) {
     $q.notify({
       icon: 'sym_o_close',
-      message: 'Nothing changed',
+      message: i18n.t('nothingChanged'),
       timeout: 2000,
       position: 'top-right',
       color: 'warning',
@@ -229,7 +231,7 @@ const editUser = async (): Promise<void> => {
 
     $q.notify({
       icon: 'sym_o_edit',
-      message: 'Success editing',
+      message: i18n.t('edited'),
       timeout: 2000,
       position: 'top-right',
       color: 'primary',

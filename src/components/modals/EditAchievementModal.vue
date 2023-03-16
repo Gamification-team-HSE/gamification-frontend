@@ -101,7 +101,7 @@
 
       <q-card-section class="q-mt-none q-pt-none column q-gutter-y-md text-subtitle1">
         <div class="text-h6">
-          Условия получения:
+          {{ $t('conditionsForObtaining') }}
         </div>
 
         <template
@@ -117,7 +117,7 @@
               :model-value="eventRule.event_id"
               class="col q-pr-sm text-subtitle1"
               :options="getEventsForBlock(block)"
-              label="Событие"
+              :label="$t('event')"
               option-value="id"
               :option-label="(obj) => obj.name ?? eventsStore.events.find(item => item.id === obj)?.name"
               @update:model-value="option => eventRule.event_id = option.id"
@@ -125,7 +125,7 @@
             <q-select
               :model-value="eventRule.need_participate"
               :options="eventsConditions"
-              label="Условие"
+              :label="$t('condition')"
               class="col-4  text-subtitle1"
               :option-label="(obj) => obj.label ?? eventsConditions.find(item => item.value === obj)?.label"
               @update:model-value="option => eventRule.need_participate = option.value"
@@ -151,7 +151,7 @@
               :model-value="statRule.stat_id"
               class="col q-pr-sm  text-subtitle1"
               :options="statsStore.stats"
-              label="Показатель"
+              :label="$t('stat')"
               option-value="id"
               :option-label="(obj) => obj.name ?? statsStore.stats.find(item => item.id === obj)?.name"
               @update:model-value="option => statRule.stat_id = option.id"
@@ -160,7 +160,7 @@
               :model-value="statRule.comparison_type"
               class="col-2  text-subtitle1"
               :options="statsConditions"
-              label="Условие"
+              :label="$t('condition')"
               :option-label="(obj) => obj.label ?? statsConditions.find(item => item.value === obj)?.label"
               @update:model-value="option => statRule.comparison_type = option.value"
             />
@@ -169,7 +169,7 @@
               class="col-2 text-center  text-subtitle1"
               hide-bottom-space
             >
-              Значение
+              {{ $t('value') }}
             </q-input>
             <q-btn
               flat
@@ -207,7 +207,7 @@
             dense
             @click="addStat"
           >
-            Показатель
+            {{ $t('stat') }}
           </q-btn>
           <q-btn
             class="g-rounded col-3 text-subtitle1"
@@ -218,7 +218,7 @@
             dense
             @click="addEvent"
           >
-            Событие
+            {{ $t('event') }}
           </q-btn>
           <q-btn
             v-if="canAddOrCondition"
@@ -230,7 +230,7 @@
             dense
             @click="addOr"
           >
-            <span>Добавить</span><strong class="q-ml-xs">ИЛИ</strong>
+            <span>{{ $t('add') }}</span><strong class="q-ml-xs">{{ $t('or') }}</strong>
           </q-btn>
         </div>
       </q-card-section>
@@ -263,6 +263,7 @@ import {
 import { useAchievementsStore } from 'src/stores/achievementsStore'
 import { useEventsStore } from 'src/stores/eventsStore'
 import { useStatsStore } from 'src/stores/statsStore'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   openModal: Boolean,
@@ -280,6 +281,7 @@ const emit = defineEmits<{(e: 'close'): void,
 }>()
 
 const $q = useQuasar()
+const i18n = useI18n()
 
 const achievementsStore = useAchievementsStore()
 const eventsStore = useEventsStore()
@@ -293,11 +295,11 @@ const achievementDescRef = ref(props.achievement.description ?? '')
 const oldAchievementDesc = ref(props.achievement.description ?? '')
 
 const eventsConditions = [{
-  label: 'Участвовал',
+  label: i18n.t('participated'),
   value: true,
 },
 {
-  label: 'Не участвовал',
+  label: i18n.t('notParticipated'),
   value: false,
 }]
 
@@ -443,7 +445,7 @@ const editAchievement = async (): Promise<void> => {
     await achievementsStore.changeAchievement(newAchievement)
     $q.notify({
       icon: 'sym_o_edit',
-      message: 'Success editing',
+      message: i18n.t('edited'),
       timeout: 2000,
       position: 'top-right',
       color: 'primary',

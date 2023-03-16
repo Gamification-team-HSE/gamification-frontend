@@ -31,7 +31,7 @@
         class="row text-subtitle1 q-col-gutter-xs"
       >
         <div v-if="$q.platform.is.mobile">
-          {{ isAchievement ? 'Достижения:' : 'Показатель:' }}
+          {{ isAchievement ? $t('achievements') : $t('stats') }}
         </div>
         <div
           v-if="isAchievement"

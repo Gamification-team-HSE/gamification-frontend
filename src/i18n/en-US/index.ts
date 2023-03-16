@@ -104,9 +104,11 @@ export default {
   fileUpload: 'Choose image',
   eventDatePlaceholder: 'DD.MM.YYYY - DD.MM.YYYY',
   addEvent: 'Add event',
+  eventAdded: 'Event added',
 
   // Edit event modal
   editEventHeader: 'Event editing',
+  nothingChanged: 'Nothing changed',
 
   // Events page
   findByName: 'Find by name',
@@ -115,6 +117,22 @@ export default {
   deleteEventTitle: 'Delete event',
   deleteEventConfirm: 'Are you sure you want to delete event?',
   deleteEventSuccess: 'Event deleted',
+
+  // Add stat modal
+  addStatHeader: 'Creating stat',
+  statInfo: 'Information about stat',
+  statName: 'Stat name',
+  uniqueRequired: 'Unique, required',
+  statDesc: 'Stat description',
+  nonRequired: 'Optional',
+  resetSettings: 'Reset settings',
+  period: 'Reset period in days, e.g. - 3',
+  days: 'days',
+  periodHint: 'Stat will reset once in this period for all users',
+  fitstResetDate: 'First reset date',
+  seqPeriod: 'Inactivity reset period in days, e.g. - 3',
+  seqPeriodHint: 'If user will not increase stat during this period, stat will reset for this user',
+  createStat: 'Add stat',
 
   // Edit stat modal
   editStatHeader: 'Stat editing',
@@ -136,9 +154,21 @@ export default {
 
   // Edit achievement modal
   editAchievementHeader: 'Achievement editing',
+  conditionsForObtaining: 'Conditions for obtaining',
+  event: 'Event',
+  condition: 'Condition',
+  stat: 'Stat',
+  value: 'Value',
+  add: 'Add',
+  edited: 'Successfully edited',
 
   // Achievements page
   deleteAchievementTitle: 'Delete achievement',
   deleteAchievementConfirm: 'Are you sure you want to delete achievement?',
   deleteAchievementSuccess: 'Achievement deleted',
+  howToGet: 'How to get?',
+  unableToGet: 'Unable to get this achievement now',
+  participated: 'Participated',
+  notParticipated: "Didn't participated",
+  or: 'OR',
 }
