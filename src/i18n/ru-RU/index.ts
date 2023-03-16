@@ -104,9 +104,11 @@ export default {
   fileUpload: 'Выберите изображение',
   eventDatePlaceholder: 'ДД.ММ.ГГГГ - ДД.ММ.ГГГГ',
   addEvent: 'Добавить событие',
+  eventAdded: 'Событие добавлено',
 
   // Edit event modal
   editEventHeader: 'Изменение события',
+  nothingChanged: 'Изменений нет',
 
   // Events page
   findByName: 'Найти по названию',
@@ -115,6 +117,22 @@ export default {
   deleteEventTitle: 'Удалить событие',
   deleteEventConfirm: 'Вы уверены, что хотите удалить событие?',
   deleteEventSuccess: 'Событие удалено',
+
+  // Add stat modal
+  addStatHeader: 'Создание показателя',
+  statInfo: 'Информация о показателе',
+  statName: 'Название показателя',
+  uniqueRequired: 'Уникальное, обязательное',
+  statDesc: 'Описание показателя',
+  nonRequired: 'Необязательное',
+  resetSettings: 'Настройки сброса',
+  period: 'Период сброса в днях, например - 3',
+  days: 'дней',
+  periodHint: 'Показатель будет сбрасываться раз в этот период у всех пользователей',
+  fitstResetDate: 'Дата первого сброса',
+  seqPeriod: 'Период сброса без активности в днях, например - 3',
+  seqPeriodHint: 'Если пользователь не увеличит показатель в течение этого периода - он будет сброшен',
+  createStat: 'Создать показатель',
 
   // Edit stat modal
   editStatHeader: 'Изменение показателя',
@@ -136,9 +154,21 @@ export default {
 
   // Edit achievement modal
   editAchievementHeader: 'Изменение достижения',
+  conditionsForObtaining: 'Условия получения',
+  event: 'Событие',
+  condition: 'Условие',
+  stat: 'Показатель',
+  value: 'Значение',
+  add: 'Добавить',
+  edited: 'Изменения успешно применены',
 
   // Achievements page
   deleteAchievementTitle: 'Удалить достижение',
   deleteAchievementConfirm: 'Вы уверены, что хотите удалить достижение?',
   deleteAchievementSuccess: 'Достижение удалено',
+  howToGet: 'Как получить?',
+  unableToGet: 'Сейчас достижение невозможно получить',
+  participated: 'Участвовал',
+  notParticipated: 'Не участвовал',
+  or: 'ИЛИ',
 }

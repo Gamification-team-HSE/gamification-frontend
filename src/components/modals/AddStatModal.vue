@@ -20,7 +20,7 @@
           class="text-primary"
           :class="$q.platform.is.mobile ? 'text-h6' : 'text-h5'"
         >
-          Создание показателя
+          {{ $t('addStatHeader') }}
         </div>
         <q-space />
         <q-btn
@@ -41,30 +41,30 @@
             class="q-mr-sm"
             size="md"
           />
-          <span>Информация о показателе</span>
+          <span>{{ $t('statInfo') }}</span>
         </div>
 
         <q-input
           v-model="name"
           outlined
           class="full-width text-subtitle1 q-mb-md"
-          placeholder="Название показателя*"
+          :placeholder="$t('statName')"
           autofocus
           clearable
           tabindex="1"
-          hint="Уникальное, обязательное"
+          :hint="$t('uniqueRequired')"
         />
 
         <q-input
           v-model="description"
           outlined
           class="full-width text-subtitle1"
-          placeholder="Описание показателя"
+          :placeholder="$t('statDesc')"
           autofocus
           clearable
           tabindex="2"
           autogrow
-          hint="Необязательное"
+          :hint="$t('nonRequired')"
         />
 
         <q-separator class="q-my-md" />
@@ -75,7 +75,7 @@
             class="q-mr-sm"
             size="md"
           />
-          <span>Настройки сброса</span>
+          <span>{{ $t('resetSettings') }}</span>
         </div>
 
         <q-input
@@ -83,12 +83,12 @@
           outlined
           class="full-width text-subtitle1 q-mb-md"
           bottom-slots
-          placeholder="Период сброса в днях, например - 3"
+          :placeholder="$t('period')"
           autofocus
           clearable
           tabindex="3"
-          :suffix="period ? 'дней' : ''"
-          hint="Показатель будет сбрасываться раз в этот период у всех пользователей"
+          :suffix="period ? $t('days') : ''"
+          :hint="$t('periodHint')"
         />
 
         <q-input
@@ -97,7 +97,7 @@
           outlined
           class="full-width text-subtitle1 q-mb-md"
           bottom-slots
-          hint="Дата первого сброса"
+          :hint="$t('fitstResetDate')"
           autofocus
           clearable
           tabindex="4"
@@ -131,18 +131,18 @@
           outlined
           class="full-width text-subtitle1"
           bottom-slots
-          placeholder="Период сброса без активности в днях, например - 3"
-          hint="Если пользователь не увеличит показатель в течение этого периода - он будет сброшен"
+          :placeholder="$t('seqPeriod')"
+          :hint="$t('seqPeriodHint')"
           autofocus
           clearable
-          :suffix="seqPeriod ? 'дней' : ''"
+          :suffix="seqPeriod ? $t('days') : ''"
           tabindex="5"
         />
       </q-card-section>
 
       <q-card-actions class="q-px-lg q-py-lg">
         <q-btn
-          label="Создать показатель"
+          :label="$t('createStat')"
           color="primary"
           no-caps
           size="lg"

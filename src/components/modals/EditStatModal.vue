@@ -41,20 +41,20 @@
             class="q-mr-sm"
             size="md"
           />
-          <span>Информация о показателе</span>
+          <span>{{ $t('statInfo') }}</span>
         </div>
 
         <q-input
           v-model="name"
           outlined
           class="full-width text-subtitle1 q-mb-md"
-          placeholder="Название показателя*"
+          :placeholder="$t('statName')"
           autofocus
           :clearable="!name || name !== oldName"
           :error="statNameError"
           clear-icon="sym_o_restart_alt"
           tabindex="1"
-          hint="Уникальное, обязательное"
+          :hint="$t('uniqueRequired')"
           @update:model-value="statNameError = false"
           @clear="restoreStatName"
           @keyup.prevent.enter="editStat"
@@ -64,12 +64,12 @@
           v-model="description"
           outlined
           class="full-width text-subtitle1"
-          placeholder="Описание показателя"
+          :placeholder="$t('statDesc')"
           autofocus
           :clearable="!description || description !== oldDescription"
           tabindex="2"
           autogrow
-          hint="Необязательное"
+          :hint="$t('nonRequired')"
           @clear="restoreStatDesc"
           @keyup.prevent.enter="editStat"
         />
@@ -82,7 +82,7 @@
             class="q-mr-sm"
             size="md"
           />
-          <span>Настройки сброса</span>
+          <span>{{ $t('resetSettings') }}</span>
         </div>
 
         <q-input
@@ -90,12 +90,12 @@
           outlined
           class="full-width text-subtitle1 q-mb-md"
           bottom-slots
-          placeholder="Период сброса в днях, например - 3"
+          :placeholder="$t('period')"
           autofocus
           :clearable="!period || period !== oldPeriod"
           tabindex="3"
-          :suffix="period ? 'дней' : ''"
-          hint="Показатель будет сбрасываться раз в этот период у всех пользователей"
+          :suffix="period ? $t('days') : ''"
+          :hint="$t('periodHint')"
           @clear="restoreStatPeriod"
           @keyup.prevent.enter="editStat"
         />
@@ -106,7 +106,7 @@
           outlined
           class="full-width text-subtitle1 q-mb-md"
           bottom-slots
-          hint="Дата первого сброса"
+          :hint="$t('fitstResetDate')"
           autofocus
           :clearable="!startAt || new Date(startAt).getTime() !== oldStartAt"
           tabindex="4"
@@ -142,11 +142,11 @@
           outlined
           class="full-width text-subtitle1"
           bottom-slots
-          placeholder="Период сброса без активности в днях, например - 3"
-          hint="Если пользователь не увеличит показатель в течение этого периода - он будет сброшен"
+          :placeholder="$t('seqPeriod')"
+          :hint="$t('seqPeriodHint')"
           autofocus
           :clearable="!seqPeriod || seqPeriod !== oldSeqPeriod"
-          :suffix="seqPeriod ? 'дней' : ''"
+          :suffix="seqPeriod ? $t('days') : ''"
           tabindex="5"
           @clear="restoreStatSeqPeriod"
           @keyup.prevent.enter="editStat"
@@ -176,6 +176,7 @@ import {
 } from 'vue'
 import { logError } from 'src/utils/utils'
 import { useStatsStore } from 'src/stores/statsStore'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   openModal: Boolean,
@@ -190,6 +191,7 @@ const emit = defineEmits<{(e: 'close'): void,
 }>()
 
 const $q = useQuasar()
+const i18n = useI18n()
 const statsStore = useStatsStore()
 
 const stat = statsStore.stats.find((item) => item.id === props.statId) as Stat
@@ -255,7 +257,7 @@ const editStat = (): void => {
   if (name.value === oldName.value && description.value === oldDescription.value && period.value === oldPeriod.value && seqPeriod.value === oldSeqPeriod.value) {
     $q.notify({
       icon: 'sym_o_close',
-      message: 'Nothing changed',
+      message: i18n.t('nothingChanged'),
       timeout: 2000,
       position: 'top-right',
       color: 'warning',
@@ -275,7 +277,7 @@ const editStat = (): void => {
     emit('close')
     $q.notify({
       icon: 'sym_o_edit',
-      message: 'Success editing',
+      message: i18n.t('edited'),
       timeout: 2000,
       position: 'top-right',
       color: 'primary',

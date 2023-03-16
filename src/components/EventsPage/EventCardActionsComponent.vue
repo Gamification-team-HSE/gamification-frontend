@@ -10,7 +10,7 @@
       no-caps
       @click="editEvent(event.id)"
     >
-      Редактировать
+      {{ $t('edit') }}
     </q-btn>
     <q-btn
       flat
@@ -22,7 +22,7 @@
       no-caps
       @click="deleteEvent(event.id)"
     >
-      Удалить
+      {{ $t('delete') }}
     </q-btn>
   </q-card-actions>
 

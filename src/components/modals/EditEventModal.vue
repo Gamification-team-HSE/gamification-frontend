@@ -162,6 +162,7 @@ import {
 import { logError } from 'src/utils/utils'
 import { useEventsStore } from 'src/stores/eventsStore'
 import type { Event, UpdateEvent } from 'src/api/generated'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   openModal: Boolean,
@@ -178,6 +179,7 @@ const props = defineProps({
 const emit = defineEmits<{(e: 'close'): void}>()
 
 const $q = useQuasar()
+const i18n = useI18n()
 const eventsStore = useEventsStore()
 
 const newDateFrom = () => new Date(props.event.start_at * 1000).toLocaleDateString('ru-RU')
@@ -247,7 +249,7 @@ const editEvent = (): void => {
   if (eventNameRef.value === oldEventName.value && eventDescRef.value === oldEventDesc.value && eventImage.value === null && dateRange.value === oldDateRange.value) {
     $q.notify({
       icon: 'sym_o_close',
-      message: 'Nothing changed',
+      message: i18n.t('nothingChanged'),
       timeout: 2000,
       position: 'top-right',
       color: 'warning',
@@ -265,7 +267,7 @@ const editEvent = (): void => {
     emit('close')
     $q.notify({
       icon: 'sym_o_edit',
-      message: 'Success editing',
+      message: i18n.t('edited'),
       timeout: 2000,
       position: 'top-right',
       color: 'primary',

@@ -52,7 +52,7 @@
             @click="sendCodeAgain"
           />
           <div v-else>
-            Код отправлен повторно
+            {{ $t('loginCodeResended') }}
           </div>
         </template>
       </q-input>
