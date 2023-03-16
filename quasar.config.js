@@ -71,9 +71,10 @@ module.exports = configure((ctx) => ({
     publicPath: '/',
     // analyze: true,
     env: {
-      API: ctx.dev ? 'https://vartose.fvds.ru' : 'https://vartose.fvds.ru',
+      API: ctx.dev ? 'https://vartose.fvds.ru' : process.env.API,
       SENTRY_DSN: ctx.dev ? '' : process.env.SENTRY_DSN,
-      SENTRY_ORIGIN: ctx.dev ? 'localhost' : 'gamification-frontend.netlify.app',
+      // 'gamification-frontend.netlify.app',
+      SENTRY_ORIGIN: ctx.dev ? 'localhost' : process.env.SENTRY_ORIGIN,
     },
     // rawDefine: {}
     // ignorePublicFolder: true,
@@ -152,7 +153,7 @@ module.exports = configure((ctx) => ({
     // manualStoreHydration: true,
     // manualPostHydrationTrigger: true,
 
-    prodPort: 3000, // The default port that the production server should use
+    prodPort: 8080, // The default port that the production server should use
     // (gets superseded if process.env.PORT is specified at runtime)
 
     middlewares: [

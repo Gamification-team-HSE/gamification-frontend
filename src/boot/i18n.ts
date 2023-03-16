@@ -1,5 +1,5 @@
 import { boot } from 'quasar/wrappers'
-import { createI18n } from 'vue-i18n'
+import { createI18n, useI18n } from 'vue-i18n'
 
 import messages from 'src/i18n'
 import { LocalStorageService } from 'src/services/LocalStorageService'
@@ -26,11 +26,13 @@ export default boot(({ app }) => {
   const lsLocale = LocalStorageService.get('lang')
 
   const i18n = createI18n({
-    locale: lsLocale ?? 'en-US',
+    locale: lsLocale || 'en-US',
     legacy: false,
     messages,
   })
 
   // Set i18n instance on app
   app.use(i18n)
+
+  i18n.global.locale.value = lsLocale || 'en-US'
 })

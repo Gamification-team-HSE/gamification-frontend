@@ -10,7 +10,7 @@ export class LocalStorageService {
     const value = localStorage.getItem(key)
     if (!value) return null
 
-    return JSON.parse(value) as Schema[K]
+    return value as Schema[K]
   }
 
   public static set<K extends keyof Schema>(key: K, value: Schema[K]): void {
