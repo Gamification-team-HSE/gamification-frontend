@@ -11,6 +11,7 @@
     </q-card-section>
 
     <AchievementCardActionsComponent
+      v-if="isAdmin"
       :achievement="achievement"
     />
   </q-card>
@@ -25,6 +26,10 @@ import AchievementCardDataComponent from './AchievementCardDataComponent.vue'
 defineProps({
   achievements: {
     type: Array as PropType<Array<Achievement>>,
+    required: true,
+  },
+  isAdmin: {
+    type: Boolean,
     required: true,
   },
 })

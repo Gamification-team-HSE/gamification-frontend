@@ -15,6 +15,7 @@
         <AchievementsList
           v-else
           :achievements="filteredAndSortedArray"
+          :is-admin="userStore.isAdmin"
         />
       </template>
       <div
@@ -37,8 +38,10 @@ import AchievementsList from 'src/components/AchievementsPage/AchievementsList.v
 import HeaderCardComponent from 'src/components/AchievementsPage/HeaderCardComponent.vue'
 import { useAchievementsStore } from 'src/stores/achievementsStore'
 import { Achievement } from 'src/api/generated'
+import { useUserStore } from 'src/stores/userStore'
 
 const achievementsStore = useAchievementsStore()
+const userStore = useUserStore()
 
 const isLoading = ref(false)
 
