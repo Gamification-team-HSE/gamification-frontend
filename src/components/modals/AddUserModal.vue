@@ -141,6 +141,7 @@
 import { useQuasar } from 'quasar'
 import { Role } from 'src/api/generated'
 import { graphqlSDK } from 'src/boot/grapqhl'
+import { useUsersStore } from 'src/stores/usersStore'
 import { useUserStore } from 'src/stores/userStore'
 import { logError, validateEmail } from 'src/utils/utils'
 import { ref } from 'vue'
@@ -155,6 +156,8 @@ const emit = defineEmits<{(e: 'close'): void,
 }>()
 
 const userStore = useUserStore()
+const usersStore = useUsersStore()
+
 const $q = useQuasar()
 const i18n = useI18n()
 
@@ -182,12 +185,10 @@ const addUser = async () => {
   }
 
   try {
-    await graphqlSDK.CreateUser({
-      user: {
-        name: role === Role.User ? nameRef.value : '',
-        role,
-        email: emailRef.value,
-      },
+    await usersStore.createUser({
+      name: role === Role.User ? nameRef.value : '',
+      role,
+      email: emailRef.value,
     })
 
     $q.notify({

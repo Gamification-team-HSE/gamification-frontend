@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
-import { UpdateUser, User } from 'src/api/generated'
+import {
+  NewUser, Role, UpdateUser, User,
+} from 'src/api/generated'
 import { graphqlSDK } from 'src/boot/grapqhl'
 
 export type Total = {
@@ -76,28 +78,51 @@ export const useUsersStore = defineStore('users', {
       this.counters = res.GetUsers.total
     },
 
-    banUser(id: User['id']) {
-      return graphqlSDK.BanUser({
-        id,
-      })
-    },
-
-    deleteUser(id: User['id']) {
-      return graphqlSDK.DeleteUser({
-        id,
-      })
-    },
-
-    recoverUser(id: User['id']) {
-      return graphqlSDK.RecoverUser({
-        id,
-      })
-    },
-
-    updateUser(user: UpdateUser) {
-      return graphqlSDK.UpdateUser({
+    async createUser(user: NewUser) {
+      await graphqlSDK.CreateUser({
         user,
       })
+
+      if (user.role === Role.Admin) {
+        this.tryLoadAdminsUsers(true)
+      } else {
+        this.tryLoadActiveUsers(true)
+      }
+    },
+
+    async banUser(id: User['id']) {
+      await graphqlSDK.BanUser({
+        id,
+      })
+
+      this.tryLoadBannedUsers(true)
+    },
+
+    async deleteUser(id: User['id']) {
+      await graphqlSDK.DeleteUser({
+        id,
+      })
+
+      this.tryLoadBannedUsers(true)
+      this.tryLoadActiveUsers(true)
+    },
+
+    async recoverUser(id: User['id']) {
+      await graphqlSDK.RecoverUser({
+        id,
+      })
+      this.tryLoadBannedUsers(true)
+      this.tryLoadActiveUsers(true)
+    },
+
+    async updateUser(user: UpdateUser) {
+      await graphqlSDK.UpdateUser({
+        user,
+      })
+
+      this.tryLoadBannedUsers(true)
+      this.tryLoadActiveUsers(true)
+      this.tryLoadAdminsUsers(true)
     },
   },
 })
