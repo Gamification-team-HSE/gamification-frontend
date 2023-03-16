@@ -37,7 +37,7 @@
           v-if="isAchievement"
           class="q-ma-none"
         >
-          {{ user.place }} / {{ totalAchs }}
+          {{ totalAchs }}
         </div>
         <div
           v-else

@@ -77,7 +77,7 @@
         <UserCardComponent
           :user="user"
           :is-achievement="isAchievementRating"
-          :total="usersStore.activeUsers.length"
+          :total="total"
         />
       </q-card>
     </div>
@@ -101,11 +101,9 @@ import { useI18n } from 'vue-i18n'
 import UserCardComponent from 'src/components/RatingsPage/UserCardComponent.vue'
 import { graphqlSDK } from 'src/boot/grapqhl'
 import { UserRatingByAch, UserRatingByStat } from 'src/api/generated'
-import { useUsersStore } from 'src/stores/usersStore'
 import { useStatsStore } from 'src/stores/statsStore'
 
 const { t } = useI18n()
-const usersStore = useUsersStore()
 const statsStore = useStatsStore()
 
 const model = ref(t('achievements'))
