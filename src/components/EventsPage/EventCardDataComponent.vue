@@ -7,7 +7,10 @@
       <div class="text-h6">
         {{ event.name }}
       </div>
-      <div class="text-subtitle2">
+      <div
+        v-if="userStore.isAdmin"
+        class="text-subtitle2"
+      >
         API key: <kbd class=" text-h6 text-primary">{{ event.id }}</kbd>
       </div>
       <div class="text-subtitle1 q-mt-sm">
@@ -22,6 +25,7 @@
 
 <script setup lang="ts">
 import { Event } from 'src/api/generated'
+import { useUserStore } from 'src/stores/userStore'
 import { computed, PropType } from 'vue'
 
 const props = defineProps({
@@ -30,6 +34,8 @@ const props = defineProps({
     required: true,
   },
 })
+
+const userStore = useUserStore()
 
 const duration = computed<string>(() => {
   const startAt = props.event.start_at
