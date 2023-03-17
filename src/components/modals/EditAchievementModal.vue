@@ -438,7 +438,7 @@ const editAchievement = async (): Promise<void> => {
   const newAchievement: UpdateAchievement = {
     name: achievementNameRef.value,
     description: achievementDescRef.value,
-    image: image.value,
+    image: image.value ? image.value : undefined,
     id: props.achievement.id,
     rules: {
       blocks: toRaw(blocks.value),
