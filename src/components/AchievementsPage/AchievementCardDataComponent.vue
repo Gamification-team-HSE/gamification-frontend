@@ -1,7 +1,7 @@
 <template>
   <div class="row items-center q-gutter-x-md">
     <q-avatar size="5em">
-      <img :src="achievement.image ?? 'https://cdn.quasar.dev/img/boy-avatar.png'">
+      <img :src="achievement.image ?? 'https://cdn-icons-png.flaticon.com/512/5968/5968923.png'">
     </q-avatar>
     <div class="column">
       <div class="text-h6">

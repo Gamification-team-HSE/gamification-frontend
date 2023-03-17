@@ -155,9 +155,6 @@ const usersStore = useUsersStore()
 const $q = useQuasar()
 const i18n = useI18n()
 
-const avatarRef = ref<HTMLImageElement>()
-const avatarInputRef = ref<QFile>()
-
 const id = computed(() => props.userId ?? userStore.id)
 
 const isLoading = ref(true)
@@ -174,6 +171,9 @@ const emailError = ref(false)
 
 const avatarUrl = ref('')
 const image = ref<File | null>(null)
+
+const avatarRef = ref<HTMLImageElement>()
+const avatarInputRef = ref<QFile>()
 
 const readBlob = () => {
   if (!image.value) return

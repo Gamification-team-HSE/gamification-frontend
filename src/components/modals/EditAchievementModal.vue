@@ -264,7 +264,6 @@ import { useAchievementsStore } from 'src/stores/achievementsStore'
 import { useEventsStore } from 'src/stores/eventsStore'
 import { useStatsStore } from 'src/stores/statsStore'
 import { useI18n } from 'vue-i18n'
-import { rule } from 'postcss'
 
 const props = defineProps({
   openModal: Boolean,
@@ -404,7 +403,7 @@ const image = ref<File | null>(null)
 
 const avatarRef = ref<HTMLImageElement>()
 const avatarInputRef = ref<QFile>()
-const avatarUrl = ref(props.achievement.image ?? 'https://cdn.quasar.dev/img/boy-avatar.png')
+const avatarUrl = ref(props.achievement.image ?? 'https://cdn-icons-png.flaticon.com/512/5968/5968923.png')
 
 const readBlob = () => {
   if (!image.value) return
@@ -439,7 +438,7 @@ const editAchievement = async (): Promise<void> => {
   const newAchievement: UpdateAchievement = {
     name: achievementNameRef.value,
     description: achievementDescRef.value,
-    image: image.value ? image.value : undefined,
+    image: image.value,
     id: props.achievement.id,
     rules: {
       blocks: toRaw(blocks.value),
