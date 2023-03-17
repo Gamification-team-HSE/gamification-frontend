@@ -197,7 +197,7 @@ const eventImage = ref<File | null>(null)
 
 const avatarRef = ref<HTMLImageElement>()
 const avatarInputRef = ref<QFile>()
-const avatarUrl = ref(props.event.image ?? 'https://cdn-icons-png.flaticon.com/512/5968/5968923.png')
+const avatarUrl = ref(props.event.image ?? 'https://cdn-icons-png.flaticon.com/512/1458/1458512.png')
 
 const readBlob = () => {
   if (!eventImage.value) return

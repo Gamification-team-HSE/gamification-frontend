@@ -218,7 +218,7 @@
                     size="66px"
                     rounded
                   >
-                    <img :src="event.image ?? 'https://cdn-icons-png.flaticon.com/512/5968/5968923.png'">
+                    <img :src="event.image ?? 'https://cdn-icons-png.flaticon.com/512/1458/1458512.png'">
                   </q-avatar>
                 </q-item-section>
                 <q-item-section>

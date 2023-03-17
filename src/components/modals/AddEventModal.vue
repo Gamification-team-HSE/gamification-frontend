@@ -182,7 +182,7 @@ const dateRange = ref<string | {from: string, to: string}>({ from: currentDate, 
 
 const avatarRef = ref<HTMLImageElement>()
 const avatarInputRef = ref<QFile>()
-const avatarUrl = ref('https://cdn-icons-png.flaticon.com/512/5968/5968923.png')
+const avatarUrl = ref('https://cdn-icons-png.flaticon.com/512/1458/1458512.png')
 
 const readBlob = () => {
   if (!eventImage.value) return
