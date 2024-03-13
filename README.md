@@ -30,6 +30,9 @@ docker build -t game-frontend . --build-arg API='https://vartose.fvds.ru'
 # Run
 # Also you can use '-d' arg for running in background daemon
 docker run -it -p 8080:8080 --rm --name game-frontend game-frontend
+
+# Via Docker-compose
+docker compose up
 ```
 
 ## How improve

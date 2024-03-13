@@ -1,0 +1,7 @@
+services:
+  frontend:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      API: "https://vartose.fvds.ru"
