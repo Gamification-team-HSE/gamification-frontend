@@ -50,7 +50,7 @@
         <q-file
           ref="avatarInputRef"
           v-model="image"
-          class=" hidden"
+          class="hidden"
           :label="$t('fileUpload')"
           counter
           outlined

@@ -1,0 +1,12 @@
+{
+    "extends": "../../tsconfig.json", // Extend your main tsconfig
+    "compilerOptions": {
+        "types": [
+            "cypress",
+            "node"
+        ] // Include Cypress types
+    },
+    "include": [
+        "**/*.ts" // Include all TypeScript files in the Cypress folder
+    ]
+}

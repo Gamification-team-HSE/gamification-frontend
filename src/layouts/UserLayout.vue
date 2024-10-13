@@ -15,6 +15,7 @@
           icon="menu"
           flat
           size="lg"
+          data-cy="menu-btn"
           class="g-rounded"
         >
           <q-menu
@@ -48,6 +49,7 @@
                 v-ripple
                 clickable
                 dense
+                data-cy="logout-btn"
                 class="text-subtitle1 text-negative g-rounded"
                 @click="layout.signOut"
               >

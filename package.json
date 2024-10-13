@@ -21,7 +21,11 @@
     "publish:patch": "npm version patch --force",
     "publish:minor": "npm version minor --force",
     "publish:major": "npm version major --force",
-    "compile": "graphql-codegen"
+    "compile": "graphql-codegen",
+    "test:e2e": "cross-env NODE_ENV=test start-test \"quasar dev\" http-get://localhost:9000 \"cypress open\"",
+    "test:e2e:ci": "cross-env NODE_ENV=test start-test \"quasar dev\" http-get://localhost:9000 \"cypress run\"",
+    "test:component": "cross-env NODE_ENV=test cypress open-ct",
+    "test:component:ci": "cross-env NODE_ENV=test cypress run-ct"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
@@ -32,12 +36,14 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "graphql": "^15.8.0",
+    "jest-mock-extended": "^4.0.0-beta1",
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",
     "serve-static": "^1.15.0",
     "vue": "^3.0.0",
     "vue-i18n": "^9.2.2",
-    "vue-router": "^4.0.0"
+    "vue-router": "^4.0.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.13.12",

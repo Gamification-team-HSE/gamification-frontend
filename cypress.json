@@ -6,7 +6,7 @@
   "screenshotsFolder": "test/cypress/screenshots",
   "supportFile": "test/cypress/support/index.ts",
   "videosFolder": "test/cypress/videos",
-  "video": true,
+  "video": false,
   "component": {
     "componentFolder": "src",
     "testFiles": "**/*.spec.ts",

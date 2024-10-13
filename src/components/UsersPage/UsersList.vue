@@ -1,16 +1,15 @@
 <template>
   <q-card
-    v-for="user in users"
+    v-for="(user, index) in users"
     :key="user.id"
     class="g-shadow g-shadow-hover g-rounded"
-    :class="{'cursor-pointer': redirectable}"
+    :class="{ 'cursor-pointer': redirectable }"
+    :data-cy="'user-' + index"
     @click="goToUserPage(user.id)"
   >
     <q-card-section class="text-subtitle1">
       <div class="row items-center justify-between">
-        <UserCardDataComponent
-          :user="user"
-        />
+        <UserCardDataComponent :user="user" />
 
         <UserCardActionsComponent
           :user="user"

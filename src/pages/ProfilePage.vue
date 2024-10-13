@@ -4,12 +4,8 @@
     class="row items-center justify-center"
   >
     <div class=" col-lg-6 col-xl-5 col-md-8 col-sm-8 col-11 q-gutter-y-lg">
-      <div
-        class="g-rounded g-shadow q-pa-md row items-center bg-header"
-      >
-        <q-avatar
-          size="10em"
-        >
+      <div class="g-rounded g-shadow q-pa-md row items-center bg-header">
+        <q-avatar size="10em">
           <img :src="userStore.avatarUrl ?? `https://cdn.quasar.dev/img/boy-avatar.png`">
         </q-avatar>
         <div class="column">
@@ -24,7 +20,7 @@
               color="primary"
               no-caps
               class="g-rounded justify-end"
-              @click.stop="userStore.id ? editUser(userStore.id) : () => {}"
+              @click.stop="userStore.id ? editUser(userStore.id) : () => { }"
             />
           </q-card-section>
           <q-card-section class="text-h5">
@@ -38,16 +34,14 @@
         </div>
       </div>
       <div class="row justify-between q-mt-none q-gutter-lg no-wrap-md">
-        <q-card
-          class="g-rounded g-shadow col-grow"
-        >
+        <q-card class="g-rounded g-shadow col-grow">
           <q-card-section class="row justify-between no-wrap">
             <div class="column q-gutter-y-md">
               <div class="text-h5">
                 {{ $t('achievements') }}
               </div>
               <div class="text-subtitle1">
-                {{ $t('youHaveAchivs', {count: achievements.length, total: achievementsStore.total}) }}
+                {{ $t('youHaveAchivs', { count: achievements.length, total: achievementsStore.total }) }}
               </div>
             </div>
             <div class="column">
@@ -69,9 +63,7 @@
             </div>
           </q-card-section>
         </q-card>
-        <q-card
-          class="g-rounded g-shadow col-grow"
-        >
+        <q-card class="g-rounded g-shadow col-grow">
           <q-card-section class="row full-height no-wrap justify-between">
             <div class="column q-gutter-y-md">
               <div class=" text-h5 ">
@@ -79,7 +71,7 @@
               </div>
 
               <div class="text-subtitle1">
-                {{ $t('youAreInRating', {count: place, total: usersStore.activeUsers.length}) }}
+                {{ $t('youAreInRating', { count: place, total: usersStore.activeUsers.length }) }}
               </div>
               <div>
                 <q-btn
@@ -117,9 +109,7 @@
           </q-card-section>
         </q-card>
       </div>
-      <q-card
-        class="column g-rounded g-shadow q-px-lg q-pb-lg q-gutter-y-md"
-      >
+      <q-card class="column g-rounded g-shadow q-px-lg q-pb-lg q-gutter-y-md">
         <div class="row q-gutter-x-lg">
           <q-btn
             flat
@@ -253,7 +243,7 @@
               >
                 <q-item-section>
                   <q-item-label class=" text-h6">
-                    {{ `${index+1}. ${stat.name}` }}
+                    {{ `${index + 1}. ${stat.name}` }}
                   </q-item-label>
                   <q-item-label
                     lines="2"

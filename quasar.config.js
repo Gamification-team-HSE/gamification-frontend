@@ -71,7 +71,8 @@ module.exports = configure((ctx) => ({
     publicPath: '/',
     // analyze: true,
     env: {
-      API: ctx.dev ? 'https://vartose.fvds.ru' : process.env.API,
+      API: 'http://localhost:8080',
+      // API: ctx.dev ? 'https://vartose.fvds.ru' : process.env.API,
       SENTRY_DSN: ctx.dev ? '' : process.env.SENTRY_DSN,
       // 'gamification-frontend.netlify.app',
       SENTRY_ORIGIN: ctx.dev ? 'localhost' : process.env.SENTRY_ORIGIN,

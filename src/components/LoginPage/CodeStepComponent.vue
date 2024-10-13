@@ -22,6 +22,7 @@
         outlined
         class="full-width text-subtitle1"
         bottom-slots
+        data-cy="code-input"
         placeholder="0000"
         mask="####"
         autofocus
@@ -63,6 +64,7 @@
         size="lg"
         color="primary"
         padding="sm xl"
+        data-cy="code-btn"
         no-caps
         :loading="isLoading"
         :disable="isError"

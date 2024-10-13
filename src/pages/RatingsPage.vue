@@ -8,12 +8,10 @@
         <q-card-section class=" text-h4">
           {{ $t('ratingTitle') }}
         </q-card-section>
-        <div
-          class="q-pa-md"
-        >
+        <div class="q-pa-md">
           <div
             class="q-gutter-md row justify-between"
-            :class="{'column': $q.platform.is.mobile}"
+            :class="{ 'column': $q.platform.is.mobile }"
           >
             <q-select
               v-model="model"
@@ -46,20 +44,25 @@
               </template>
             </q-select>
           </div>
+          <q-btn
+            no-caps
+            color="secondary"
+            icon="sym_o_table"
+            class="g-rounded row q-mt-md"
+            @click="downloadRating"
+          >
+            Скачать таблицу
+          </q-btn>
         </div>
       </q-card>
       <div
         v-if="!$q.platform.is.mobile"
         class="row text-subtitle1 text-bold justify-evenly q-pa-none"
       >
-        <div
-          class="col-7 q-pl-xl"
-        >
+        <div class="col-7 q-pl-xl">
           {{ $t('users') }}
         </div>
-        <div
-          class="col-3"
-        >
+        <div class="col-3">
           {{ isAchievementRating || statId === -1 ? $t('achievements') : $t('stats') }}
         </div>
         <div class="col-2">
@@ -70,9 +73,11 @@
         v-for="user in users"
         :key="user.user_id"
         class="g-shadow g-shadow-hover g-rounded cursor-pointer"
-        @click="$router.push({'name': 'user', params: {
-          id: user.user_id.toString(),
-        },})"
+        @click="$router.push({
+          'name': 'user', params: {
+            id: user.user_id.toString(),
+          },
+        })"
       >
         <UserCardComponent
           :user="user"
@@ -102,6 +107,7 @@ import UserCardComponent from 'src/components/RatingsPage/UserCardComponent.vue'
 import { graphqlSDK } from 'src/boot/grapqhl'
 import { UserRatingByAch, UserRatingByStat } from 'src/api/generated'
 import { useStatsStore } from 'src/stores/statsStore'
+import * as XLSX from 'xlsx'
 
 const { t } = useI18n()
 const statsStore = useStatsStore()
@@ -140,6 +146,13 @@ const changeType = () => {
 }
 
 const sortby = [t('achievements'), t('stats')]
+
+const downloadRating = () => {
+  const workbook = XLSX.utils.book_new()
+  const worksheet = XLSX.utils.json_to_sheet(users.value)
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1')
+  XLSX.writeFile(workbook, 'data.xlsx')
+}
 
 onMounted(() => {
   fetchAchives()

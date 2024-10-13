@@ -19,6 +19,7 @@
         bottom-slots
         placeholder="example@mail.com"
         autofocus
+        data-cy="email-input"
         :error="isError"
         :error-message="$t('loginEmailError')"
         clearable
@@ -43,6 +44,7 @@
         size="lg"
         color="primary"
         padding="sm xl"
+        data-cy="email-btn"
         no-caps
         :loading="isLoading"
         :disable="isError"

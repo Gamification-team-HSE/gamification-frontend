@@ -14,7 +14,7 @@
         hide-bottom-space
         :disable="isLoading"
         :readonly="isLoading"
-        @update:model-value="value => emit('changeFilter', value?.toString() ?? '')"
+        @update:model-value="value => updateValueDebounced(value)"
       >
         <template #prepend>
           <q-icon name="sym_o_search" />
@@ -26,6 +26,7 @@
 
 <script setup lang="ts">
 import { useAchievementsStore } from 'src/stores/achievementsStore'
+import { debounce } from 'quasar'
 
 const props = defineProps({
   isLoading: Boolean,
@@ -35,7 +36,12 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits<{(e: 'changeFilter', filter: string): void}>()
+const emit = defineEmits<{(e: 'changeFilter', filter: string): void }>()
+
+const updateValueDebounced = debounce((value) => {
+  emit('changeFilter', value?.toString() ?? '')
+}, 200)
 
 const achievementsStore = useAchievementsStore()
+
 </script>
